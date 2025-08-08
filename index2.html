@@ -1,0 +1,1335 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>May Cindy Be With You</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      :root {
+        --accent-color: #ff4500;
+        --window-bg-color: #d0c4c0;
+        --text-color-dark: #000;
+        --on-surface-color: #e9deda;
+        --font-mono: "Space Mono", monospace;
+      }
+
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+        overflow: hidden; /* Verhindert Scrollen der gesamten Seite */
+        cursor: none;
+        background-color: #000;
+      }
+
+      /* Custom Cursor (NUR FÜR DESKTOP) */
+      .custom-cursor {
+        position: fixed;
+        top: 0;
+        left: 0;
+        pointer-events: none;
+        z-index: 9999;
+        width: 40px;
+        height: 40px;
+        background-image: url("assets/tarothand.png");
+        background-size: contain;
+        background-repeat: no-repeat;
+        transition: background-image 0.1s ease-in-out;
+      }
+      .custom-cursor.hovered {
+        background-image: url("assets/tarothand2.png");
+      }
+      a,
+      button,
+      input[type="button"],
+      input[type="submit"],
+      input[type="reset"] {
+        cursor: none !important;
+      }
+
+      /* Hintergrundbild */
+      .background-image {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: url("assets/BG.jpg");
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        z-index: -1;
+      }
+
+      /* --- HAUPTMENÜ (DESKTOP STANDARD) --- */
+      .main-menu {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 60px;
+        background-color: var(--accent-color);
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        z-index: 100;
+        font-family: var(--font-mono);
+        text-transform: uppercase;
+        padding: 0 20px;
+        box-sizing: border-box;
+      }
+
+      .menu-item {
+        display: flex; /* Standardmäßig angezeigt auf Desktop */
+        align-items: center;
+        gap: 8px;
+        color: var(--text-color-dark);
+        text-decoration: none;
+        font-size: 1.1em;
+        transition: text-decoration 0.2s;
+        white-space: nowrap;
+      }
+
+      .menu-item:hover {
+        text-decoration: underline;
+      }
+
+      .menu-item .hand-icon {
+        width: 25px;
+        height: auto;
+        fill: var(--text-color-dark);
+        animation: moveHand 0.8s ease-in-out infinite alternate;
+      }
+
+      @keyframes moveHand {
+        0% {
+          transform: translateX(0);
+        }
+        100% {
+          transform: translateX(8px);
+        }
+      }
+
+      /* Hamburger Icon Button (NUR FÜR MOBILE, standardmäßig ausgeblendet) */
+      .hamburger-menu-button {
+        display: none; /* Standardmäßig ausgeblendet auf Desktop */
+      }
+
+      /* Mobile Menü Overlay (NUR FÜR MOBILE, standardmäßig ausgeblendet) */
+      .mobile-menu-overlay {
+        display: none; /* Standardmäßig ausgeblendet auf Desktop */
+      }
+
+      /* Mobile Fullscreen Modale (NUR FÜR MOBILE, standardmäßig ausgeblendet) */
+      .mobile-fullscreen-modal {
+        display: none; /* Standardmäßig ausgeblendet auf Desktop */
+      }
+
+
+      /* --- DESKTOP FENSTER-STIL (STANDARD) --- */
+      .window {
+        position: fixed;
+        background-color: var(--window-bg-color);
+        color: var(--text-color-dark);
+        border: 3px solid var(--text-color-dark);
+        box-shadow: 8px 8px 0px rgba(0, 0, 0, 1);
+        border-radius: 4px;
+        z-index: 150;
+        display: none; /* Standardmäßig ausgeblendet, wird von JS aktiviert */
+        flex-direction: column;
+        padding: 0;
+        box-sizing: content-box;
+        font-family: var(--font-mono);
+        text-transform: uppercase;
+        overflow: hidden;
+      }
+
+      .window.active {
+        display: flex;
+      }
+
+      .window-inner-content {
+        padding: 2px;
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+      }
+
+      .window-header {
+        background-color: var(--text-color-dark);
+        height: 42px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 10px;
+        box-sizing: border-box;
+        border-radius: 2px 2px 0 0;
+      }
+
+      .window-header h2 {
+        margin: 0;
+        font-size: 1em;
+        color: var(--window-bg-color);
+      }
+
+      .close-window-btn {
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 0;
+      }
+      .close-window-btn:hover {
+        opacity: 0.8;
+      }
+      .close-window-btn img {
+        width: 20px;
+        height: auto;
+        display: block;
+        filter: invert(80%) sepia(0%) saturate(0%) hue-rotate(180deg) brightness(100%) contrast(80%); /* Hellgrau */
+      }
+
+      .window-content {
+        flex-grow: 1;
+        overflow-y: auto;
+        line-height: 1.4;
+        padding: 0;
+        margin-top: 5px;
+      }
+      .window-content p {
+        margin-bottom: 1em;
+        font-size: 0.9em;
+      }
+      .window-content a {
+        font-size: 0.9em;
+      }
+
+      /* Spezifisches Styling für Stream-Fenster (Desktop) */
+      #streamWindow {
+        width: 464px;
+        height: 350px;
+        top: 224px;
+        left: 84px;
+      }
+      #streamWindow .window-content {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px 0px;
+        justify-items: center;
+        align-items: center;
+        padding: 20px;
+      }
+      #streamWindow .stream-link-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 5px;
+        font-size: 0.9em;
+        color: var(--text-color-dark);
+        text-decoration: none;
+        white-space: nowrap;
+        transition: color 0.2s, text-decoration 0.2s;
+        flex-shrink: 0;
+        width: auto;
+        text-align: center;
+      }
+      #streamWindow .stream-link-item:hover {
+        color: var(--text-color-dark);
+        text-decoration: underline;
+      }
+      #streamWindow .stream-link-item .icon {
+        width: 52px;
+        height: 68px;
+      }
+
+      /* Spezifisches Styling für About-Fenster (Desktop) */
+      #aboutWindow {
+        width: 464px;
+        height: 470px;
+        top: 224px;
+        right: 74px;
+        left: auto;
+      }
+      #aboutWindow .window-content p {
+        margin-left: 20px;
+        margin-right: 20px;
+        margin-bottom: 15px;
+      }
+
+      /* Spezifisches Styling für Contact-Fenster (Desktop) */
+      #contactWindow {
+        width: 464px;
+        height: 294px;
+        bottom: 175px;
+        left: 247px;
+        top: auto;
+      }
+      #contactWindow .contact-content-wrapper {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 15px;
+        padding: 20px;
+      }
+      .contact-email-button {
+        background-color: var(--on-surface-color);
+        color: var(--text-color-dark);
+        border: 2px solid var(--text-color-dark);
+        border-radius: 4px;
+        box-shadow: 2px 2px 0px rgba(0, 0, 0, 1);
+        padding: 10px 24px;
+        font-family: var(--font-mono);
+        font-size: 1em;
+        text-transform: uppercase;
+        cursor: pointer;
+        transition: background-color 0.2s, box-shadow 0.2s, color 0.2s;
+        text-decoration: none;
+        display: inline-block;
+      }
+
+      .contact-email-button:hover {
+        background-color: var(--accent-color);
+        color: white;
+        box-shadow: 0px 0px 0px rgba(0, 0, 0, 1);
+      }
+
+      /* Zentrale Logo-Animation */
+      .main-logo-cycler {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        height: auto;
+        opacity: 0;
+        animation: fadeInLogo 0.3s forwards;
+        animation-delay: 0.1s;
+      }
+      /* CSS Klassen für Logo Größen - besser als inline styles in JS */
+      .main-logo-cycler.logo-uber {
+        width: 16vw; /* Desktop-Größe */
+      }
+      .main-logo-cycler.logo-ast {
+        width: 10vw; /* Desktop-Größe */
+      }
+      .main-logo-cycler.logo-flex {
+        width: 42vw; /* Desktop-Größe */
+      }
+      .main-logo-cycler.logo-bauhaus {
+        width: 28vw; /* Desktop-Größe */
+      }
+      .main-logo-cycler.logo-digest {
+        width: 28vw; /* Desktop-Größe */
+      }
+
+      @keyframes fadeInLogo {
+        0% {
+          opacity: 0;
+        }
+        100% {
+          opacity: 1;
+        }
+      }
+
+      /* Sound Toggle Button (Desktop Only) */
+      .sound-toggle {
+        position: fixed;
+        bottom: -15px;
+        right: 0px;
+        background: none;
+        border: none;
+        cursor: pointer;
+        z-index: 90;
+        padding: 10px;
+      }
+      .sound-toggle .icon {
+        width: 80px;
+        height: auto;
+      }
+
+      /* Ameisen-Container (Desktop Only) */
+      .ant-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 70;
+      }
+      .ant-icon {
+        position: absolute;
+        bottom: 5px;
+        width: 30px;
+        height: 30px;
+        fill: var(--text-color-dark);
+        transform-origin: center center;
+        animation: walkAroundPerimeter 30s linear infinite;
+      }
+
+      @keyframes walkAroundPerimeter {
+        0% {
+          top: calc(100% - 30px);
+          left: 0;
+          transform: rotate(0deg);
+        }
+        24.9% {
+          top: calc(100% - 30px);
+          left: calc(100% - 30px);
+          transform: rotate(0deg);
+        }
+        25% {
+          top: calc(100% - 30px);
+          left: calc(100% - 30px);
+          transform: rotate(-90deg);
+        }
+        49.9% {
+          top: 60px;
+          left: calc(100% - 30px);
+          transform: rotate(-90deg);
+        }
+        50% {
+          top: 60px;
+          left: calc(100% - 30px);
+          transform: rotate(-180deg);
+        }
+        74.9% {
+          top: 60px;
+          left: 0;
+          transform: rotate(-180deg);
+        }
+        75% {
+          top: 60px;
+          left: 0;
+          transform: rotate(-270deg);
+        }
+        99.9% {
+          top: calc(100% - 30px);
+          left: 0;
+          transform: rotate(-270deg);
+        }
+        100% {
+          top: calc(100% - 30px);
+          left: 0;
+          transform: rotate(-360deg);
+        }
+      }
+
+      /* --- MOBILE OVERRIDES (ab 768px abwärts werden diese Regeln aktiv) --- */
+      @media (max-width: 768px) {
+        body {
+            cursor: auto;
+        }
+        a, button, input[type="button"], input[type="submit"], input[type="reset"] {
+            cursor: auto !important;
+        }
+
+        /* Custom Cursor auf Mobile komplett ausblenden */
+        .custom-cursor {
+          display: none !important;
+        }
+
+        /* Hauptmenü Mobile Anpassungen */
+        .main-menu {
+          height: 50px;
+          justify-content: flex-end;
+          padding: 0 15px;
+        }
+
+        /* Menüpunkte im Hauptmenü auf Mobile verstecken */
+        .main-menu .menu-item {
+          display: none;
+        }
+
+        /* Hamburger Icon Button (NUR auf Mobile anzeigen) */
+        .hamburger-menu-button {
+          display: block;
+          background: none;
+          border: none;
+          cursor: pointer;
+          padding: 0;
+          z-index: 200;
+        }
+        .hamburger-menu-button img {
+          width: 18px;
+          height: auto;
+          display: block;
+        }
+
+        /* Mobiles Menü Overlay (NUR auf Mobile anzeigen) */
+        .mobile-menu-overlay {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background-color: var(--accent-color);
+          z-index: 199;
+          display: flex;
+          flex-direction: column;
+          justify-content: flex-start;
+          align-items: flex-start;
+          padding-top: 80px;
+          padding-left: 20px;
+          box-sizing: border-box;
+          transition: transform 0.3s ease-in-out;
+          transform: translateY(-100%);
+        }
+        .mobile-menu-overlay.active {
+          transform: translateY(0);
+        }
+
+        /* Close-Button im mobilen Menü Overlay */
+        .mobile-menu-overlay .close-menu-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            z-index: 210;
+        }
+        .mobile-menu-overlay .close-menu-btn img {
+            width: 25px;
+            height: auto;
+            display: block;
+            filter: invert(0) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(0%) contrast(100%); /* Schwarz */
+        }
+        .mobile-menu-overlay .close-menu-btn:hover {
+            opacity: 0.8;
+        }
+
+        /* Style der Menüpunkte im mobilen Overlay */
+        .mobile-menu-overlay .menu-item {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          color: var(--text-color-dark);
+          text-decoration: none;
+          font-size: 1.5em;
+          margin: 15px 0;
+          font-family: var(--font-mono);
+          text-transform: uppercase;
+        }
+        .mobile-menu-overlay .menu-item .hand-icon {
+            width: 30px;
+            height: auto;
+            animation: moveHand 0.8s ease-in-out infinite alternate;
+        }
+        .mobile-menu-overlay .menu-item:hover {
+            text-decoration: underline;
+        }
+
+        /* Mobile Fullscreen "Fenster" (jetzt Modale - NUR auf Mobile anzeigen) */
+        .mobile-fullscreen-modal {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background-color: var(--window-bg-color);
+          color: var(--text-color-dark);
+          z-index: 180;
+          display: flex;
+          flex-direction: column;
+          padding: 0;
+          box-sizing: border-box;
+          font-family: var(--font-mono);
+          text-transform: uppercase;
+          overflow-y: auto;
+          transform: translateY(100%);
+          transition: transform 0.3s ease-in-out;
+        }
+        .mobile-fullscreen-modal.active {
+          transform: translateY(0);
+        }
+        .mobile-fullscreen-modal .window-header {
+            background-color: var(--text-color-dark);
+            height: 42px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 10px;
+            box-sizing: border-box;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+        .mobile-fullscreen-modal .window-header h2 {
+            margin: 0;
+            font-size: 1em;
+            color: var(--window-bg-color);
+        }
+        /* Close-Button in Modalen soll jetzt GRAU sein (wie Desktop-Fenster) */
+        .mobile-fullscreen-modal .close-window-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+        }
+        .mobile-fullscreen-modal .close-window-btn img {
+            width: 20px;
+            height: auto;
+            display: block;
+            filter: invert(80%) sepia(0%) saturate(0%) hue-rotate(180deg) brightness(100%) contrast(80%);
+        }
+
+
+        /* Stream Modal spezifisch (Mobile) */
+        #streamModal .modal-content {
+          display: grid;
+          grid-template-columns: repeat(2, 1fr);
+          gap: 25px 0;
+          justify-items: center;
+          align-items: center;
+          padding: 20px;
+        }
+        #streamModal .stream-link-item {
+          display: flex;
+          flex-direction: column; /* Icon und Text UNTEREINANDER */
+          align-items: center; /* Horizontale Zentrierung von Icon und Text im Link-Item */
+          text-align: center; /* Text selbst zentrieren */
+          gap: 5px;
+          font-size: 1em;
+          color: var(--text-color-dark); /* TEXTFARBE SCHWARZ */
+          text-decoration: none;
+          white-space: nowrap;
+          transition: color 0.2s, text-decoration 0.2s;
+          flex-shrink: 0;
+          width: auto;
+        }
+        #streamModal .stream-link-item:hover {
+            text-decoration: underline;
+        }
+        #streamModal .stream-link-item .icon {
+            width: 60px;
+            height: auto;
+        }
+
+        /* About Modal spezifisch (Mobile) */
+        #aboutModal .modal-content p {
+            margin: 0 20px 20px 20px;
+            font-size: 1em;
+            line-height: 1.6;
+            font-family: Arial, sans-serif;
+            text-transform: none;
+        }
+        #aboutModal .modal-content {
+             padding-top: 20px;
+        }
+
+        /* Contact Modal spezifisch (Mobile) */
+        #contactModal .modal-content {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            gap: 20px;
+        }
+        #contactModal .contact-email-button {
+             font-size: 1.1em;
+             padding: 12px 28px;
+        }
+
+        /* Logo Cycler auf Mobile */
+        .main-logo-cycler {
+          max-width: 90vw;
+          width: auto;
+        }
+        .main-logo-cycler.logo-uber {
+          width: 50vw;
+        }
+        .main-logo-cycler.logo-ast {
+          width: 30vw;
+        }
+        .main-logo-cycler.logo-flex {
+          width: 70vw;
+        }
+        .main-logo-cycler.logo-bauhaus {
+          width: 60vw;
+        }
+        .main-logo-cycler.logo-digest {
+          width: 60vw;
+        }
+
+        /* Sound Toggle auf Mobile (AUSGEBLENDET) */
+        .sound-toggle {
+          display: none;
+        }
+
+        /* Ameisen auf Mobile (AUSGEBLENDET) */
+        .ant-container {
+          display: none;
+        }
+
+        /* Desktop Fenster auf Mobile komplett ausblenden */
+        .window {
+          display: none !important;
+        }
+      } /* Ende der @media (max-width: 768px) Query */
+
+      /* Zusätzliche CSS Klasse für body, um Scrollen zu verhindern */
+      body.no-scroll {
+          overflow: hidden;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Custom Cursor -->
+    <div class="custom-cursor" id="customCursor"></div>
+
+    <!-- Hintergrundbild -->
+    <div class="background-image"></div>
+
+    <!-- Audio-Element für die Musik -->
+    <audio id="backgroundMusic" loop volume="0.3">
+      <source src="assets/birdsong.mp3" type="audio/mpeg" />
+      Dein Browser unterstützt das Audio-Element nicht.
+    </audio>
+
+    <!-- Hauptmenü -->
+    <nav class="main-menu">
+      <!-- Hamburger Icon für Mobile (auf Desktop ausgeblendet durch CSS) -->
+      <button class="hamburger-menu-button" id="hamburgerButton">
+        <img src="assets/icon_menu.svg" alt="Menu" />
+      </button>
+
+      <!-- Desktop Menüpunkte (auf Mobile ausgeblendet durch CSS) -->
+      <a
+        href="https://forms.gle/sBiXuLMKDKoyxnHv7"
+        target="_blank"
+        rel="noopener"
+        class="menu-item"
+      >
+        <img src="assets/Hand.svg" alt="Hand Icon" class="hand-icon" />
+        Pre-Order Hot Gods LP
+      </a>
+      <a href="#" class="menu-item" data-window-target="streamWindow">
+        <img src="assets/Hand.svg" alt="Hand Icon" class="hand-icon" />
+        Stream Music
+      </a>
+      <a href="#" class="menu-item" data-window-target="aboutWindow">
+        <img src="assets/Hand.svg" alt="Hand Icon" class="hand-icon" />
+        About
+      </a>
+      <a
+        href="https://forms.gle/rVwKY5L56erfJ4WL8"
+        target="_blank"
+        rel="noopener"
+        class="menu-item"
+      >
+        <img src="assets/Hand.svg" alt="Hand Icon" class="hand-icon" />
+        Newsletter
+      </a>
+      <a href="#" class="menu-item" data-window-target="contactWindow">
+        <img src="assets/Hand.svg" alt="Hand Icon" class="hand-icon" />
+        Contact
+      </a>
+      <a
+        href="https://www.instagram.com/cindy__gravity/"
+        target="_blank"
+        rel="noopener"
+        class="menu-item"
+      >
+        <img src="assets/Hand.svg" alt="Hand Icon" class="hand-icon" />
+        Instagram
+      </a>
+    </nav>
+
+    <!-- Mobiles Menü Overlay (initially hidden by CSS, displayed by JS on mobile) -->
+    <div class="mobile-menu-overlay" id="mobileMenuOverlay">
+      <!-- Close-Button für mobiles Menü -->
+      <button class="close-menu-btn" id="closeMobileMenuButton">
+        <img src="assets/icon_close.svg" alt="Close" />
+      </button>
+
+      <!-- Hier bleiben die Links, die im mobilen Overlay angezeigt werden sollen -->
+      <a
+        href="https://forms.gle/sBiXuLMKDKoyxnHv7"
+        target="_blank"
+        rel="noopener"
+        class="menu-item"
+      >
+        <img src="assets/Hand.svg" alt="Hand Icon" class="hand-icon" />
+        Pre-Order Hot Gods LP
+      </a>
+      <a href="javascript:void(0)" class="menu-item" data-mobile-modal-open="streamModal">
+        <img src="assets/Hand.svg" alt="Hand Icon" class="hand-icon" />
+        Stream Music
+      </a>
+      <a href="javascript:void(0)" class="menu-item" data-mobile-modal-open="aboutModal">
+        <img src="assets/Hand.svg" alt="Hand Icon" class="hand-icon" />
+        About
+      </a>
+      <a
+        href="https://forms.gle/rVwKY5L56erfJ4WL8"
+        target="_blank"
+        rel="noopener"
+        class="menu-item"
+      >
+        <img src="assets/Hand.svg" alt="Hand Icon" class="hand-icon" />
+        Newsletter
+      </a>
+      <a href="javascript:void(0)" class="menu-item" data-mobile-modal-open="contactModal">
+        <img src="assets/Hand.svg" alt="Hand Icon" class="hand-icon" />
+        Contact
+      </a>
+      <a
+        href="https://www.instagram.com/cindy__gravity/"
+        target="_blank"
+        rel="noopener"
+        class="menu-item"
+      >
+        <img src="assets/Hand.svg" alt="Hand Icon" class="hand-icon" />
+        Instagram
+      </a>
+    </div>
+
+
+    <!-- Zentrale Logo-Animation -->
+    <img
+      src="assets/cindyUBER.png"
+      alt="Cindy Gravity Logo"
+      class="main-logo-cycler logo-uber"
+      id="mainLogoCycler"
+    />
+
+    <!-- Sound Toggle Button (wird im JS entfernt, wenn mobil) -->
+    <button class="sound-toggle" id="soundToggleButton">
+      <img src="assets/icon_soundOn.svg" alt="Sound On/Off Toggle" class="icon" />
+    </button>
+
+    <!-- Ameisen-Container (wird im JS entfernt, wenn mobil) -->
+    <div class="ant-container">
+      <img src="assets/ant1.svg" alt="Ant" class="ant-icon" id="antIcon" />
+    </div>
+
+    <!-- Desktop Fenster-Definitionen -->
+    <div class="window" id="streamWindow">
+      <div class="window-inner-content">
+        <div class="window-header">
+          <h2>Choose Your Provider</h2>
+          <button class="close-window-btn">
+            <img src="assets/icon_close.svg" alt="Close" />
+          </button>
+        </div>
+        <div class="window-content">
+          <a
+            href="https://tidal.com/browse/artist/16507789"
+            target="_blank"
+            rel="noopener"
+            class="stream-link-item"
+          >
+            <img src="assets/logos/icon_tidal.png" alt="Tidal" class="icon" />TIDAL.WAV
+          </a>
+          <a
+            href="https://music.apple.com/de/artist/cindy-gravity/1475913950?l=en-GB"
+            target="_blank"
+            rel="noopener"
+            class="stream-link-item"
+          >
+            <img src="assets/logos/icon_apple.png" alt="Apple Music" class="icon" />APPLEMUSIC.M4A
+          </a>
+          <a
+            href="https://open.spotify.com/artist/58f43Z5rRDgEl6jJXjT4or?si=nWs80F7EReSnnygL0JaG-w"
+            target="_blank"
+            rel="noopener"
+            class="stream-link-item"
+          >
+            <img src="assets/logos/icon_spotify.png" alt="Spotify" class="icon" />SPOTIFY.MP3
+          </a>
+          <a
+            href="https://www.youtube.com/watch?v=AoUcpQWgV24"
+            target="_blank"
+            rel="noopener"
+            class="stream-link-item"
+          >
+            <img src="assets/logos/icon_youtube.png" alt="YouTube" class="icon" />YOUTUBE.MOV
+          </a>
+          <a
+            href="https://cindygravity.bandcamp.com/"
+            target="_blank"
+            rel="noopener"
+            class="stream-link-item"
+          >
+            <img src="assets/logos/icon_bandcamp.png" alt="Bandcamp" class="icon" />BANDCAMP.ZIP
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="window" id="aboutWindow">
+      <div class="window-inner-content">
+        <div class="window-header">
+          <h2>This Is Cindy Gravity</h2>
+          <button class="close-window-btn">
+            <img src="assets/icon_close.svg" alt="Close" />
+          </button>
+        </div>
+        <div class="window-content">
+          <p>
+            Cindy Gravity is an experimental pop trio that established itself
+            as a boundary-crosser between psychedelic pop, R’n’B, and yacht rock
+            with their debut “Brutally Soft.”
+          </p>
+          <p>
+            In 2025, Cindy Gravity presents their new album HOT GODS, in which
+            they explore a darker side. The themes revolve around inner demons,
+            spiritual experiences, and ritual magic.
+          </p>
+
+          <p>
+            Cindy Gravity has further developed, condensed, and refined their
+            sound. With an eclectic arsenal of drum machines, breakbeats,
+            Japanese synthesizers and surf guitars, the trio sings three-voiced
+            harmonies on pop songs about the synchronicity of the universe.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="window" id="contactWindow">
+      <div class="window-inner-content">
+        <div class="window-header">
+          <h2>Say Hello</h2>
+          <button class="close-window-btn">
+            <img src="assets/icon_close.svg" alt="Close" />
+          </button>
+        </div>
+        <div class="window-content contact-content-wrapper">
+          <p>
+            If you want to contact Cindy Gravity, you can write an email at the
+            following address:
+          </p>
+          <a href="mailto:hello@cindygravity.com" class="contact-email-button">
+            HELLO@CINDYGRAVITY.COM
+          </a>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- Mobile Fullscreen Modale (Wieder eingefügt - NUR auf Mobile angezeigt durch CSS/JS) -->
+
+    <div class="mobile-fullscreen-modal" id="streamModal">
+      <div class="window-inner-content">
+        <div class="window-header">
+          <h2>Choose Your Provider</h2>
+          <!-- HIER CLOSE BUTTON HINZUGEFÜGT -->
+          <button class="close-window-btn">
+            <img src="assets/icon_close.svg" alt="Close" />
+          </button>
+        </div>
+        <div class="window-content modal-content">
+          <a
+            href="https://tidal.com/browse/artist/16507789"
+            target="_blank"
+            rel="noopener"
+            class="stream-link-item"
+          >
+            <img src="assets/logos/icon_tidal.png" alt="Tidal" class="icon" />TIDAL.WAV
+          </a>
+          <a
+            href="https://music.apple.com/de/artist/cindy-gravity/1475913950?l=en-GB"
+            target="_blank"
+            rel="noopener"
+            class="stream-link-item"
+          >
+            <img src="assets/logos/icon_apple.png" alt="Apple Music" class="icon" />APPLEMUSIC.M4A
+          </a>
+          <a
+            href="https://open.spotify.com/artist/58f43Z5rRDgEl6jJXjT4or?si=nWs80F7EReSnnygL0JaG-w"
+            target="_blank"
+            rel="noopener"
+            class="stream-link-item"
+          >
+            <img src="assets/logos/icon_spotify.png" alt="Spotify" class="icon" />SPOTIFY.MP3
+          </a>
+          <a
+            href="https://www.youtube.com/watch?v=AoUcpQWgV24"
+            target="_blank"
+            rel="noopener"
+            class="stream-link-item"
+          >
+            <img src="assets/logos/icon_youtube.png" alt="YouTube" class="icon" />YOUTUBE.MOV
+          </a>
+          <a
+            href="https://cindygravity.bandcamp.com/"
+            target="_blank"
+            rel="noopener"
+            class="stream-link-item"
+          >
+            <img src="assets/logos/icon_bandcamp.png" alt="Bandcamp" class="icon" />BANDCAMP.ZIP
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="mobile-fullscreen-modal" id="aboutModal">
+      <div class="window-inner-content">
+        <div class="window-header">
+          <h2>This Is Cindy Gravity</h2>
+          <!-- HIER CLOSE BUTTON HINZUGEFÜGT -->
+          <button class="close-window-btn">
+            <img src="assets/icon_close.svg" alt="Close" />
+          </button>
+        </div>
+        <div class="window-content modal-content">
+          <p>
+            Cindy Gravity is an experimental pop trio that established itself
+            as a boundary-crosser between psychedelic pop, R’n’B, and yacht rock
+            with their debut “Brutally Soft.”
+          </p>
+          <p>
+            In 2025, Cindy Gravity presents their new album HOT GODS, in which
+            they explore a darker side. The themes revolve around inner demons,
+            spiritual experiences, and ritual magic.
+          </p>
+
+          <p>
+            Cindy Gravity has further developed, condensed, and refined their
+            sound. With an eclectic arsenal of drum machines, breakbeats,
+            Japanese synthesizers and surf guitars, the trio sings three-voiced
+            harmonies on pop songs about the synchronicity of the universe.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="mobile-fullscreen-modal" id="contactModal">
+      <div class="window-inner-content">
+        <div class="window-header">
+          <h2>Say Hello</h2>
+          <!-- HIER CLOSE BUTTON HINZUGEFÜGT -->
+          <button class="close-window-btn">
+            <img src="assets/icon_close.svg" alt="Close" />
+          </button>
+        </div>
+        <div class="window-content contact-content-wrapper modal-content">
+          <p>
+            If you want to contact Cindy Gravity, you can write an email at the
+            following address:
+          </p>
+          <a href="mailto:hello@cindygravity.com" class="contact-email-button">
+            HELLO@CINDYGRAVITY.COM
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Skript für interaktive Elemente und Animationen -->
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const customCursor = document.getElementById("customCursor");
+        const allInteractiveElements = document.querySelectorAll(
+          "a, button, .menu-item, .close-window-btn, .sound-toggle",
+        );
+        const soundToggleButton = document.getElementById("soundToggleButton");
+        const soundToggleIcon = soundToggleButton && soundToggleButton.querySelector("img");
+        const backgroundMusic = document.getElementById("backgroundMusic");
+        const mainLogoCycler = document.getElementById("mainLogoCycler");
+        const antIcon = document.getElementById("antIcon");
+        const antContainer = document.querySelector('.ant-container'); 
+
+        const hamburgerButton = document.getElementById("hamburgerButton");
+        const mobileMenuOverlay = document.getElementById("mobileMenuOverlay");
+        const closeMobileMenuButton = document.getElementById("closeMobileMenuButton");
+
+        const mobileMediaQuery = window.matchMedia("(max-width: 768px)");
+
+        // Hilfsfunktion zur Steuerung des Body-Scroll-Locks
+        function setBodyScrollLock(lock) {
+            if (lock) {
+                document.body.classList.add('no-scroll');
+            } else {
+                const activeWindows = document.querySelectorAll(".window.active").length;
+                const activeModals = document.querySelectorAll(".mobile-fullscreen-modal.active").length;
+                const menuOpen = mobileMenuOverlay && mobileMenuOverlay.classList.contains('active');
+
+                if (activeWindows === 0 && activeModals === 0 && !menuOpen) {
+                    document.body.classList.remove('no-scroll');
+                }
+            }
+        }
+
+        // --- Custom Cursor Funktionalität ---
+        if (customCursor) {
+            document.addEventListener("mousemove", (e) => {
+                if (!mobileMediaQuery.matches) {
+                    customCursor.style.left = `${e.clientX}px`;
+                    customCursor.style.top = `${e.clientY}px`;
+                }
+            });
+            allInteractiveElements.forEach((el) => {
+                el.addEventListener("mouseenter", () => {
+                    if (!mobileMediaQuery.matches) customCursor.classList.add("hovered");
+                });
+                el.addEventListener("mouseleave", () => {
+                    if (!mobileMediaQuery.matches) customCursor.classList.remove("hovered");
+                });
+            });
+        }
+        mobileMediaQuery.addEventListener('change', (mql) => {
+            document.body.style.cursor = mql.matches ? 'auto' : 'none';
+        });
+        
+        // --- Desktop Fenster-Logik ---
+        const windowTriggers = document.querySelectorAll("[data-window-target]");
+        windowTriggers.forEach((trigger) => {
+            trigger.addEventListener("click", (e) => {
+                if (!mobileMediaQuery.matches) { // Nur auf Desktop ausführen
+                    e.preventDefault();
+                    const targetWindowId = trigger.dataset.windowTarget;
+                    const targetWindow = document.getElementById(targetWindowId);
+                    if (targetWindow) {
+                        targetWindow.classList.add("active");
+                    }
+                }
+            });
+        });
+
+        // --- Mobile Modal-Logik ---
+        const mobileModalOpenTriggers = document.querySelectorAll("[data-mobile-modal-open]");
+        
+        mobileModalOpenTriggers.forEach((trigger) => {
+            trigger.addEventListener("click", (e) => {
+                if (mobileMediaQuery.matches) { // Nur auf Mobile ausführen
+                    e.preventDefault(); 
+                    
+                    closeMobileMenu(); // Erst das mobile Menü schließen
+                    
+                    // Alle anderen Modale schließen (Modale sollen nicht gestapelt werden)
+                    document.querySelectorAll(".mobile-fullscreen-modal.active").forEach(openModal => {
+                        openModal.classList.remove("active");
+                    });
+
+                    const targetModalId = trigger.dataset.mobileModalOpen;
+                    const targetModal = document.getElementById(targetModalId);
+                    if (targetModal) {
+                        targetModal.classList.add("active"); // Modal öffnen
+                    }
+                    setBodyScrollLock(true); // Body scroll sperren, da ein Modal offen ist
+                }
+            });
+        });
+
+        const closeButtons = document.querySelectorAll(".close-window-btn"); // Schließt Desktop-Fenster und Modale
+        closeButtons.forEach((button) => {
+            button.addEventListener("click", () => {
+                const parentElement = button.closest(".window") || button.closest(".mobile-fullscreen-modal");
+                if (parentElement) {
+                    parentElement.classList.remove("active");
+                    setBodyScrollLock(false); 
+                }
+            });
+        });
+
+        // --- Hamburger Menü Logik ---
+        function openMobileMenu() {
+            if (mobileMenuOverlay) {
+                mobileMenuOverlay.classList.add('active');
+                setBodyScrollLock(true);
+            }
+        }
+        function closeMobileMenu() {
+            if (mobileMenuOverlay) {
+                mobileMenuOverlay.classList.remove('active');
+                setBodyScrollLock(false);
+            }
+        }
+
+        if (hamburgerButton) {
+            hamburgerButton.addEventListener('click', () => {
+                if (mobileMediaQuery.matches) {
+                    openMobileMenu();
+                }
+            });
+            hamburgerButton.style.display = mobileMediaQuery.matches ? 'block' : 'none';
+        }
+
+        if (closeMobileMenuButton) {
+            closeMobileMenuButton.addEventListener('click', () => {
+                if (mobileMediaQuery.matches) {
+                    closeMobileMenu();
+                }
+            });
+        }
+
+        // Schließen von Fenstern/Modalen/Menü mit ESC-Taste
+        document.addEventListener("keydown", (e) => {
+            if (e.key === "Escape") {
+                document.querySelectorAll(".window.active").forEach((openWindow) => {
+                    openWindow.classList.remove("active");
+                });
+                document.querySelectorAll(".mobile-fullscreen-modal.active").forEach((openModal) => {
+                    openModal.classList.remove("active");
+                });
+                closeMobileMenu(); 
+                setBodyScrollLock(false);
+            }
+        });
+
+
+        // --- Sound Toggle Funktionalität ---
+        if (soundToggleButton && backgroundMusic) {
+            let isMuted = false;
+
+            function updateSoundIcon(isHovered = false) {
+                if (isMuted) {
+                    soundToggleIcon.src = isHovered
+                        ? "assets/icon_soundOffHover.svg"
+                        : "assets/icon_soundOff.svg";
+                } else {
+                    soundToggleIcon.src = isHovered
+                        ? "assets/icon_soundOnHover.svg"
+                        : "assets/icon_soundOn.svg";
+                }
+            }
+            if (!mobileMediaQuery.matches) {
+                updateSoundIcon(false);
+                backgroundMusic.volume = 0.3;
+                backgroundMusic.muted = false;
+                backgroundMusic.setAttribute('autoplay', '');
+            } else {
+                backgroundMusic.pause();
+                backgroundMusic.muted = true;
+                backgroundMusic.removeAttribute('autoplay');
+            }
+
+            document.body.addEventListener(
+                "click",
+                function startAudioOnce() {
+                    if (!mobileMediaQuery.matches && backgroundMusic.paused && !backgroundMusic.muted) {
+                        backgroundMusic
+                            .play()
+                            .then(() => { updateSoundIcon(false); })
+                            .catch((e) => console.log("Autoplay blockiert auf Desktop:", e));
+                    }
+                },
+                { once: true },
+            );
+
+            soundToggleButton.addEventListener("click", () => {
+                if (!mobileMediaQuery.matches) {
+                    if (backgroundMusic.muted) {
+                        backgroundMusic.muted = false;
+                        backgroundMusic.play().then(() => {
+                            isMuted = false;
+                            updateSoundIcon(false);
+                        }).catch((e) => {
+                            console.error("Play after unmute error:", e);
+                            backgroundMusic.muted = true;
+                            isMuted = true;
+                            updateSoundIcon(false);
+                        });
+                    } else {
+                        backgroundMusic.muted = true;
+                        isMuted = true;
+                        updateSoundIcon(false);
+                    }
+                }
+            });
+
+            soundToggleButton.addEventListener("mouseenter", () => {
+                if (!mobileMediaQuery.matches) { updateSoundIcon(true); }
+            });
+            soundToggleButton.addEventListener("mouseleave", () => {
+                if (!mobileMediaQuery.matches) { updateSoundIcon(false); }
+            });
+
+            mobileMediaQuery.addEventListener('change', (mql) => {
+                if (mql.matches) {
+                    backgroundMusic.pause();
+                    backgroundMusic.muted = true;
+                    backgroundMusic.removeAttribute('autoplay');
+                } else {
+                    backgroundMusic.volume = 0.3;
+                    backgroundMusic.muted = false;
+                    backgroundMusic.setAttribute('autoplay', '');
+                    updateSoundIcon(false);
+                }
+            });
+        }
+
+
+        // --- Zentrale Logo-Animation ---
+        const logos = [
+          { src: "assets/cindyUBER.png", className: "logo-uber" },
+          { src: "assets/cindyAST.png", className: "logo-ast" },
+          { src: "assets/cindyFLEX.png", className: "logo-flex" },
+          { src: "assets/cindyBAUHAUS.png", className: "logo-bauhaus" },
+          { src: "assets/cindyDIGEST.png", className: "logo-digest" },
+        ];
+        let currentLogoIndex = 0;
+        const logoCycleIntervalTime = 450;
+        let logoInterval; 
+
+        function preloadImages(imageArray) {
+          imageArray.forEach((logo) => {
+            const img = new Image();
+            img.src = logo.src;
+          });
+        }
+        preloadImages(logos);
+
+        function cycleLogos() {
+          mainLogoCycler.style.opacity = 0;
+          setTimeout(() => {
+            mainLogoCycler.classList.remove(logos[currentLogoIndex].className);
+            currentLogoIndex = (currentLogoIndex + 1) % logos.length;
+            mainLogoCycler.src = logos[currentLogoIndex].src;
+            mainLogoCycler.classList.add(logos[currentLogoIndex].className);
+            mainLogoCycler.style.opacity = 1;
+          }, 10);
+        }
+
+        mainLogoCycler.classList.add(logos[0].className);
+        if (!logoInterval) {
+            logoInterval = setInterval(cycleLogos, logoCycleIntervalTime);
+        }
+
+
+        // --- Ameisen-Animation ---
+        let antInterval; 
+        let currentAntImageIndex = 0; 
+
+        function animateAntSteps() {
+            if (antIcon && antContainer) {
+                const antImages = ["assets/ant1.svg", "assets/ant2.svg"];
+                currentAntImageIndex = (currentAntImageIndex + 1) % antImages.length;
+                antIcon.src = antImages[currentAntImageIndex];
+            }
+        }
+        
+        mobileMediaQuery.addEventListener('change', (mql) => {
+            if (mql.matches) { 
+                if (antInterval) { clearInterval(antInterval); antInterval = null; }
+                if (antContainer) antContainer.style.display = 'none';
+            } else { 
+                if (!antInterval && antIcon && antContainer) {
+                    antInterval = setInterval(animateAntSteps, 150);
+                    antContainer.style.display = 'block';
+                }
+            }
+        });
+        
+        if (antIcon && antContainer) {
+            if (!mobileMediaQuery.matches) {
+                antInterval = setInterval(animateAntSteps, 150);
+                antContainer.style.display = 'block';
+            } else {
+                antContainer.style.display = 'none';
+            }
+        }
+      }); // Ende DOMContentLoaded
+    </script>
+  </body>
+</html>
