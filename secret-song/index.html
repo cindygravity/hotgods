@@ -1,0 +1,401 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Welcome — Cindy Gravity</title>
+    <meta name="robots" content="noindex, nofollow" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=VT323&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      :root {
+        --page-blue: #40739d;
+        --bubble-green: #4d784f;
+        --text-color-dark: #000;
+        --on-surface-color: #e9deda;
+        --font-pixel: "VT323", monospace;
+      }
+
+      html,
+      body {
+        max-width: 100%;
+        overflow-x: hidden;
+      }
+      body {
+        margin: 0;
+        padding: 0;
+        background: var(--page-blue);
+        font-family: var(--font-pixel);
+        color: var(--text-color-dark);
+        min-height: 100vh;
+      }
+
+      .page {
+        width: 100%;
+        max-width: 640px;
+        margin: 0 auto;
+        padding: 28px 24px 60px 24px;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+      }
+
+      .wordmark {
+        display: block;
+        width: 150px;
+        align-self: flex-start;
+        margin-bottom: 40px;
+      }
+      .wordmark img {
+        width: 100%;
+        height: auto;
+        display: block;
+        filter: brightness(0);
+      }
+
+      .ant {
+        width: 44px;
+        height: auto;
+        margin-bottom: 18px;
+        filter: brightness(0);
+      }
+
+      h1 {
+        font-family: var(--font-pixel);
+        font-weight: 400;
+        font-size: 52px;
+        line-height: 1.05;
+        margin: 0 0 18px 0;
+        text-transform: uppercase;
+        overflow-wrap: break-word;
+        max-width: 100%;
+      }
+      h1::after {
+        content: "▌";
+        animation: cursorBlink 1.1s steps(1) infinite;
+      }
+      @keyframes cursorBlink {
+        50% {
+          opacity: 0;
+        }
+      }
+
+      h2 {
+        font-family: var(--font-pixel);
+        font-weight: 400;
+        font-size: 34px;
+        margin: 0 0 14px 0;
+        text-transform: uppercase;
+      }
+
+      p {
+        font-size: 21px;
+        line-height: 1.3;
+        text-transform: uppercase;
+        margin: 0 0 20px 0;
+        overflow-wrap: break-word;
+        max-width: 100%;
+      }
+
+      section {
+        width: 100%;
+        max-width: 480px;
+      }
+      .divider {
+        border-top: 2px dashed var(--text-color-dark);
+        width: 100%;
+        max-width: 480px;
+        margin: 40px 0;
+      }
+
+      /* --- Player --- */
+      .player {
+        width: 100%;
+        max-width: 440px;
+        border: 2px solid var(--text-color-dark);
+        border-radius: 4px;
+        background: rgba(255, 255, 255, 0.92);
+        box-shadow: 3px 3px 0px rgba(0, 0, 0, 0.55);
+        padding: 18px 20px;
+        box-sizing: border-box;
+        margin: 10px 0 14px 0;
+      }
+      .player .track-title {
+        font-size: 24px;
+        margin: 0 0 12px 0;
+      }
+      .player .controls {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+      }
+      .play-btn {
+        font-family: var(--font-pixel);
+        font-size: 26px;
+        background: var(--text-color-dark);
+        color: var(--on-surface-color);
+        border: none;
+        border-radius: 4px;
+        width: 54px;
+        height: 44px;
+        cursor: pointer;
+        line-height: 1;
+        flex-shrink: 0;
+      }
+      .progress {
+        flex: 1;
+        height: 14px;
+        border: 2px solid var(--text-color-dark);
+        border-radius: 3px;
+        background: transparent;
+        position: relative;
+        cursor: pointer;
+      }
+      .progress .bar {
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        width: 0%;
+        background: var(--text-color-dark);
+      }
+      .time {
+        font-size: 18px;
+        min-width: 88px;
+        text-align: right;
+        font-variant-numeric: tabular-nums;
+      }
+
+      .download-link,
+      a {
+        color: var(--text-color-dark);
+      }
+      .download-link {
+        font-size: 20px;
+        text-transform: uppercase;
+        display: inline-block;
+      }
+
+      .retro-button {
+        background-color: var(--on-surface-color);
+        color: var(--text-color-dark);
+        border: 2px solid var(--text-color-dark);
+        border-radius: 4px;
+        box-shadow: 3px 3px 0px rgba(0, 0, 0, 0.55);
+        padding: 12px 28px;
+        font-family: var(--font-pixel);
+        font-size: 24px;
+        text-transform: uppercase;
+        transition: box-shadow 0.2s;
+        text-decoration: none;
+        display: inline-block;
+      }
+      .retro-button:hover {
+        box-shadow: 0px 0px 0px rgba(0, 0, 0, 0.55);
+      }
+
+      /* --- What to expect --- */
+      .expect-list {
+        text-align: left;
+        font-size: 20px;
+        line-height: 1.35;
+        text-transform: uppercase;
+        padding-left: 24px;
+        margin: 0 0 20px 0;
+      }
+      .expect-list li {
+        margin-bottom: 12px;
+      }
+
+      /* --- Socials --- */
+      .socials {
+        display: flex;
+        gap: 28px;
+        justify-content: center;
+        font-size: 24px;
+        text-transform: uppercase;
+        margin-top: 8px;
+      }
+
+      .signoff {
+        margin-top: 44px;
+        font-size: 21px;
+      }
+
+      .back-link {
+        font-family: var(--font-pixel);
+        font-size: 20px;
+        color: var(--text-color-dark);
+        text-transform: uppercase;
+        margin-top: 56px;
+        display: inline-block;
+      }
+
+      @media (max-width: 768px) {
+        h1 {
+          font-size: 40px;
+        }
+        h2 {
+          font-size: 28px;
+        }
+        p {
+          font-size: 19px;
+        }
+        .wordmark {
+          width: 120px;
+          margin-bottom: 28px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page">
+      <a href="/" class="wordmark">
+        <img src="../assets/wordmark.svg" alt="Cindy Gravity" />
+      </a>
+
+      <img src="../assets/ant1.svg" alt="" class="ant" />
+
+      <h1>Welcome! You did it!</h1>
+
+      <section>
+        <p>
+          As promised, here's a little gift: an unreleased song. You're in our
+          inner circle now, so we wanted you to hear it before anyone else.
+        </p>
+        <p>
+          In a time when social media is all over the place, it means a lot
+          that you're here and letting us land in your inbox. Consider this a
+          small thank-you.
+        </p>
+      </section>
+
+      <div class="player">
+        <p class="track-title">Rain-Man (unreleased)</p>
+        <div class="controls">
+          <button class="play-btn" id="playBtn" title="Play/Pause">&#9654;</button>
+          <div class="progress" id="progress"><div class="bar" id="progressBar"></div></div>
+          <span class="time" id="timeDisplay">0:00 / 0:00</span>
+        </div>
+        <audio id="songAudio" preload="metadata" src="../assets/audio/rain-man.mp3"></audio>
+      </div>
+      <a class="download-link" href="../assets/audio/rain-man.mp3" download="Cindy Gravity - Rain-Man (unreleased).mp3">&darr; Download the MP3</a>
+
+      <div class="divider"></div>
+
+      <section>
+        <h2>Gift #2: Our Global Guest List</h2>
+        <p>
+          Here's how it works: we're building a list of our Day-1 fans and the
+          city/region they're in. When we play nearby, we'll reach out and put
+          you on the guest list. Nothing beats playing for people who are truly
+          with us.
+        </p>
+        <a
+          class="retro-button"
+          href="https://docs.google.com/forms/d/e/1FAIpQLSdHcxfhOEYJQC5SHIycEXgwtNIZa8Ziz-oHNz8_rGeOVC-_dA/viewform"
+          target="_blank"
+          rel="noopener"
+          >Join the global guest list</a
+        >
+      </section>
+
+      <div class="divider"></div>
+
+      <section>
+        <p>
+          Since you're here with us now... let's experience the world together
+          through Cindy's gentle love&mdash;with all its beautiful strangeness.
+        </p>
+        <h2>What to expect from us</h2>
+        <ul class="expect-list">
+          <li>
+            The Softness Report &mdash; our newsletter with updates and
+            behind-the-scenes bits (named after our first album, "Brutally
+            Soft")
+          </li>
+          <li>First dibs on new merch and the occasional sweet deal.</li>
+          <li>Heads-up when tickets go on sale&mdash;so you can snag yours before they vanish.</li>
+          <li>Your vote on what we make next&mdash;merch ideas, special drops, ... whatever :)</li>
+          <li>And who knows what else might unfold...</li>
+        </ul>
+        <p>
+          If you have 5 seconds,
+          <a href="mailto:hello@cindygravity.com?subject=hi%20Cindy">say hi</a>&mdash;we
+          read every email :)
+        </p>
+      </section>
+
+      <div class="divider"></div>
+
+      <section>
+        <h2>Come hang with us</h2>
+        <div class="socials">
+          <a href="https://www.tiktok.com/@cindygravity" target="_blank" rel="noopener">TikTok</a>
+          <a href="https://www.instagram.com/cindy__gravity/" target="_blank" rel="noopener">Instagram</a>
+          <a href="https://youtu.be/9avR-n6HNBU" target="_blank" rel="noopener">YouTube</a>
+        </div>
+        <p class="signoff">
+          That's it for now. Thanks for being part of the Cindy family. We love
+          you.<br /><br />
+          Ludwig, Nico, and Lucas
+        </p>
+      </section>
+
+      <a href="/" class="back-link">&larr; cindygravity.com</a>
+    </div>
+
+    <script>
+      const audio = document.getElementById("songAudio");
+      const playBtn = document.getElementById("playBtn");
+      const progress = document.getElementById("progress");
+      const progressBar = document.getElementById("progressBar");
+      const timeDisplay = document.getElementById("timeDisplay");
+
+      function fmt(s) {
+        if (!isFinite(s)) return "0:00";
+        const m = Math.floor(s / 60);
+        const sec = String(Math.floor(s % 60)).padStart(2, "0");
+        return `${m}:${sec}`;
+      }
+      function updateTime() {
+        timeDisplay.textContent = `${fmt(audio.currentTime)} / ${fmt(audio.duration)}`;
+        progressBar.style.width = audio.duration
+          ? `${(audio.currentTime / audio.duration) * 100}%`
+          : "0%";
+      }
+      playBtn.addEventListener("click", () => {
+        if (audio.paused) {
+          audio.play();
+          playBtn.innerHTML = "&#10074;&#10074;";
+        } else {
+          audio.pause();
+          playBtn.innerHTML = "&#9654;";
+        }
+      });
+      audio.addEventListener("timeupdate", updateTime);
+      audio.addEventListener("loadedmetadata", updateTime);
+      audio.addEventListener("ended", () => {
+        playBtn.innerHTML = "&#9654;";
+      });
+      progress.addEventListener("click", (e) => {
+        const rect = progress.getBoundingClientRect();
+        audio.currentTime = ((e.clientX - rect.left) / rect.width) * audio.duration;
+      });
+
+      // GoatCounter (Standalone-Seite, wird nie eingebettet)
+      const gc = document.createElement("script");
+      gc.async = true;
+      gc.src = "https://gc.zgo.at/count.js";
+      gc.dataset.goatcounter = "https://cindygravitycounter.goatcounter.com/count";
+      document.body.appendChild(gc);
+    </script>
+  </body>
+</html>
