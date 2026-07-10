@@ -56,7 +56,12 @@ body[data-theme="paper"] {
 /* ---------- base ---------- */
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
-html { scroll-behavior: smooth; }
+/* clip stray horizontal overflow (e.g. the oracle ant animating off-screen to
+   the right at 115vw) so the page can't be scrolled sideways on mobile.
+   `clip` (not `hidden`) does this WITHOUT creating a scroll container, so the
+   sticky status bar keeps working. */
+html { scroll-behavior: smooth; overflow-x: clip; }
+body { overflow-x: clip; }
 
 body {
   font-family: var(--font);
