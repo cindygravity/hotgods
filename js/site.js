@@ -54,17 +54,23 @@ function moonMsg() {
 }
 
 /* ---------- status bar: rotating band telemetry ---------- */
+let nextShowMsg = "";   // set by loadTour() from REAL Bandsintown data only
 const MSGS = [
   () => `NEW SONG "One Time, Two Times, Three Times in a Row" OUT NOW`,
-  "NEXT SHOW :: SEP 12 · BERLIN",
-  moonMsg,                                     // live moon countdown
+  () => nextShowMsg,                           // real next show, or skipped if none
+  moonMsg,                                     // live moon countdown (calculated)
 ];
 const telemetry = document.getElementById("telemetry");
 let msgIndex = 0;
 function tickTelemetry() {
-  const m = MSGS[msgIndex % MSGS.length];
-  telemetry.textContent = typeof m === "function" ? m() : m;
-  msgIndex++;
+  // advance to the next non-empty message (skips next-show when there is none)
+  let text = "";
+  for (let i = 0; i < MSGS.length && !text; i++) {
+    const m = MSGS[msgIndex % MSGS.length];
+    msgIndex++;
+    text = typeof m === "function" ? m() : m;
+  }
+  if (text) telemetry.textContent = text;
 }
 tickTelemetry();
 setInterval(tickTelemetry, 3200);
@@ -649,6 +655,8 @@ async function loadTour() {
     });
     renderTour(rows);
     if (tourFeed) tourFeed.textContent = "FEED :: BANDSINTOWN · LIVE";
+    // feed the header telemetry with the real next show
+    nextShowMsg = `NEXT SHOW :: ${rows[0].date.replace("\n", " ")} · ${rows[0].city}`;
   } catch (e) {
     renderTour(TOUR_MOCK);
     if (tourFeed) tourFeed.textContent = "FEED :: BANDSINTOWN OFFLINE — SAMPLE DATES";
