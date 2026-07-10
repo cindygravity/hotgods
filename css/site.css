@@ -384,13 +384,23 @@ body { padding-bottom: calc(76px + env(safe-area-inset-bottom)); }
 /* Zip STANDS ON the dock (bottom menu), bubble above. The whole .oracle
    is translated horizontally by JS to walk in from the left and out to
    the right; the bottom offset sets where the feet rest on the dock. */
-.oracle {
+/* fixed, viewport-sized, non-interactive frame — clips the ant's off-screen
+   motion so it can't extend the page width on iOS (root overflow:clip alone
+   doesn't catch a composited fixed element with will-change:transform) */
+.oracle-frame {
   position: fixed;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 40;
+}
+.oracle {
+  position: absolute;             /* positioned within .oracle-frame */
   left: 14px;
   bottom: calc(52px + env(safe-area-inset-bottom));
-  z-index: 40;
   display: grid;
   justify-items: start;
+  pointer-events: auto;           /* the ant + bubble stay clickable */
   will-change: transform;
 }
 /* the .oracle display:grid above would otherwise defeat [hidden] — keep Zip
@@ -598,6 +608,18 @@ body.is-booted .dock { animation: materialize 0.4s steps(4) 0.55s backwards; }
   background: #17171c;
   border: 1px solid #05050a;
   box-shadow: inset 0 5px 10px rgba(0, 0, 0, 0.6);
+}
+
+/* ---------- paper theme: soften the player's dark skeuomorphic parts ----------
+   The CD rim, the EQ/wave slot and the transport tray are fixed near-black —
+   they read as a real deck on the dark nebula theme, but look wrong on the
+   light paper desk, so recolour them to light silver-grey there. */
+body[data-theme="paper"] .cd { background: #a9adae; }
+body[data-theme="paper"] .slot,
+body[data-theme="paper"] .player__controls { background: #b2b6b7; }
+body[data-theme="paper"] .slot {
+  border-color: #9a9ea0;
+  box-shadow: inset 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 .slot__eq { flex: 1; position: relative; }
 .slot__wave {
@@ -830,6 +852,8 @@ body.is-booted .dock { animation: materialize 0.4s steps(4) 0.55s backwards; }
 }
 .console input::placeholder { color: rgba(231, 220, 195, 0.4); }
 .console input:focus { outline: none; border-color: #ff2e88; box-shadow: 2px 2px 0 #ff2e88; }
+.console-err { margin: 0; font-size: 12px; letter-spacing: 0.04em; color: #ff2e88; }
+.console-err[hidden] { display: none; }
 
 .console__close {
   position: fixed;

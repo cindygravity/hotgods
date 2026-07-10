@@ -204,11 +204,17 @@
       return r.json().catch(() => ({}));
     }
 
+    const validEmail = (s) => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(String(s).trim());
     const form = document.getElementById("signup");
     const submit = document.getElementById("submit");
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
       const f = new FormData(form);
+      if (!validEmail(f.get("email"))) {
+        submit.textContent = "Invalid email — check it";
+        setTimeout(() => (submit.textContent = "Sign up ▸"), 2200);
+        return;
+      }
       submit.disabled = true;
       submit.textContent = "Transmitting…";
       try {

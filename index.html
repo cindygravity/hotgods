@@ -280,14 +280,18 @@
   </main>
 
   <!-- ============ ORACLE ANT (gateway to the vault) ============ -->
-  <aside class="oracle" id="oracle" hidden>
-    <div class="oracle__bubble" id="oracleBubble" role="button" tabindex="0">
-      <button class="oracle__close" id="oracleClose" aria-label="Dismiss">✕</button>
-      <span id="oracleText"></span><span class="cursor">▮</span>
-    </div>
-    <div class="oracle__tail"></div>
-    <canvas class="oracle__pet" id="oraclePet" role="button" tabindex="0" aria-label="Follow the ant"></canvas>
-  </aside>
+  <!-- fixed full-viewport frame that CLIPS the ant so its off-screen walk-in/
+       walk-out (translateX ±) can never widen the page on mobile -->
+  <div class="oracle-frame">
+    <aside class="oracle" id="oracle" hidden>
+      <div class="oracle__bubble" id="oracleBubble" role="button" tabindex="0">
+        <button class="oracle__close" id="oracleClose" aria-label="Dismiss">✕</button>
+        <span id="oracleText"></span><span class="cursor">▮</span>
+      </div>
+      <div class="oracle__tail"></div>
+      <canvas class="oracle__pet" id="oraclePet" role="button" tabindex="0" aria-label="Follow the ant"></canvas>
+    </aside>
+  </div>
 
   <!-- ============ HIDDEN CONSOLE LAYER ============ -->
   <div class="console" id="console" hidden>

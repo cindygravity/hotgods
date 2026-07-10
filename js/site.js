@@ -34,7 +34,8 @@ const THEMES = ["nebula", "paper"];   // nebula = default (dark), paper = light
 toggle.addEventListener("click", () => {
   applyTheme(THEMES[(THEMES.indexOf(body.dataset.theme) + 1) % THEMES.length]);
   renderWordmark();               // repaint in the new ink
-  if (typeof drawBird === "function") drawBird();  // re-tint the rosé bird
+  if (typeof drawBird === "function") drawBird();       // re-tint the bird
+  if (typeof drawAnt === "function") drawAnt(antFrame); // re-tint Zip for the new theme
 });
 const savedTheme = localStorage.getItem("orbital-theme");
 applyTheme(THEMES.includes(savedTheme) ? savedTheme : "nebula");
@@ -686,12 +687,21 @@ async function kitSubscribe({ email, name = "", city = "" }) {
   return res.json().catch(() => ({}));
 }
 
+/* real email check — HTML type="email" alone accepts "a@b" (no TLD), so we
+   require something@something.tld before sending anything to Kit */
+const validEmail = (s) => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(String(s).trim());
+
 /* ---------- tour proximity alert → Kit ---------- */
 const notifyForm = document.getElementById("notifyForm");
 const notifySubmit = document.getElementById("notifySubmit");
 notifyForm.addEventListener("submit", async (e) => {
   e.preventDefault();
   const [cityI, emailI] = notifyForm.querySelectorAll("input"); // city, then email
+  if (!validEmail(emailI.value)) {
+    notifySubmit.textContent = "INVALID EMAIL — CHECK IT";
+    setTimeout(() => (notifySubmit.textContent = "NOTIFY ME ▸"), 2200);
+    return;
+  }
   notifySubmit.disabled = true;
   notifySubmit.textContent = "SENDING…";
   try {
@@ -823,6 +833,11 @@ signalForm.addEventListener("submit", async (e) => {
   e.preventDefault();
   const emailI = signalForm.querySelector('input[type="email"]');
   const texts = signalForm.querySelectorAll('input[type="text"]'); // name, city
+  if (!validEmail(emailI.value)) {
+    signalBtn.textContent = "INVALID EMAIL — CHECK IT";
+    setTimeout(() => (signalBtn.textContent = "SIGN UP ▸"), 2200);
+    return;
+  }
   signalBtn.disabled = true;
   signalBtn.textContent = "TRANSMITTING…";
   try {
@@ -953,9 +968,10 @@ document.querySelectorAll("[data-icon]").forEach((el) =>
    ORACLE ANT "ZIP" — canvas sprite, gateway to the hidden console
    Rebuilt Jul 9 to match the old cindygravity.com ant: the actual v2
    vector ant (assets/ant/ant{1,2}.svg — a side-view ant facing right),
-   drawn CRISP and tinted rosé (--accent-2) via source-in compositing
-   (works on file://; no pixel readback) — matches the crisp newsletter
-   bird. Two frames = walking legs. Choreography: after boot Zip runs in
+   drawn CRISP and tinted with --wm (light grey on nebula, dark on paper)
+   via source-in compositing (works on file://; no pixel readback) — same
+   colour + treatment as the newsletter bird, so the two creatures match.
+   Two frames = walking legs. Choreography: after boot Zip runs in
    from the left → the bubble blobs up → on ✕ the bubble pops and Zip
    strides off to the right and out of frame.
    ============================================================ */
@@ -984,8 +1000,8 @@ function drawAnt(frame) {
   antCtx.clearRect(0, 0, oraclePet.width, oraclePet.height);
   antCtx.imageSmoothingEnabled = true;               // crisp vector, not pixelated
   antCtx.drawImage(img, 0, 0, oraclePet.width, oraclePet.height);
-  antCtx.globalCompositeOperation = "source-in";     // tint to rosé, keep alpha
-  antCtx.fillStyle = getComputedStyle(body).getPropertyValue("--accent-2").trim() || "#d98fb4";
+  antCtx.globalCompositeOperation = "source-in";     // tint to light-grey/dark --wm (matches the bird), keep alpha
+  antCtx.fillStyle = getComputedStyle(body).getPropertyValue("--wm").trim() || "#cfcfd8";
   antCtx.fillRect(0, 0, oraclePet.width, oraclePet.height);
   antCtx.globalCompositeOperation = "source-over";
 }
@@ -1158,15 +1174,24 @@ function consoleSignup() {
     const email = mk("email", "YOU@EARTH.NET", true);
     const name = mk("text", "YOUR NAME", true);
     const city = mk("text", "YOUR CITY", false);
+    const err = document.createElement("p");
+    err.className = "console-err";
+    err.textContent = "> that email looks off — check it and try again.";
+    err.hidden = true;
     const btn = document.createElement("button");
     btn.className = "cbtn";
     btn.type = "submit";
-    btn.textContent = "TRANSMIT ▸";
-    form.append(email, name, city, btn);
+    btn.textContent = "SIGN UP ▸";
+    form.append(email, name, city, err, btn);
     form.addEventListener("submit", (e) => {
       e.preventDefault();
+      if (!validEmail(email.value)) {   // stop before we tell them "success"
+        err.hidden = false;
+        email.focus();
+        return;
+      }
       consoleActions.innerHTML = "";
-      resolve({ email: email.value, name: name.value, city: city.value });
+      resolve({ email: email.value.trim(), name: name.value.trim(), city: city.value.trim() });
     });
     consoleActions.appendChild(form);
     email.focus();
@@ -1212,10 +1237,10 @@ async function runConsoleScript() {
     if (tok !== consoleToken) return;
     await typeLine(`> ${sub.email.toUpperCase()}`, 6);
     kitSubscribe(sub).catch(() => {}); // send to Kit; the intimate flow doesn't surface errors
-    await typeLine("> verifying ..........", 40);
-    await typeLine("> YOU'RE ON THE LIST ✓");
-    await typeLine(`> welcome to the softness report${sub.name ? ", " + sub.name.toUpperCase() : ""}.`);
-    await typeLine("> no noise. just softness. promise.");
+    await typeLine("> transmitting ..........", 40);
+    await typeLine(`> almost there${sub.name ? ", " + sub.name.toUpperCase() : ""}.`);
+    await typeLine("> success!");
+    await typeLine("> check your inbox and confirm your e-mail.");
   } else {
     await typeLine("> ...");
     await typeLine("> no worries. see you soon <3");

@@ -75,17 +75,19 @@
   #music {
     display: grid;
     grid-template-columns: 1.4fr 1fr;
-    grid-template-rows: auto 1fr auto;
+    grid-template-rows: auto auto 1fr auto;
     grid-template-areas:
       "head    head"
+      "player  note"
       "player  streams"
       "player  merch";
     gap: 14px;
   }
   #music .section__head { grid-area: head; }
-  #music .player  { grid-area: player; margin: 0; height: 100%; }
-  #music .streams { grid-area: streams; margin: 0; }
-  #music .vinyl   { grid-area: merch; margin: 0; }
+  #music .player      { grid-area: player; margin: 0; height: 100%; }
+  #music .streams-note { grid-area: note; margin: 0; }   /* above the links, full player height kept */
+  #music .streams     { grid-area: streams; margin: 0; align-content: start; }
+  #music .vinyl       { grid-area: merch; margin: 0; }
   #music .cd-stage { width: min(320px, 78%); }
 
   /* --- about: scan portrait beside the bio, both fill height --- */
