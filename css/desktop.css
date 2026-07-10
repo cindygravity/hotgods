@@ -1,0 +1,144 @@
+/* ============================================================
+   DESKTOP DASHBOARD — bento grid + left nav rail, only ≥980px.
+   Mobile (<980px) is untouched. Rows are EQUAL HEIGHT (grid
+   default `stretch`); every cell starts with a section head so
+   their tops line up, and each cell's primary block grows to fill.
+   Layout (3 rows):  word | music        (row 1)
+                     tour | about        (row 2)
+                     news | contact      (row 3)
+   ============================================================ */
+@media (min-width: 980px) {
+  /* a vertical nav rail sits on the far left; push everything else over */
+  body { padding-left: 64px; padding-bottom: 36px; }
+
+  .statusbar,
+  .page { max-width: 1200px; }
+
+  .page {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 16px;
+    padding: 18px 20px 48px;
+    grid-template-areas:
+      "word word word word music music music music music music music music"
+      "tour tour tour tour tour   about about about about about about about"
+      "news news news news news   news  cont  cont  cont  cont  cont  cont";
+  }
+  #home       { grid-area: word; }
+  #music      { grid-area: music; }
+  #tour       { grid-area: tour; }
+  #about      { grid-area: about; }
+  #newsletter { grid-area: news; }
+  #contact    { grid-area: cont; }
+  .page > .footer { grid-column: 1 / -1; }
+
+  /* every section: fill-height column, uniform head→content gap so all
+     cells' content starts at the same y (fixes the drift) */
+  .section {
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    position: relative;
+  }
+  .section__head { margin-bottom: 0; }
+  .module { margin-bottom: 0; }
+
+  /* nav ↔ container cross-highlighting, all in ROSÉ (--accent-2):
+     - hovering a CONTAINER lights its nav item (JS, via the single is-active)
+     - hovering a NAV ITEM lights the item + outlines its container
+       (JS adds .is-navhover to the section)
+     - no outline appears from hovering the container itself
+     - only ever ONE nav item lit (hover wins over scroll-spy) */
+  .section.is-navhover {
+    outline: var(--line) solid var(--accent-2);
+    outline-offset: 4px;
+  }
+
+  /* --- wordmark as its own bento box (now with a "00 // HELLO WORLD" head) --- */
+  #home .hero {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 14px;
+    border: var(--line) solid var(--ink);
+    background: var(--bg-soft);
+    padding: 24px 18px;
+    min-width: 0;
+  }
+  #home .wordmark { max-width: 100%; height: auto; }  /* never overflow the box */
+  #home .hero__meta { width: 100%; }
+
+  /* --- music: big CD left, streams + merch stacked right --- */
+  #music {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    grid-template-rows: auto 1fr auto;
+    grid-template-areas:
+      "head    head"
+      "player  streams"
+      "player  merch";
+    gap: 14px;
+  }
+  #music .section__head { grid-area: head; }
+  #music .player  { grid-area: player; margin: 0; height: 100%; }
+  #music .streams { grid-area: streams; margin: 0; }
+  #music .vinyl   { grid-area: merch; margin: 0; }
+  #music .cd-stage { width: min(320px, 78%); }
+
+  /* --- about: scan portrait beside the bio, both fill height --- */
+  #about {
+    display: grid;
+    grid-template-columns: 1fr 1.35fr;
+    grid-template-rows: auto 1fr;
+    grid-template-areas:
+      "head head"
+      "scan bio";
+    gap: 14px;
+  }
+  #about .section__head { grid-area: head; }
+  #about .scan { grid-area: scan; margin: 0; }
+  #about > .module:last-of-type { grid-area: bio; margin: 0; }
+
+  /* --- single-column cells: the main block grows so the box fills --- */
+  #tour .panel--flush { flex: 1; }
+  #newsletter .signal-form { flex: 1; }
+  #contact .socials { flex: 1; }
+  #newsletter .bird { left: auto; right: 22px; }  /* bird back to the right on desktop */
+
+  /* ---------- vertical LEFT NAV RAIL (the dock, restyled) ---------- */
+  .dock {
+    flex-direction: column;
+    justify-content: center;
+    gap: 16px;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: auto;
+    width: 64px;
+    max-width: none;
+    transform: none;
+    padding: 0;
+    background: var(--bg-soft);
+    border-top: 0;
+    border-right: var(--line) solid var(--ink);
+    border-left: 0;
+  }
+  .dock__item {
+    flex: 0 0 auto;
+    border-right: 0;
+    padding: 10px 2px;
+    font-size: 8px;
+  }
+  /* nav highlight = the single `.is-active` item (base CSS styles it rosé);
+     JS keeps exactly one item active — hovered item wins, else the one in
+     view — so there is never a second highlight. */
+
+  /* oracle clears the rail and stands at the page bottom */
+  .oracle {
+    left: max(76px, calc(50vw - 600px + 14px));
+    bottom: 0;
+  }
+}

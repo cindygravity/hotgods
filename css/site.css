@@ -1,0 +1,826 @@
+/* ============================================================
+   B4ND_N4ME :: band-site additions (loads after style.css)
+   ============================================================ */
+
+/* self-hosted display face for the song title (breaks mono-only on purpose,
+   only for the track name) — Astloch Bold, Google Fonts, bundled offline */
+@font-face {
+  font-family: "Astloch";
+  src: url("../assets/fonts/Astloch-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* dock: respect the iPhone home-indicator safe area */
+.dock {
+  padding-bottom: env(safe-area-inset-bottom);
+}
+body { padding-bottom: calc(76px + env(safe-area-inset-bottom)); }
+
+.accent-tag { border-color: var(--accent); color: var(--accent); }
+
+/* ---------- hero wordmark canvas ---------- */
+.wordmark {
+  display: block;
+  margin: 10px auto 0;
+  cursor: pointer;
+  image-rendering: pixelated;
+}
+
+/* wordmark render-mode switch (slices vs. C4D-style buckets) */
+.wm-toggle { margin-top: 12px; }
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* ---------- 01 music ---------- */
+.release {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+}
+
+.release__cover {
+  border: var(--line) solid var(--ink);
+  padding: 10px;
+  flex-shrink: 0;
+}
+
+.release__label {
+  display: block;
+  font-size: 10px;
+  letter-spacing: var(--track);
+  color: var(--ink-dim);
+  margin-bottom: 4px;
+}
+
+.release__title {
+  font-size: 17px;
+  font-weight: 400;
+  letter-spacing: 0.03em;
+  margin: 2px 0;
+}
+
+.release__meta {
+  font-size: 11px;
+  color: var(--ink-soft);
+  letter-spacing: 0.04em;
+}
+
+/* streaming links: SECONDARY (outline) buttons with a pixel provider logo
+   + name, 2-col grid. Deliberately quieter than the cream transport keys. */
+.streams {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+  margin: 14px 0;
+}
+.stream {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 11px 11px;
+  border: var(--line) solid var(--ink);
+  border-radius: 0;
+  background: transparent;
+  color: var(--ink);
+  text-decoration: none;
+  font-size: 11px;
+  letter-spacing: 0.07em;
+}
+.stream:hover, .stream:active { background: var(--ink); color: var(--bg); }
+.stream:hover .stream__pix i.on,
+.stream:active .stream__pix i.on { background: var(--bg); }
+/* Bandcamp shop is a primary cream key (btn--key) that still carries the
+   pixel icon — lay it out like a stream row and force the glyph dark so it
+   reads on the cream key */
+.merch-shop {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  margin-top: 4px;
+  text-decoration: none;
+  font-size: 11px;
+  letter-spacing: 0.07em;
+}
+.merch-shop .stream__pix i.on { background: #1b1b20; }
+.stream__pix { --px: 3px; display: grid; gap: 1px; flex-shrink: 0; }
+.stream__pix i { width: var(--px); height: var(--px); }
+.stream__pix i.on { background: var(--ink); }
+.stream__pix i.hot { background: var(--accent); }
+
+.vinyl__row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.vinyl__title {
+  font-size: 14px;
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  margin: 2px 0;
+}
+
+/* spinning record built from border rings */
+.vinyl__disc {
+  width: 54px;
+  height: 54px;
+  border: var(--line) solid var(--ink);
+  border-radius: 50%;   /* the one permitted circle: it IS a record */
+  position: relative;
+  flex-shrink: 0;
+  background:
+    radial-gradient(circle, var(--accent) 0 6px, transparent 7px),
+    repeating-radial-gradient(circle, var(--ink) 0 1px, transparent 1px 5px);
+  animation: spin 4s steps(12) infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+.vinyl__disc::after {
+  content: "";
+  position: absolute;
+  top: 4px; left: 50%;
+  width: 3px; height: 3px;
+  background: var(--ink);
+}
+
+.btn--link {
+  display: block;
+  text-align: center;
+  text-decoration: none;
+}
+
+/* ---------- 02 tour ---------- */
+.tour__row {
+  display: grid;
+  grid-template-columns: 58px 1fr auto;
+  gap: 10px;
+  align-items: center;
+  padding: 11px 12px;
+  border-bottom: 1px solid var(--grid-line);
+}
+.tour__row:last-child { border-bottom: 0; }
+
+.tour__date {
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  white-space: pre-line;
+  color: var(--ink);
+}
+
+.tour__place { font-size: 12px; letter-spacing: 0.03em; }
+.tour__venue { display: block; font-size: 10.5px; color: var(--ink-soft); }
+
+.tour__tix {
+  font-size: 11px;
+  letter-spacing: var(--track);
+  border: var(--line) solid var(--ink);
+  color: var(--ink);
+  text-decoration: none;
+  padding: 4px 8px;
+}
+.tour__tix:hover { background: var(--ink); color: var(--bg); }
+.tour__tix.is-soldout {
+  border-color: var(--ink-soft);
+  color: var(--ink-soft);
+  pointer-events: none;
+  text-decoration: line-through;
+}
+
+.feednote {
+  font-size: 10px;
+  letter-spacing: var(--track);
+  color: var(--ink-dim);
+  margin-top: 8px;
+  text-align: center;
+}
+
+/* ---------- 03 about ---------- */
+.dossier {
+  font-size: 12.5px;
+  line-height: 1.7;
+  max-width: 42ch;
+}
+.dossier + .dossier { margin-top: 0.8em; }
+
+.widget-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+.module--half { margin-bottom: 0; }
+
+#cardOfDay { cursor: pointer; }
+.cod {
+  display: grid;
+  justify-items: center;
+  gap: 6px;
+  margin-top: 8px;
+  text-align: center;
+}
+.cod__num { font-size: 10px; color: var(--ink-dim); letter-spacing: var(--track); }
+.cod__name { font-size: 11px; letter-spacing: 0.12em; }
+
+/* ---------- 04 signal / tarot ---------- */
+.tarot {
+  border: var(--line) solid var(--ink);
+  padding: 6px;
+  max-width: 280px;
+  margin: 0 auto 16px;
+  background: var(--bg-soft);
+}
+
+.tarot__inner {
+  border: var(--line) solid var(--ink);
+  padding: 22px 16px;
+  display: grid;
+  justify-items: center;
+  gap: 14px;
+  text-align: center;
+}
+
+.tarot__num {
+  font-size: 12px;
+  letter-spacing: 0.3em;
+  color: var(--ink-dim);
+}
+
+.tarot__name {
+  font-size: 18px;
+  letter-spacing: 0.24em;
+}
+
+.tarot__copy {
+  font-size: 11.5px;
+  line-height: 1.7;
+  color: var(--ink-soft);
+  max-width: 26ch;
+}
+
+/* newsletter: free-floating title + copy (no envelope box), with the
+   rosé bird perched on the top-right edge of the form container below */
+.softness-intro {
+  text-align: center;
+  margin: 0 0 14px;
+}
+.softness-name {
+  display: block;
+  font-family: var(--title-font), var(--font);
+  font-weight: 700;
+  font-size: 30px;
+  letter-spacing: 0.02em;
+  margin-bottom: 10px;
+}
+.softness-copy {
+  font-size: 11.5px;
+  line-height: 1.7;
+  color: var(--ink-soft);
+  max-width: 34ch;
+  margin: 0 auto;
+}
+
+/* the form is the container the bird sits on — position:relative anchors it,
+   and it must NOT clip so the bird can overhang the top edge */
+.signal-form {
+  position: relative;
+  overflow: visible;
+}
+.bird {
+  position: absolute;
+  top: 0;
+  /* mobile: on the LEFT so it doesn't cover the centred copy above the form;
+     desktop moves it back to the right (see desktop.css) */
+  left: 6px;
+  right: auto;
+  /* perch on the top border: feet at the edge, body rising above it */
+  transform: translateY(-94%);
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* a full-width submit styled like the cream CD transport keys */
+.btn--key {
+  background: #d9d7d0;
+  color: #1b1b20;
+  border: var(--line) solid #0a0a0f;
+  box-shadow: inset 1px 1px 0 rgba(255, 255, 255, 0.75),
+              inset -2px -2px 0 rgba(0, 0, 0, 0.22);
+}
+.btn--key:hover { background: #e6e4dd; border-color: #0a0a0f; }
+.btn--key:active {
+  transform: translateY(1px);
+  box-shadow: inset 2px 2px 4px rgba(0, 0, 0, 0.4);
+}
+
+/* ---------- 05 contact ---------- */
+.contact-mail { margin-top: 12px; }
+
+.socials {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.social {
+  border: var(--line) solid var(--ink);
+  background: var(--bg-soft);
+  display: grid;
+  justify-items: center;
+  align-content: center;
+  gap: 10px;
+  padding: 16px 8px 13px;
+  font-size: 10px;
+  letter-spacing: var(--track);
+  color: var(--ink);
+  text-decoration: none;
+}
+.social:hover, .social:active { background: var(--ink); color: var(--bg); }
+.social:hover .social__pix i.on { background: var(--bg); }
+
+/* hand-drawn pixel logos, injected by JS (SOCIAL_ICONS in site.js) */
+.social__pix {
+  --px: 3px;
+  display: grid;
+  gap: 1px;
+}
+.social__pix i { width: var(--px); height: var(--px); }
+.social__pix i.on { background: var(--ink); }
+.social__pix i.hot { background: var(--accent); }
+
+/* ---------- oracle creature "Zip" ---------- */
+/* Zip STANDS ON the dock (bottom menu), bubble above. The whole .oracle
+   is translated horizontally by JS to walk in from the left and out to
+   the right; the bottom offset sets where the feet rest on the dock. */
+.oracle {
+  position: fixed;
+  left: 14px;
+  bottom: calc(52px + env(safe-area-inset-bottom));
+  z-index: 40;
+  display: grid;
+  justify-items: start;
+  will-change: transform;
+}
+/* the .oracle display:grid above would otherwise defeat [hidden] — keep Zip
+   fully gone until summoned, so he doesn't flash at rest before walking in */
+.oracle[hidden] { display: none; }
+
+/* the whole oracle is the rosé nav/structure accent — a friendly guide.
+   Bubble + tail stay hidden until Zip has walked in (.is-talking), then
+   they blob up in steps; removing the class pops them back down. */
+.oracle__bubble {
+  position: relative;
+  border: 1px solid var(--accent-2);
+  background: var(--accent-2);
+  color: var(--bg);
+  padding: 10px 26px 10px 12px;
+  font-size: 11.5px;
+  letter-spacing: 0.03em;
+  line-height: 1.5;
+  max-width: 220px;
+  cursor: pointer;
+  box-shadow: 3px 3px 0 var(--grid-line);
+}
+
+.oracle__bubble,
+.oracle__tail {
+  opacity: 0;
+  transform: scale(0.25);
+  transform-origin: 0 100%;
+  transition: opacity 0.22s steps(4), transform 0.28s steps(5);
+}
+.oracle.is-talking .oracle__bubble,
+.oracle.is-talking .oracle__tail {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* stepped pixel speech-tail (keeps the square-corner rule) */
+.oracle__tail {
+  width: 9px;
+  height: 9px;
+  border: 1px solid var(--accent-2);
+  background: var(--accent-2);
+  margin-left: 16px;
+  margin-top: -1px;
+}
+
+.oracle__close {
+  position: absolute;
+  top: 3px;
+  right: 3px;
+  font: inherit;
+  font-size: 9px;
+  line-height: 1;
+  width: 15px;
+  height: 15px;
+  border: 1px solid var(--bg);
+  background: var(--accent-2);
+  color: var(--bg);
+  cursor: pointer;
+  padding: 0;
+}
+.oracle__close:hover { background: var(--bg); color: var(--accent-2); }
+
+/* Zip = a <canvas>: the v2 vector ant, rasterised small + upscaled to a
+   light pixelation and tinted rosé in JS (drawAnt). */
+.oracle__pet {
+  display: block;
+  margin-top: 4px;
+  margin-left: 6px;
+  cursor: pointer;
+  image-rendering: pixelated;
+}
+
+@keyframes materialize {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* ---------- footer ---------- */
+.footer__link { color: var(--ink-soft); }
+.footer__link:hover { color: var(--accent); }
+
+/* ============================================================
+   SCAN :: PORTRAIT — dithered band photos, cycling
+   A 4x5 grid of render buckets over the photo (same idea as the
+   wordmark's buckets mode). Each bucket is a div showing its
+   share of the full image via background-position; JS swaps
+   photo + resolution per bucket, staggered, and frames the
+   bucket in accent while it "renders".
+   Pixels are baked into theme-colored PNGs (transparent bg) in
+   assets/portraits/pN-{theme}-d{1,2,3}.png — regenerate with
+   tools/dither.py when photos or the palette change.
+   ============================================================ */
+.scan { cursor: pointer; }
+
+.scan__head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.scan__status {
+  font-size: 10px;
+  letter-spacing: var(--track);
+  color: var(--accent);
+}
+
+.scan__img {
+  width: 100%;
+  aspect-ratio: 3 / 4;          /* every photo is cropped to 3:4 */
+  margin-top: 10px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(5, 1fr);
+}
+
+.scan__cell {
+  background-repeat: no-repeat;
+  background-size: 400% 500%;   /* the full photo spans the 4x5 grid */
+}
+.scan__cell.is-rendering {
+  box-shadow: inset 0 0 0 2px var(--accent);
+}
+
+.scan__meta {
+  display: grid;
+  gap: 3px;
+  margin-top: 10px;
+  font-size: 10.5px;
+  letter-spacing: 0.04em;
+  color: var(--ink-dim);
+  border-top: var(--line) solid var(--ink);
+  padding-top: 8px;
+}
+
+/* ============================================================
+   BOOT SCREEN + staggered page build-up
+   ============================================================ */
+.boot {
+  position: fixed;
+  inset: 0;
+  z-index: 400;
+  background: var(--bg);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+}
+
+.boot__log {
+  font-family: inherit;
+  font-size: 12px;
+  line-height: 1.9;
+  letter-spacing: 0.05em;
+  color: var(--ink);
+  width: min(82vw, 330px);
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+.boot.is-done { animation: bootout 0.4s steps(5) forwards; }
+@keyframes bootout { to { opacity: 0; visibility: hidden; } }
+
+/* page is hidden while booting, then materializes in steps */
+body.is-booting .statusbar,
+body.is-booting .page,
+body.is-booting .dock,
+body.is-booting .oracle { visibility: hidden; }
+
+body.is-booted .statusbar { animation: materialize 0.35s steps(4) backwards; }
+body.is-booted .section,
+body.is-booted .footer { animation: materialize 0.45s steps(5) backwards; }
+body.is-booted .section:nth-of-type(1) { animation-delay: 0.05s; }
+body.is-booted .section:nth-of-type(2) { animation-delay: 0.16s; }
+body.is-booted .section:nth-of-type(3) { animation-delay: 0.27s; }
+body.is-booted .section:nth-of-type(4) { animation-delay: 0.38s; }
+body.is-booted .section:nth-of-type(5) { animation-delay: 0.49s; }
+body.is-booted .section:nth-of-type(6) { animation-delay: 0.6s; }
+body.is-booted .footer { animation-delay: 0.71s; }
+body.is-booted .dock { animation: materialize 0.4s steps(4) 0.55s backwards; }
+
+/* ============================================================
+   CD PLAYER — the disc is the centrepiece
+   The disc + its ring/gloss are the sanctioned gradient/round exception.
+   ============================================================ */
+.player { text-align: center; }
+
+/* the disc is centred; the full-width slot below is pulled up to overlap
+   the disc's lower third, so it reads as half-sunk into the deck */
+.cd-stage {
+  position: relative;
+  width: min(66vw, 240px);
+  aspect-ratio: 1;
+  margin: 2px auto calc(min(66vw, 240px) * -0.30);
+}
+
+/* the deck the disc sinks into: full container width, split into EQ (left)
+   and the waveform + time (right) */
+.slot {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  gap: 8px;
+  height: 88px;
+  padding: 7px 9px;
+  background: #17171c;
+  border: 1px solid #05050a;
+  box-shadow: inset 0 5px 10px rgba(0, 0, 0, 0.6);
+}
+.slot__eq { flex: 1; position: relative; }
+.slot__wave {
+  flex: 1.15;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+.eq { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.wave { flex: 1; width: 100%; display: block; min-height: 0; }
+.slot__time {
+  font-size: 9px;
+  letter-spacing: 0.06em;
+  text-align: right;
+  color: #8a8a93;
+  font-variant-numeric: tabular-nums;
+}
+
+.cd {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: #101015;                    /* the dark outer rim */
+  border: var(--line) solid var(--ink);   /* the ink ring — on the disc edge */
+  overflow: hidden;
+  box-shadow: 0 5px 16px rgba(0, 0, 0, 0.4);
+}
+/* the spinning label: inset a uniform 6px from the ring → same centre as
+   the ring, so nothing wobbles when it rotates */
+.cd__spin {
+  position: absolute;
+  inset: 6px;
+  border-radius: 50%;
+  overflow: hidden;
+  transform-origin: 50% 50%;
+  will-change: transform;
+}
+.cd__art {
+  width: 100%;
+  height: 100%;
+  display: block;
+  image-rendering: pixelated;
+}
+/* glassy specular streak (static — the reflection doesn't spin) */
+.cd__gloss {
+  position: absolute;
+  inset: 6px;
+  border-radius: 50%;
+  pointer-events: none;
+  background: linear-gradient(125deg,
+    rgba(255, 255, 255, 0.24) 0%, rgba(255, 255, 255, 0.05) 22%,
+    transparent 42%, transparent 60%, rgba(255, 255, 255, 0.12) 100%);
+  mix-blend-mode: screen;
+}
+/* clamp hub + spindle hole, static over the spinning label */
+.cd__hub {
+  position: absolute;
+  top: 50%; left: 50%;
+  width: 27%;
+  aspect-ratio: 1;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: var(--bg-soft);
+  border: var(--line) solid var(--ink);
+  box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.25);
+  display: grid;
+  place-items: center;
+}
+.cd__hole {
+  width: 38%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: var(--bg);
+  border: var(--line) solid var(--ink);
+}
+
+/* song title in the Astloch display face (see @font-face at top) */
+.song-title {
+  font-family: var(--title-font), var(--font);
+  font-weight: 700;
+  font-size: var(--title-size);
+  line-height: 1.1;
+  letter-spacing: 0.01em;
+  text-align: center;
+  color: var(--ink);
+  margin: 14px 4px 2px;
+  /* reserve two lines' worth of height + centre, so single-line titles
+     ("Hot Gods") don't shrink the container and jump the whole page */
+  min-height: 2.2em;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* skeuomorphic transport deck (ref: inspiration/buttons.png) — a recessed
+   dark tray of square, bevelled cream keys with a dark glyph, an underline
+   detail, and a label above. A physical object: fixed colours across themes
+   (only the amber PLAY key follows --accent as the "live" action). Square
+   corners keep the house rule; the raised/pressed bevel gives the tactility. */
+.player__controls {
+  display: flex;
+  gap: 5px;
+  align-items: flex-end;
+  margin-top: 14px;
+  padding: 7px 7px 6px;
+  background: #17171c;                        /* recessed deck tray */
+  border: 1px solid #05050a;
+  box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.6);
+}
+.deckcell { flex: 1; display: grid; gap: 4px; }   /* keys fill the width */
+.deckcell__label {
+  font-size: 8px;
+  letter-spacing: 0.14em;
+  color: #8a8a93;
+  text-align: center;
+}
+.cdbtn {
+  font: inherit;
+  font-size: 14px;
+  line-height: 1;
+  width: 100%;
+  height: 44px;
+  border: 1px solid #0a0a0f;
+  border-radius: 0;                          /* square, per user */
+  background: #d9d7d0;                        /* cream key face */
+  color: #1b1b20;                            /* dark glyph */
+  cursor: pointer;
+  position: relative;
+  display: grid;
+  place-items: center;
+  box-shadow: inset 1px 1px 0 rgba(255, 255, 255, 0.75),
+              inset -2px -2px 0 rgba(0, 0, 0, 0.22);
+  transition: transform 0.04s, box-shadow 0.04s, background 0.1s, filter 0.1s;
+}
+/* the underline stroke beneath the glyph, from the inspo */
+.cdbtn::after {
+  content: "";
+  position: absolute;
+  bottom: 6px; left: 50%;
+  transform: translateX(-50%);
+  width: 42%; height: 2px;
+  background: rgba(0, 0, 0, 0.32);
+}
+.cdbtn:hover { background: #e6e4dd; }
+.cdbtn:active,
+.cdbtn.is-on {                               /* held (radio) or pressed */
+  transform: translateY(1px);
+  background: #c6c4bc;
+  box-shadow: inset 2px 2px 4px rgba(0, 0, 0, 0.45);
+}
+.cdbtn--main {                               /* PLAY = the amber "live" key */
+  background: var(--accent);
+  color: #17140c;
+}
+.cdbtn--main:hover { background: var(--accent); filter: brightness(1.06); }
+.cdbtn--main.is-on { background: var(--accent); filter: brightness(0.88); }
+
+/* ============================================================
+   TOUR PROXIMITY ALERT
+   ============================================================ */
+.btn--ghost {
+  display: block;
+  width: 100%;
+  background: transparent;
+  color: var(--ink);
+  margin-top: 12px;
+}
+.btn--ghost:hover { background: var(--ink); border-color: var(--ink); color: var(--bg); }
+.notify-form { margin-top: 10px; }
+
+/* ============================================================
+   HIDDEN CONSOLE LAYER — always deep carbon, whatever the theme
+   ============================================================ */
+.console {
+  position: fixed;
+  inset: 0;
+  z-index: 500;
+  background: #0d0a09;
+  background-image: repeating-linear-gradient(
+    0deg, rgba(231, 220, 195, 0.035) 0 1px, transparent 1px 3px);
+  color: #e7dcc3;
+  overflow-y: auto;
+  padding: 56px 20px 48px;
+}
+
+.console__inner { max-width: 400px; margin: 0 auto; }
+
+.console__log {
+  font-family: inherit;
+  font-size: 13px;
+  line-height: 1.95;
+  letter-spacing: 0.03em;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.console__actions {
+  display: grid;
+  gap: 10px;
+  margin-top: 18px;
+}
+.console__actions form { display: grid; gap: 10px; }
+
+.cbtn {
+  font: inherit;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-align: left;
+  background: none;
+  border: 1px solid #e7dcc3;
+  color: #e7dcc3;
+  padding: 11px 12px;
+  cursor: pointer;
+}
+.cbtn:hover { background: #e7dcc3; color: #0d0a09; }
+
+.console input {
+  font: inherit;
+  font-size: 14px;
+  letter-spacing: 0.05em;
+  background: transparent;
+  border: 1px solid #e7dcc3;
+  border-radius: 0;
+  color: #e7dcc3;
+  padding: 11px 12px;
+  width: 100%;
+}
+.console input::placeholder { color: rgba(231, 220, 195, 0.4); }
+.console input:focus { outline: none; border-color: #ff2e88; box-shadow: 2px 2px 0 #ff2e88; }
+
+.console__close {
+  position: fixed;
+  top: 14px;
+  right: 14px;
+  z-index: 510;
+  font: inherit;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  border: 1px solid #e7dcc3;
+  background: #0d0a09;
+  color: #e7dcc3;
+  padding: 6px 10px;
+  cursor: pointer;
+}
+.console__close:hover { background: #e7dcc3; color: #0d0a09; }
