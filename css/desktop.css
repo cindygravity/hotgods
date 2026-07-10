@@ -75,7 +75,7 @@
   #music {
     display: grid;
     grid-template-columns: 1.4fr 1fr;
-    grid-template-rows: auto auto 1fr auto;
+    grid-template-rows: auto auto auto 1fr;
     grid-template-areas:
       "head    head"
       "player  note"
@@ -87,7 +87,13 @@
   #music .player      { grid-area: player; margin: 0; height: 100%; }
   #music .streams-note { grid-area: note; margin: 0; }   /* above the links, full player height kept */
   #music .streams     { grid-area: streams; margin: 0; align-content: start; }
-  #music .vinyl       { grid-area: merch; margin: 0; }
+  /* merch takes the leftover height (flexible row) so there's no gap under the
+     streaming buttons; its shop CTA sits pinned at the bottom */
+  #music .vinyl {
+    grid-area: merch; margin: 0; height: 100%;
+    display: flex; flex-direction: column;
+  }
+  #music .vinyl .merch-shop { margin-top: auto; }
   #music .cd-stage { width: min(320px, 78%); }
 
   /* --- about: scan portrait beside the bio, both fill height --- */
