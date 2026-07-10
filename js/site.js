@@ -944,13 +944,12 @@ document.querySelectorAll("[data-icon]").forEach((el) =>
 /* ============================================================
    ORACLE ANT "ZIP" — canvas sprite, gateway to the hidden console
    Rebuilt Jul 9 to match the old cindygravity.com ant: the actual v2
-   vector ant (assets/ant/ant{1,2}.svg — a side-view ant facing right)
-   rasterised small and scaled up with imageSmoothingEnabled = false —
-   same shape, LIGHTLY PIXELATED — then tinted rosé (--accent-2) via
-   source-in compositing (works on file://; no pixel readback). Two
-   frames = walking legs. Choreography: after boot Zip runs in from the
-   left → the bubble blobs up → on ✕ the bubble pops and Zip strides off
-   to the right and out of frame.
+   vector ant (assets/ant/ant{1,2}.svg — a side-view ant facing right),
+   drawn CRISP and tinted rosé (--accent-2) via source-in compositing
+   (works on file://; no pixel readback) — matches the crisp newsletter
+   bird. Two frames = walking legs. Choreography: after boot Zip runs in
+   from the left → the bubble blobs up → on ✕ the bubble pops and Zip
+   strides off to the right and out of frame.
    ============================================================ */
 const antImgs = [new Image(), new Image()];
 antImgs[0].src = "assets/ant/ant1.svg";
@@ -958,8 +957,6 @@ antImgs[1].src = "assets/ant/ant2.svg";
 const ANT_AR = 33 / 41;                 // svg intrinsic height / width
 const ANT_DW = 48;                      // css display width
 const ANT_DH = Math.round(ANT_DW * ANT_AR);
-const ANT_LOWW = 16;                    // rasterise this wide → upscale = pixels (lower = chunkier)
-const antOff = document.createElement("canvas");
 
 const oracle = document.getElementById("oracle");
 const oracleText = document.getElementById("oracleText");
@@ -976,15 +973,10 @@ function sizeAnt() {
 function drawAnt(frame) {
   const img = antImgs[frame];
   if (!img.complete || !img.naturalWidth) return;
-  const lw = ANT_LOWW, lh = Math.round(lw * ANT_AR);
-  antOff.width = lw; antOff.height = lh;
-  const octx = antOff.getContext("2d");
-  octx.clearRect(0, 0, lw, lh);
-  octx.drawImage(img, 0, 0, lw, lh);          // rasterise the vector small
   antCtx.clearRect(0, 0, oraclePet.width, oraclePet.height);
-  antCtx.imageSmoothingEnabled = false;
-  antCtx.drawImage(antOff, 0, 0, lw, lh, 0, 0, oraclePet.width, oraclePet.height);
-  antCtx.globalCompositeOperation = "source-in";   // tint to rosé, keep alpha
+  antCtx.imageSmoothingEnabled = true;               // crisp vector, not pixelated
+  antCtx.drawImage(img, 0, 0, oraclePet.width, oraclePet.height);
+  antCtx.globalCompositeOperation = "source-in";     // tint to rosé, keep alpha
   antCtx.fillStyle = getComputedStyle(body).getPropertyValue("--accent-2").trim() || "#d98fb4";
   antCtx.fillRect(0, 0, oraclePet.width, oraclePet.height);
   antCtx.globalCompositeOperation = "source-over";
