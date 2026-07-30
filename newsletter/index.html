@@ -219,7 +219,7 @@
       submit.textContent = "Transmitting…";
       try {
         await kitSubscribe({ email: f.get("email"), name: f.get("name"), city: f.get("city") });
-        submit.textContent = "✓ Check your inbox to confirm";
+        location.href = "../confirm-email/?email=" + encodeURIComponent(f.get("email").trim());
       } catch {
         submit.textContent = "Error — try again";
         submit.disabled = false;

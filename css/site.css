@@ -224,7 +224,13 @@ body { padding-bottom: calc(76px + env(safe-area-inset-bottom)); }
   color: var(--ink);
   margin: 2px 0 6px;
 }
-.notify-form { margin-top: 12px; }      /* space the form off the meta line */
+.notify-cta {                           /* CTA link styled like the old full-width submit */
+  display: block;
+  width: 100%;
+  text-align: center;
+  text-decoration: none;
+  margin-top: 12px;
+}
 
 /* caption above the streaming buttons */
 .streams-note {
@@ -791,7 +797,7 @@ body[data-theme="paper"] .slot {
   margin-top: 12px;
 }
 .btn--ghost:hover { background: var(--ink); border-color: var(--ink); color: var(--bg); }
-.notify-form { margin-top: 10px; }
+.notify-cta { margin-top: 10px; }
 
 /* ============================================================
    HIDDEN CONSOLE LAYER — always deep carbon, whatever the theme

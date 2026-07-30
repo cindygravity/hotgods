@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Check your inbox — Cindy Gravity</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <meta name="theme-color" content="#0d0a09" />
+  <link rel="icon" type="image/png" href="../assets/favicon.png" />
+  <style>
+    :root {
+      --carbon: #0d0a09;
+      --cream: #e7dcc3;
+      --hot: #ff2e88;
+      --mono: "SF Mono", ui-monospace, SFMono-Regular, Menlo, "JetBrains Mono", monospace;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { max-width: 100%; overflow-x: hidden; }
+    body {
+      min-height: 100vh;
+      background: var(--carbon);
+      background-image: repeating-linear-gradient(
+        0deg, rgba(231, 220, 195, 0.035) 0 1px, transparent 1px 3px);
+      color: var(--cream);
+      font-family: var(--mono);
+      font-size: 14px;
+      line-height: 1.6;
+      letter-spacing: 0.03em;
+      -webkit-font-smoothing: antialiased;
+    }
+    .wrap {
+      max-width: 460px;
+      margin: 0 auto;
+      padding: 48px 22px 60px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      min-height: 100vh;
+      justify-content: center;
+    }
+    .ant { width: 46px; height: auto; margin-bottom: 18px; }
+
+    /* ---- artificial loading bar ---- */
+    .loadwrap { width: 100%; max-width: 320px; }
+    .loadlabel {
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      opacity: 0.75;
+      margin-bottom: 10px;
+    }
+    .loadbar {
+      width: 100%;
+      height: 12px;
+      border: 1px solid var(--cream);
+      position: relative;
+      overflow: hidden;
+    }
+    .loadbar__fill {
+      position: absolute;
+      inset: 0 auto 0 0;
+      width: 0%;
+      background: var(--cream);
+      transition: width 0.25s steps(12);
+    }
+    .loadpct {
+      font-size: 11px;
+      opacity: 0.6;
+      margin-top: 8px;
+      font-variant-numeric: tabular-nums;
+    }
+    .loadwrap.done { display: none; }
+
+    .reveal { width: 100%; opacity: 0; transition: opacity 0.4s steps(4); }
+    .reveal.on { opacity: 1; }
+
+    h1 {
+      font-weight: 400;
+      font-size: 24px;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      margin: 6px 0 16px;
+      line-height: 1.25;
+    }
+    p { font-size: 13px; opacity: 0.9; margin: 0 auto 14px; max-width: 38ch; }
+    .to-email { opacity: 1; font-weight: 600; }
+
+    .callout {
+      border: 1px solid var(--hot);
+      background: rgba(255, 46, 136, 0.08);
+      padding: 12px 14px;
+      max-width: none;
+      font-size: 13px;
+    }
+    .callout strong { color: var(--hot); }
+
+    .steps {
+      text-align: left;
+      font-size: 12.5px;
+      line-height: 1.6;
+      padding-left: 18px;
+      margin: 4px auto 18px;
+      opacity: 0.85;
+      max-width: 34ch;
+    }
+    .steps li { margin-bottom: 6px; }
+
+    .divider {
+      width: 100%;
+      max-width: 320px;
+      border-top: 1px dashed rgba(231, 220, 195, 0.4);
+      margin: 26px 0 20px;
+    }
+
+    .link-btn {
+      display: block;
+      font: inherit;
+      font-size: 12px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--cream);
+      opacity: 0.65;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+      background: none;
+      border: none;
+      padding: 0;
+      cursor: pointer;
+    }
+    .link-btn:hover { opacity: 1; }
+
+    .back {
+      display: block;
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--cream);
+      opacity: 0.7;
+      margin-top: 40px;
+      text-decoration: none;
+    }
+    .back:hover { opacity: 1; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <img class="ant" src="../assets/ant/ant2.svg" alt="" />
+
+    <div class="loadwrap" id="loadWrap">
+      <p class="loadlabel">Sending your confirmation email…</p>
+      <div class="loadbar"><div class="loadbar__fill" id="loadFill"></div></div>
+      <p class="loadpct" id="loadPct">0%</p>
+    </div>
+
+    <div class="reveal" id="reveal">
+      <h1>Check your inbox</h1>
+
+      <p>We just sent a confirmation email<span id="toEmailWrap"> to
+        <span class="to-email" id="toEmail"></span></span>.</p>
+
+      <p class="callout">You're <strong>not signed up yet</strong> — open that
+        email and click the confirmation link inside. That's the last step.</p>
+
+      <ul class="steps">
+        <li>Not in your inbox? Check spam or promotions.</li>
+        <li>Give it a few minutes — it isn't always instant.</li>
+        <li>Search "Cindy Gravity" if it's buried under other mail.</li>
+      </ul>
+
+      <div class="divider"></div>
+
+      <p>Still nothing after a few minutes?</p>
+      <a class="link-btn" id="helpBtn" href="mailto:hello@cindygravity.com">Report missing confirmation e-mail</a>
+
+      <a class="back" href="../index.html">← cindygravity.com</a>
+    </div>
+  </div>
+
+  <script>
+    /* ---- personalize from ?email= ---- */
+    const params = new URLSearchParams(location.search);
+    const email = (params.get("email") || "").trim();
+    if (email) {
+      document.getElementById("toEmail").textContent = email;
+    } else {
+      document.getElementById("toEmailWrap").remove();
+    }
+
+    const subject = "Didn't get my confirmation email";
+    const bodyLines = [
+      "Hi! I signed up for the Softness Report but never got the confirmation email.",
+      "",
+      email ? "My email: " + email : "My email: ",
+      "Signed up around: " + new Date().toISOString(),
+    ];
+    document.getElementById("helpBtn").href =
+      "mailto:hello@cindygravity.com?subject=" + encodeURIComponent(subject) +
+      "&body=" + encodeURIComponent(bodyLines.join("\n"));
+
+    /* ---- artificial loading bar, then reveal ---- */
+    const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const loadWrap = document.getElementById("loadWrap");
+    const loadFill = document.getElementById("loadFill");
+    const loadPct = document.getElementById("loadPct");
+    const reveal = document.getElementById("reveal");
+
+    function showReveal() {
+      loadWrap.classList.add("done");
+      reveal.classList.add("on");
+    }
+
+    if (reduce) {
+      showReveal();
+    } else {
+      let pct = 0;
+      const step = () => {
+        pct += 8 + Math.random() * 14;
+        if (pct >= 100) {
+          pct = 100;
+          loadFill.style.width = "100%";
+          loadPct.textContent = "100%";
+          setTimeout(showReveal, 220);
+          return;
+        }
+        loadFill.style.width = pct + "%";
+        loadPct.textContent = Math.floor(pct) + "%";
+        setTimeout(step, 110 + Math.random() * 90);
+      };
+      setTimeout(step, 200);
+    }
+
+    /* GoatCounter (cookieless) */
+    const gc = document.createElement("script");
+    gc.async = true;
+    gc.src = "https://gc.zgo.at/count.js";
+    gc.dataset.goatcounter = "https://cindygravitycounter.goatcounter.com/count";
+    document.body.appendChild(gc);
+  </script>
+</body>
+</html>

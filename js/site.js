@@ -691,28 +691,6 @@ async function kitSubscribe({ email, name = "", city = "" }) {
    require something@something.tld before sending anything to Kit */
 const validEmail = (s) => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(String(s).trim());
 
-/* ---------- tour proximity alert → Kit ---------- */
-const notifyForm = document.getElementById("notifyForm");
-const notifySubmit = document.getElementById("notifySubmit");
-notifyForm.addEventListener("submit", async (e) => {
-  e.preventDefault();
-  const [cityI, emailI] = notifyForm.querySelectorAll("input"); // city, then email
-  if (!validEmail(emailI.value)) {
-    notifySubmit.textContent = "INVALID EMAIL — CHECK IT";
-    setTimeout(() => (notifySubmit.textContent = "NOTIFY ME ▸"), 2200);
-    return;
-  }
-  notifySubmit.disabled = true;
-  notifySubmit.textContent = "SENDING…";
-  try {
-    await kitSubscribe({ email: emailI.value, city: cityI.value });
-    notifySubmit.textContent = "ON THE RADAR ✓";
-  } catch {
-    notifySubmit.textContent = "ERROR — TRY AGAIN";
-    notifySubmit.disabled = false;
-  }
-});
-
 /* ---------- 03 scan portrait (dithered band photos, cycling) ----------
    All photos in assets/bandfotos/ are pre-dithered into
    assets/portraits/pN-{theme}-d{1,2,3}.png (tools/dither.py).
@@ -846,7 +824,7 @@ signalForm.addEventListener("submit", async (e) => {
       name: texts[0] ? texts[0].value : "",
       city: texts[1] ? texts[1].value : "",
     });
-    signalBtn.textContent = "TRANSMITTED ✓ CHECK YOUR INBOX";
+    location.href = "confirm-email/?email=" + encodeURIComponent(emailI.value.trim());
   } catch {
     signalBtn.textContent = "ERROR — TRY AGAIN";
     signalBtn.disabled = false;
