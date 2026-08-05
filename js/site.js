@@ -824,7 +824,10 @@ signalForm.addEventListener("submit", async (e) => {
       name: texts[0] ? texts[0].value : "",
       city: texts[1] ? texts[1].value : "",
     });
-    location.href = "confirm-email/?email=" + encodeURIComponent(emailI.value.trim());
+    /* hand the address over in-session, never in the URL — query strings end up
+       in analytics logs, browser history and Referer headers */
+    try { sessionStorage.setItem("cg_signup_email", emailI.value.trim()); } catch {}
+    location.href = "confirm-email/";
   } catch {
     signalBtn.textContent = "ERROR — TRY AGAIN";
     signalBtn.disabled = false;

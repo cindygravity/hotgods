@@ -178,9 +178,20 @@
   </div>
 
   <script>
-    /* ---- personalize from ?email= ---- */
-    const params = new URLSearchParams(location.search);
-    const email = (params.get("email") || "").trim();
+    /* ---- personalize from the signup we just came from ----
+       The address is handed over via sessionStorage, never via the URL: a
+       ?email= query string gets written into analytics logs, browser history
+       and outgoing Referer headers. Legacy links that still carry the param
+       are scrubbed out of the address bar before anything else runs. */
+    let email = "";
+    try { email = (sessionStorage.getItem("cg_signup_email") || "").trim(); } catch {}
+
+    if (location.search) {
+      const legacy = new URLSearchParams(location.search).get("email");
+      if (!email && legacy) email = legacy.trim();
+      history.replaceState(null, "", location.pathname);
+    }
+
     if (email) {
       document.getElementById("toEmail").textContent = email;
     } else {
@@ -230,11 +241,13 @@
       setTimeout(step, 200);
     }
 
-    /* GoatCounter (cookieless) */
+    /* GoatCounter (cookieless) — the counted path is pinned so no query string
+       can ever reach the analytics log, whatever URL this page is opened with */
     const gc = document.createElement("script");
     gc.async = true;
     gc.src = "https://gc.zgo.at/count.js";
     gc.dataset.goatcounter = "https://cindygravitycounter.goatcounter.com/count";
+    gc.dataset.goatcounterSettings = JSON.stringify({ path: "/confirm-email/" });
     document.body.appendChild(gc);
   </script>
 </body>
