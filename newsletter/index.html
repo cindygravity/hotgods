@@ -81,10 +81,12 @@
       opacity: 0.9;
       white-space: pre-wrap;
       width: 100%;
-      height: 7.5em;                       /* reserves ~5 lines (covers wrapping on small screens) */
-      overflow: hidden;
-      text-align: center;
+      min-height: 7.5em;                   /* reserves the space so the form doesn't jump while typing */
+      text-align: left;                    /* the "> " prompts line up like terminal output */
       margin: 0 auto 18px;
+    }
+    @media (max-width: 560px) {
+      .typed { min-height: 11em; }         /* lines wrap on narrow screens — reserve more */
     }
 
     form { display: grid; gap: 12px; text-align: left; margin-top: 6px; width: 100%; }
@@ -142,8 +144,8 @@
       <img src="../assets/wordmark.svg" alt="Cindy Gravity" />
     </a>
 
-    <h1>Sign up &amp; get exclusive music</h1>
-    <div class="typed" id="typedBlock" aria-label="Be the first to get any of our new releases, first dibs on merch, and tickets. Add your city so we know where to gig."></div>
+    <h1>Sign up with your email and …</h1>
+    <div class="typed" id="typedBlock" aria-label="You'll get an unreleased song as soon as you confirm. You'll be on the guest list when we play your city. You'll help decide where we tour next. You'll get first dibs on releases, merch and tickets."></div>
 
     <form id="signup">
         <label class="field">
@@ -169,10 +171,10 @@
     /* ---- lead lines type themselves in sequence (short pause between each);
             the form is present from the start ---- */
     const LINES = [
-      "> be the first to get any of our new releases",
-      "> first dibs on merch",
-      "> and tickets",
-      "> add your city so we know where to gig",
+      "> you'll get an unreleased song as soon as you confirm",
+      "> you'll be on the guest list when we play your city",
+      "> you'll help decide where we tour next",
+      "> you'll get first dibs on releases, merch and tickets",
     ];
     const typed = document.getElementById("typedBlock");
     const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -186,8 +188,8 @@
         if (li >= LINES.length) { typed.innerHTML = done + cursorHTML; return; }
         const partial = LINES[li].slice(0, ci);
         typed.innerHTML = (done ? done + "\n" : "") + partial + cursorHTML;
-        if (ci < LINES[li].length) { ci++; setTimeout(step, 28); }
-        else { li++; ci = 0; setTimeout(step, 430); }   // pause between lines
+        if (ci < LINES[li].length) { ci++; setTimeout(step, 15); }
+        else { li++; ci = 0; setTimeout(step, 220); }   // pause between lines
       })();
     }
 
