@@ -31,8 +31,27 @@ img{display:block;max-width:100%}
 
 /* ---------- header ---------- */
 .top{
-  display:flex;align-items:center;justify-content:space-between;gap:16px;
+  display:grid;grid-template-columns:auto 1fr auto;grid-template-areas:"mark nav book";
+  align-items:center;gap:12px 28px;
   padding:28px var(--pad) 26px;max-width:var(--maxw);margin:0 auto;
+}
+.top__mark{grid-area:mark}
+.top__nav{grid-area:nav}
+/* booking contact, always top right */
+.top__book{
+  grid-area:book;display:inline-flex;align-items:center;gap:10px;padding:10px 14px;
+  border:1px solid var(--accent);color:var(--accent);text-decoration:none;
+  font-size:12px;letter-spacing:.06em;white-space:nowrap;
+  transition:background .15s ease,color .15s ease;
+}
+.top__book .ico{width:18px;height:18px}
+.top__book:hover{background:var(--accent);color:var(--bg)}
+.top__book:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.top__book .short{display:none;text-transform:uppercase;letter-spacing:.12em}
+/* full address only where it fits next to the nav */
+@media (max-width:860px){
+  .top__book .full{display:none}
+  .top__book .short{display:inline}
 }
 .top__mark{width:150px;flex:none}
 .top__mark img{width:100%;height:auto}
@@ -221,8 +240,10 @@ footer{
 footer a{color:var(--ink-dim);margin-left:14px}
 
 @media (max-width:600px){
-  .top{flex-direction:column;align-items:flex-start}
+  /* phone header: wordmark + booking on one row, nav below */
+  .top{grid-template-columns:1fr auto;grid-template-areas:"mark book" "nav nav"}
   .top__nav{justify-content:flex-start;gap:14px}
+  .top__book{padding:12px 14px}
 }
 
 /* ---------- phone pass (review Sep 11, 2026) ---------- */
