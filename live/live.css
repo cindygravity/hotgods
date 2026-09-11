@@ -240,6 +240,10 @@ footer a{color:var(--ink-dim);margin-left:14px}
   section.block{margin-top:52px}
   .label{font-size:clamp(17px,5.4vw,22px);margin-bottom:18px}
   .bio p:first-child{font-size:17px}
+  /* three names never fit one phone line cleanly — one name per line instead */
+  .bio__meta .nw{display:block}
+  .bio__meta .sep{display:none}
+  .bio__meta br{display:none}          /* last name is already a block — avoid an empty line */
 
   /* player: time sits under the bar so the bar keeps a usable length */
   .player{gap:14px}
