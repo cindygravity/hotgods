@@ -1,0 +1,226 @@
+/* Cindy Gravity — /live/ page (EPK / booking)
+   Deliberately simpler than the main site: one flat dark ground, no grid,
+   no boot screen. Shared by both layout variants (index.html + video-oben.html). */
+
+:root{
+  --bg:#121216;                         /* the one background colour */
+  --ink:#dcdcdc;                        /* = wordmark colour */
+  --ink-soft:rgba(220,220,220,.66);
+  --ink-dim:rgba(220,220,220,.38);
+  --rule:rgba(220,220,220,.12);
+  --accent:#ffad33;
+  --font:"SF Mono",ui-monospace,SFMono-Regular,Menlo,"JetBrains Mono","IBM Plex Mono",Consolas,monospace;
+  --pad:clamp(18px,4vw,40px);
+  --maxw:960px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;overflow-x:clip}
+body{
+  background:var(--bg); color:var(--ink-soft);
+  font-family:var(--font); font-size:14px; line-height:1.65; letter-spacing:.01em;
+  -webkit-font-smoothing:antialiased; overflow-x:clip;
+}
+::selection{background:var(--accent);color:var(--bg)}
+a{color:inherit}
+img{display:block;max-width:100%}
+
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 var(--pad)}
+
+/* ---------- header ---------- */
+.top{
+  display:flex;align-items:center;justify-content:space-between;gap:16px;
+  padding:28px var(--pad) 26px;max-width:var(--maxw);margin:0 auto;
+}
+.top__mark{width:150px;flex:none}
+.top__mark img{width:100%;height:auto}
+.top__nav{display:flex;gap:18px;flex-wrap:wrap;justify-content:flex-end;
+  font-size:11px;letter-spacing:.14em;text-transform:uppercase}
+.top__nav a{color:var(--ink-dim);text-decoration:none}
+.top__nav a:hover{color:var(--ink)}
+
+/* ---------- media stack (order differs per variant) ---------- */
+.media{display:flex;flex-direction:column;gap:clamp(28px,5vw,56px)}
+
+/* carousel: a horizontal strip, every photo keeps its own aspect ratio */
+.carousel{position:relative}
+.carousel__track{
+  display:flex;align-items:center;gap:8px;overflow-x:auto;scroll-snap-type:x mandatory;
+  scroll-behavior:smooth;scrollbar-width:none;
+  padding:0 var(--pad);scroll-padding:0 var(--pad);
+}
+.carousel__track::-webkit-scrollbar{display:none}
+.carousel__slide{flex:none;scroll-snap-align:center}
+/* never crop: every photo fits inside max height × max width at its own ratio
+   (on phones a landscape shot simply gets smaller instead of losing a face) */
+.carousel__slide img{
+  width:auto;height:auto;max-height:clamp(300px,64vh,640px);max-width:86vw;
+  background:#1b1b21;
+}
+/* arrows sit ON the photos, left/right, vertically centred — solid light keys
+   so they read on any photo (the thin ring keeps them visible on bright shots) */
+.carousel__stage{position:relative}
+.carousel__btn{
+  position:absolute;top:50%;z-index:2;transform:translateY(-50%);
+  width:56px;height:56px;border:0;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  background:rgba(236,236,236,.94);color:var(--bg);
+  font:inherit;font-size:24px;line-height:1;
+  box-shadow:0 0 0 1px rgba(18,18,22,.35);
+  transition:transform .15s ease,background .15s ease;
+}
+.carousel__btn:hover{background:#fff;transform:translateY(-50%) scale(1.08)}
+.carousel__btn:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.carousel__btn--prev{left:calc(var(--pad) + 12px)}
+.carousel__btn--next{right:calc(var(--pad) + 12px)}
+.carousel__bar{
+  max-width:var(--maxw);margin:12px auto 0;padding:0 var(--pad);
+  font-size:11px;letter-spacing:.14em;color:var(--ink-dim);
+}
+@media (max-width:600px){
+  .carousel__btn{width:46px;height:46px;font-size:20px}
+  .carousel__btn--prev{left:10px}
+  .carousel__btn--next{right:10px}
+}
+
+/* video: click-to-load facade — nothing from YouTube loads until play */
+.video{max-width:var(--maxw);margin:0 auto;padding:0 var(--pad);width:100%}
+.video__frame{position:relative;aspect-ratio:16/9;background:#1b1b21;cursor:pointer;overflow:hidden}
+.video__frame > img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.video__frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+/* play key: same square shape as the carousel arrows, in YouTube red */
+.video__play{
+  position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
+  width:clamp(56px,8vw,72px);aspect-ratio:1;background:#ff0033;
+  box-shadow:0 0 0 1px rgba(18,18,22,.35);
+  display:flex;align-items:center;justify-content:center;
+  transition:transform .15s ease,background .15s ease;
+}
+.video__frame:hover .video__play{transform:translate(-50%,-50%) scale(1.08);background:#ff1f4b}
+.video__frame:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.video__play::after{
+  content:"";margin-left:4px;border-left:clamp(17px,2.4vw,22px) solid #fff;
+  border-top:clamp(10px,1.5vw,13px) solid transparent;border-bottom:clamp(10px,1.5vw,13px) solid transparent;
+}
+.video__note{margin-top:10px;font-size:11px;color:var(--ink-dim)}
+
+/* ---------- sections ---------- */
+section.block{margin-top:clamp(56px,9vw,96px)}
+.label{
+  font-weight:400;font-size:clamp(20px,3vw,28px);line-height:1.2;letter-spacing:.06em;
+  text-transform:uppercase;color:var(--ink);
+  padding-bottom:12px;border-bottom:1px solid var(--rule);margin-bottom:24px;
+}
+
+/* bio */
+.bio p{color:var(--ink);max-width:62ch;margin-bottom:1em;font-size:15px}
+.bio p:first-child{font-size:clamp(17px,2.4vw,21px);line-height:1.45}
+.bio__meta{margin-top:18px;font-size:12px;color:var(--ink-dim)}
+
+/* music player: current track on top, tracklist below */
+.player{display:flex;gap:18px;align-items:center}
+.player__cover{width:clamp(84px,14vw,120px);aspect-ratio:1;object-fit:cover;flex:none;background:#1b1b21}
+.player__main{flex:1;min-width:0}
+.player__title{color:var(--ink);font-size:clamp(15px,2.2vw,18px);line-height:1.3;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.player__meta{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-dim);margin-top:2px}
+.player__row{display:flex;align-items:center;gap:12px;margin-top:14px}
+.player__btn{
+  width:46px;height:46px;border-radius:50%;border:0;flex:none;cursor:pointer;
+  background:var(--ink);display:flex;align-items:center;justify-content:center;
+  transition:transform .15s ease,background .15s ease;
+}
+.player__btn:hover{background:#fff;transform:scale(1.06)}
+.player__btn:focus-visible,.player__bar:focus-visible,.tracks button:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.player__btn::after{               /* play triangle */
+  content:"";margin-left:4px;border-left:14px solid var(--bg);
+  border-top:9px solid transparent;border-bottom:9px solid transparent;
+}
+.player.is-playing .player__btn::after{   /* pause bars */
+  margin:0;border:0;width:4px;height:16px;background:var(--bg);box-shadow:8px 0 0 var(--bg);
+  transform:translateX(-4px);
+}
+.player__bar{flex:1;height:18px;display:flex;align-items:center;cursor:pointer;position:relative}
+.player__bar::before{content:"";position:absolute;left:0;right:0;height:3px;background:var(--rule)}
+.player__fill{position:relative;height:3px;width:0;background:var(--ink)}
+.player__time{font-size:11px;color:var(--ink-dim);min-width:7.5em;text-align:right;font-variant-numeric:tabular-nums}
+.tracks{list-style:none;margin-top:22px;border-top:1px solid var(--rule)}
+.tracks button{
+  width:100%;display:flex;gap:14px;align-items:baseline;padding:11px 0;
+  background:none;border:0;border-bottom:1px solid var(--rule);cursor:pointer;
+  font:inherit;color:var(--ink-soft);text-align:left;
+}
+.tracks button:hover{color:var(--ink)}
+.tracks .tn{font-size:11px;color:var(--ink-dim)}
+.tracks button.is-current,.tracks button.is-current .tn{color:var(--accent)}
+.player__note{margin-top:14px;font-size:12px;color:var(--ink-dim)}
+.player__note a{color:var(--ink-soft)}
+
+/* shows */
+.shows{list-style:none}
+.shows li{padding:11px 0;border-bottom:1px solid var(--rule)}
+.shows .v{color:var(--ink)}
+.shows .c{color:var(--ink-soft)}
+.shows__foot{margin-top:14px;font-size:12px;color:var(--ink-dim)}
+
+/* socials + contact */
+.links{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:8px}
+.ico{width:22px;height:22px;flex:none;display:block}
+.links a{
+  display:flex;align-items:center;gap:12px;
+  padding:14px 16px;border:1px solid var(--rule);text-decoration:none;color:var(--ink);
+  font-size:12px;letter-spacing:.12em;text-transform:uppercase;
+  transition:border-color .15s ease,background .15s ease;
+}
+.links a span{flex:1}
+.links a::after{content:"↗";color:var(--ink-dim)}
+.links a:hover{border-color:var(--ink-dim);background:rgba(220,220,220,.04)}
+/* Spotify = the one primary action: full width, brand green */
+.links a.is-primary{
+  grid-column:1/-1;background:#1ed760;border-color:#1ed760;color:#0b0b0e;
+  padding:18px 20px;font-size:13px;
+}
+.links a.is-primary .ico{width:26px;height:26px}
+.links a.is-primary::after{color:#0b0b0e}
+.links a.is-primary:hover{background:#3be477;border-color:#3be477}
+.links a:focus-visible,.chip:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+
+/* small icon buttons (under the player) */
+.player__more{display:flex;align-items:center;flex-wrap:wrap;gap:8px;margin-top:16px}
+.player__more .player__note{margin:0 4px 0 0}
+.chip{
+  display:inline-flex;align-items:center;gap:8px;padding:8px 14px 8px 10px;
+  border:1px solid var(--rule);color:var(--ink);text-decoration:none;
+  font-size:11px;letter-spacing:.12em;text-transform:uppercase;
+}
+.chip .ico{width:18px;height:18px}
+.chip:hover{border-color:var(--ink-dim)}
+.contact{margin-top:28px;font-size:13px}
+.contact a{color:var(--accent);text-decoration:none;font-size:clamp(16px,2.4vw,19px)}
+.contact a:hover{text-decoration:underline}
+
+/* press photos */
+.press{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:8px}
+.press a{position:relative;display:block;aspect-ratio:4/5;overflow:hidden;background:#1b1b21}
+.press img{width:100%;height:100%;object-fit:cover;transition:opacity .2s ease}
+.press a::after{
+  content:"Download ↓";position:absolute;left:0;right:0;bottom:0;padding:8px 10px;
+  font-size:11px;letter-spacing:.1em;color:var(--ink);background:rgba(18,18,22,.78);
+  opacity:0;transition:opacity .2s ease;
+}
+.press a:hover::after,.press a:focus-visible::after{opacity:1}
+.press__note{margin-top:12px;font-size:12px;color:var(--ink-dim)}
+
+footer{
+  margin-top:clamp(64px,10vw,110px);padding:18px 0 40px;border-top:1px solid var(--rule);
+  display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;
+  font-size:11px;color:var(--ink-dim);
+}
+footer a{color:var(--ink-dim);margin-left:14px}
+
+@media (max-width:600px){
+  .top{flex-direction:column;align-items:flex-start}
+  .top__nav{justify-content:flex-start;gap:14px}
+}
+@media (prefers-reduced-motion:reduce){
+  html,.carousel__track{scroll-behavior:auto}
+}
