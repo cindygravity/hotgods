@@ -16,7 +16,7 @@
 <meta property="og:image" content="https://www.cindygravity.com/live/assets/video-poster.jpg" />
 <meta property="og:url" content="https://www.cindygravity.com/live/" />
 <!-- ?v= forces browsers (esp. Safari) to fetch fresh files — bump it on every change -->
-<link rel="stylesheet" href="live.css?v=20260911-10" />
+<link rel="stylesheet" href="live.css?v=20260912-2" />
 <script data-goatcounter="https://cindygravitycounter.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </head>
 <body>
@@ -38,7 +38,9 @@
   <nav class="top__nav">
     <a href="#bio">Bio</a><a href="#music">Music</a><a href="#shows">Shows</a><a href="#socials">Socials</a>
   </nav>
-  <a class="top__book" href="mailto:booking@cindygravity.com" aria-label="Email booking@cindygravity.com"><svg class="ico" aria-hidden="true"><use href="#i-mail"/></svg><span class="full">booking@cindygravity.com</span><span class="short">Booking</span></a>
+  <!-- booking button removed Sep 12, 2026: the page is the second touch after the
+       mail is already sent — its job is a coherent picture, not another ask. -->
+
 </header>
 
 <div class="media">
@@ -68,7 +70,7 @@
 
   <!-- ============ LIVE VIDEO ============ -->
   <div class="video">
-    <h2 class="label">Live Video</h2>
+    <h2 class="label">Our latest live video</h2>
     <div class="video__frame" id="video" data-yt="lodH_hVoL1Y" role="button" tabindex="0"
          aria-label="Play: Cindy Gravity – You Can Have Him (Live at Marienplatz Festival Stuttgart)">
       <img src="assets/video-poster.jpg" alt="" />
@@ -82,7 +84,7 @@
 
   <!-- ============ BIO ============ -->
   <section class="block bio" id="bio">
-    <h2 class="label">Bio</h2>
+    <h2 class="label">Our band bio</h2>
     <!-- Sep 11, 2026: Fritz's final text — "darker chapter" removed (read as goth with the hoods).
          Same text in Press Kit/Band Bio — HOT GODS (2026).txt and the main site's About. -->
     <p>Cindy Gravity is an experimental pop trio from Stuttgart, drifting somewhere between psychedelic pop, R’n’B and yacht rock. After their debut <em>Brutally Soft</em>, their new album <em>HOT GODS</em> turns up the colour and the weirdness.</p>
@@ -95,7 +97,7 @@
   <!-- audio files are shared with the main site (../assets/music, ../assets/cover);
        nothing downloads until someone presses play -->
   <section class="block" id="music">
-    <h2 class="label">Latest music</h2>
+    <h2 class="label">Our latest tracks</h2>
     <div class="player" id="player">
       <img class="player__cover" id="plCover" src="../assets/cover/hot-gods.jpg" alt="" />
       <div class="player__main">
@@ -123,28 +125,22 @@
 
   <!-- ============ SELECTED SHOWS ============ -->
   <section class="block" id="shows">
-    <h2 class="label">Past shows (highlights)</h2>
-    <ul class="shows">
-      <!-- order + selection set by Fritz (Sep 11, 2026); no dates, no co-bill notes on purpose.
-           Milla Munich removed: postponed to January 2027. -->
-      <li><span class="v">Schokoladen</span> <span class="c">— Berlin</span></li>
-      <li><span class="v">Merlin</span> <span class="c">— Stuttgart</span></li>
-      <li><span class="v">Roxy</span> <span class="c">— Ulm</span></li>
-      <li><span class="v">Horst Klub</span> <span class="c">— Kreuzlingen (CH)</span></li>
-      <li><span class="v">Monarch</span> <span class="c">— Berlin</span></li>
-      <li><span class="v">Marienplatzfest</span> <span class="c">— Stuttgart</span></li>
-      <li><span class="v">Sommerfest Shedhalle</span> <span class="c">— Tübingen</span></li>
-      <li><span class="v">Sub</span> <span class="c">— Graz (AT)</span></li>
-      <li><span class="v">Rue de la Musique</span> <span class="c">— Strasbourg (FR)</span></li>
-      <li><span class="v">Quer Bar</span> <span class="c">— Hamburg</span></li>
-      <li><span class="v">Panke</span> <span class="c">— Berlin</span></li>
-    </ul>
-    <p class="shows__foot">Shows across Germany, Austria, Switzerland and France.</p>
+    <h2 class="label">Shows we’ve played (highlights)</h2>
+    <!-- running text instead of a list (from the v3 test): denser, and eleven
+         tidy rows read like a CV. Order + selection by Fritz, no dates on purpose.
+         Milla Munich left out: postponed to January 2027. -->
+    <p class="run"><span class="v">Schokoladen</span>, Berlin · <span class="v">Merlin</span>, Stuttgart ·
+    <span class="v">Roxy</span>, Ulm · <span class="v">Horst Klub</span>, Kreuzlingen ·
+    <span class="v">Monarch</span>, Berlin · <span class="v">Marienplatzfest</span>, Stuttgart ·
+    <span class="v">Sommerfest Shedhalle</span>, Tübingen · <span class="v">Sub</span>, Graz ·
+    <span class="v">Rue de la Musique</span>, Strasbourg · <span class="v">Quer Bar</span>, Hamburg ·
+    <span class="v">Panke</span>, Berlin.</p>
+    <p class="shows__foot">Germany, Austria, Switzerland and France.</p>
   </section>
 
   <!-- ============ SOCIALS ============ -->
   <section class="block" id="socials">
-    <h2 class="label">Socials</h2>
+    <h2 class="label">Find us online</h2>
     <div class="links">
       <a class="is-primary" href="https://open.spotify.com/artist/58f43Z5rRDgEl6jJXjT4or" target="_blank" rel="noopener"><svg class="ico" aria-hidden="true"><use href="#i-spotify"/></svg><span>Listen on Spotify</span></a>
       <a href="https://www.instagram.com/cindy__gravity/" target="_blank" rel="noopener"><svg class="ico" aria-hidden="true"><use href="#i-instagram"/></svg><span>Instagram</span></a>
