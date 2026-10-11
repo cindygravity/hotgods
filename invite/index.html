@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Softness Report — Cindy Gravity</title>
+  <meta name="description" content="Sign up to the Softness Report and get exclusive, unreleased music from Cindy Gravity." />
+  <meta name="robots" content="noindex, follow" />
+  <meta name="theme-color" content="#0d0a09" />
+  <link rel="icon" type="image/png" href="../assets/favicon.png?v=4" />
+  <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg?v=4" />
+
+  <!-- social share preview (shared from IG bio etc.) -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Softness Report — Cindy Gravity" />
+  <meta property="og:description" content="Sign up &amp; get exclusive, unreleased music." />
+  <meta property="og:image" content="https://www.cindygravity.com/assets/og-image.jpg" />
+  <meta property="og:url" content="https://www.cindygravity.com/invite/" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <style>
+    :root {
+      --carbon: #0d0a09;
+      --cream: #e7dcc3;
+      --hot: #ff2e88;
+      --mono: "SF Mono", ui-monospace, SFMono-Regular, Menlo, "JetBrains Mono", monospace;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { max-width: 100%; overflow-x: hidden; }
+    body {
+      min-height: 100vh;
+      background: var(--carbon);
+      background-image: repeating-linear-gradient(
+        0deg, rgba(231, 220, 195, 0.035) 0 1px, transparent 1px 3px);
+      color: var(--cream);
+      font-family: var(--mono);
+      font-size: 14px;
+      line-height: 1.6;
+      letter-spacing: 0.03em;
+      -webkit-font-smoothing: antialiased;
+    }
+    .wrap {
+      max-width: 500px;
+      margin: 0 auto;
+      padding: 48px 22px 56px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+    .wordmark { display: block; width: 172px; margin: 4px 0 26px; }
+    .wordmark img { width: 100%; height: auto; display: block; }
+    .log {
+      white-space: pre-wrap;
+      word-break: break-word;
+      line-height: 1.95;
+      min-height: 3.9em;                 /* reserve space so the form doesn't jump */
+      margin-bottom: 8px;
+    }
+    .cursor { display: inline-block; animation: blink 1.1s steps(1) infinite; }
+    @keyframes blink { 50% { opacity: 0; } }
+
+    .reveal {
+      width: 100%;
+      opacity: 0;
+      transition: opacity 0.4s steps(4);
+    }
+    .reveal.on { opacity: 1; }
+
+    h1 {
+      font-weight: 400;
+      font-size: 22px;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      margin: 18px 0 12px;
+      line-height: 1.2;
+    }
+    /* the animated lead lines — FIXED height so growing text never pushes the
+       form down; each fragment types on its own line with pauses between */
+    .typed {
+      font-size: 13px;
+      line-height: 1.5;
+      opacity: 0.9;
+      white-space: pre-wrap;
+      width: 100%;
+      min-height: 7.5em;                   /* reserves the space so the form doesn't jump while typing */
+      text-align: left;                    /* the "> " prompts line up like terminal output */
+      margin: 0 auto 18px;
+    }
+    @media (max-width: 560px) {
+      .typed { min-height: 11em; }         /* lines wrap on narrow screens — reserve more */
+    }
+
+    form { display: grid; gap: 12px; text-align: left; margin-top: 6px; width: 100%; }
+    .field { display: grid; gap: 5px; }
+    .field span {
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      opacity: 0.7;
+      text-transform: uppercase;
+    }
+    input {
+      font: inherit;
+      font-size: 14px;
+      background: transparent;
+      border: 1px solid var(--cream);
+      color: var(--cream);
+      padding: 11px 12px;
+      width: 100%;
+    }
+    input::placeholder { color: rgba(231, 220, 195, 0.4); }
+    input:focus { outline: none; border-color: var(--hot); box-shadow: 2px 2px 0 var(--hot); }
+
+    button {
+      font: inherit;
+      font-size: 13px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      background: var(--cream);
+      color: var(--carbon);
+      border: 1px solid var(--cream);
+      padding: 13px 12px;
+      margin-top: 4px;
+      cursor: pointer;
+      box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.5);
+    }
+    button:hover { box-shadow: 0 0 0 rgba(0, 0, 0, 0.5); }
+    button:disabled { cursor: default; opacity: 0.85; box-shadow: none; }
+
+    .privacy { font-size: 11px; letter-spacing: 0.1em; opacity: 0.5; text-transform: uppercase; margin-top: 24px; }
+    .back {
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--cream);
+      opacity: 0.7;
+      margin-top: 44px;
+      text-decoration: none;
+    }
+    .back:hover { opacity: 1; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <a class="wordmark" href="../index.html" aria-label="Cindy Gravity — home">
+      <img src="../assets/wordmark.svg" alt="Cindy Gravity" />
+    </a>
+
+    <h1>Sign up with your email and …</h1>
+    <div class="typed" id="typedBlock" aria-label="You'll get an unreleased song as soon as you confirm. You'll be on the guest list when we play your city. You'll help decide where we tour next. You'll get first dibs on releases, merch and tickets."></div>
+
+    <form id="signup">
+        <label class="field">
+          <span>Field :: your email</span>
+          <input type="email" name="email" required placeholder="you@earth.net" />
+        </label>
+        <label class="field">
+          <span>Field :: your name</span>
+          <input type="text" name="name" required placeholder="e.g. Amanda" />
+        </label>
+        <label class="field">
+          <span>Field :: your city</span>
+          <input type="text" name="city" placeholder="e.g. Stuttgart" />
+        </label>
+        <button type="submit" id="submit">Sign up ▸</button>
+      </form>
+
+      <p class="privacy">We respect your privacy · Unsubscribe anytime</p>
+      <a class="back" href="../index.html">← Back to cindygravity.com</a>
+  </div>
+
+  <script>
+    /* ---- lead lines type themselves in sequence (short pause between each);
+            the form is present from the start ---- */
+    const LINES = [
+      "> you'll get an unreleased song as soon as you confirm",
+      "> you'll be on the guest list when we play your city",
+      "> you'll help decide where we tour next",
+      "> you'll get first dibs on releases, merch and tickets",
+    ];
+    const typed = document.getElementById("typedBlock");
+    const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const cursorHTML = '<span class="cursor">▮</span>';
+    if (reduce) {
+      typed.textContent = LINES.join("\n");
+    } else {
+      let li = 0, ci = 0;
+      (function step() {
+        const done = LINES.slice(0, li).join("\n");
+        if (li >= LINES.length) { typed.innerHTML = done + cursorHTML; return; }
+        const partial = LINES[li].slice(0, ci);
+        typed.innerHTML = (done ? done + "\n" : "") + partial + cursorHTML;
+        if (ci < LINES[li].length) { ci++; setTimeout(step, 15); }
+        else { li++; ci = 0; setTimeout(step, 220); }   // pause between lines
+      })();
+    }
+
+    /* ---- Kit signup (same form + fields as the main site) ---- */
+    async function kitSubscribe({ email, name = "", city = "" }) {
+      const b = new URLSearchParams();
+      b.set("email_address", email);
+      if (name) b.set("fields[first_name]", name);
+      if (city) b.set("fields[city]", city);
+      const r = await fetch("https://app.kit.com/forms/9652794/subscriptions", {
+        method: "POST", headers: { Accept: "application/json" }, body: b,
+      });
+      if (!r.ok) throw new Error("kit " + r.status);
+      return r.json().catch(() => ({}));
+    }
+
+    const validEmail = (s) => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(String(s).trim());
+    const form = document.getElementById("signup");
+    const submit = document.getElementById("submit");
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const f = new FormData(form);
+      if (!validEmail(f.get("email"))) {
+        submit.textContent = "Invalid email — check it";
+        setTimeout(() => (submit.textContent = "Sign up ▸"), 2200);
+        return;
+      }
+      submit.disabled = true;
+      submit.textContent = "Transmitting…";
+      try {
+        await kitSubscribe({ email: f.get("email"), name: f.get("name"), city: f.get("city") });
+        /* hand the address over in-session, never in the URL — query strings end up
+           in analytics logs, browser history and Referer headers */
+        try { sessionStorage.setItem("cg_signup_email", f.get("email").trim()); } catch {}
+        location.href = "../confirm-email/";
+      } catch {
+        submit.textContent = "Error — try again";
+        submit.disabled = false;
+      }
+    });
+
+    /* GoatCounter (cookieless) */
+    const gc = document.createElement("script");
+    gc.async = true;
+    gc.src = "https://gc.zgo.at/count.js";
+    gc.dataset.goatcounter = "https://cindygravitycounter.goatcounter.com/count";
+    document.body.appendChild(gc);
+  </script>
+</body>
+</html>
