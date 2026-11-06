@@ -44,10 +44,20 @@
     a { color: inherit; text-decoration: none; }
     .wrap { max-width: 420px; margin: 0 auto; padding: 56px 24px 40px; }
 
-    .head { text-align: center; margin-bottom: 44px; }
-    .wordmark { display: inline-block; width: 148px; }
+    /* ambient: the cover, blurred into a colour wash behind the top of the page */
+    .ambient {
+      position: fixed; inset: -10% -30% auto; height: 80vh; z-index: -1;
+      background: url("../assets/cover/im-so-scared.jpg") center / cover;
+      filter: blur(70px) saturate(1.3);
+      opacity: 0.38;
+      -webkit-mask-image: linear-gradient(#000 30%, transparent);
+              mask-image: linear-gradient(#000 30%, transparent);
+    }
+
+    .head { text-align: center; margin-bottom: 28px; }
+    .wordmark { display: inline-block; width: 128px; }
     .wordmark img { width: 100%; height: auto; display: block; }
-    .tagline { font-size: 11px; color: var(--ink-soft); margin-top: 14px; }
+    .tagline { font-size: 11px; color: var(--ink-soft); margin-top: 10px; }
 
     .label {
       font-size: 10px;
@@ -57,38 +67,62 @@
       color: var(--ink-dim);
       margin-bottom: 10px;
     }
-    section { margin-bottom: 40px; }
+    section { margin-bottom: 36px; }
 
-    /* the song: one quiet card, the cover carries it */
-    .feature {
-      display: flex;
-      gap: 16px;
-      align-items: center;
-      background: var(--bg-soft);
-      padding: 12px;
-      transition: background 0.2s;
+    /* LEVEL 1 — the song: big cover + one filled button */
+    .hero { display: block; }
+    .hero__cover { display: block; width: 100%; aspect-ratio: 1; object-fit: cover; box-shadow: 0 24px 60px rgba(0, 0, 0, 0.55); }
+    .hero__kicker { display: block; margin-top: 18px; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); }
+    .hero__title { display: block; font-size: 19px; line-height: 1.3; margin-top: 6px; }
+    .hero__btn {
+      display: flex; justify-content: center; align-items: center; gap: 10px;
+      margin-top: 16px; padding: 15px;
+      background: var(--accent); color: var(--bg);
+      font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase;
+      transition: filter 0.2s;
     }
-    .feature img { width: 84px; height: 84px; flex: none; display: block; object-fit: cover; }
-    .feature__kicker { font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); }
-    .feature__title { display: block; font-size: 14px; margin-top: 6px; line-height: 1.35; }
-    .feature:hover { background: var(--bg-raise); }
+    .hero__btn .ico { width: 18px; height: 18px; }
+    .hero:hover .hero__btn { filter: brightness(1.08); }
 
-    /* list rows: hairlines instead of boxes */
+    /* LEVEL 2 — the newsletter: a tinted card with the oracle ant */
+    .invite {
+      display: flex; align-items: center; gap: 16px;
+      padding: 18px;
+      background: #2a1f2a;
+      border: 1px solid rgba(217, 143, 180, 0.35);
+      transition: border-color 0.2s;
+    }
+    .invite img { width: 44px; height: 44px; flex: none; image-rendering: pixelated; }
+    .invite .row__title { font-size: 14px; }
+    .invite .row__sub { color: rgba(227, 224, 204, 0.75); }
+    .invite .arrow { color: #d98fb4; }
+    .invite:hover { border-color: #d98fb4; }
+
+    /* LEVEL 3 — list rows with a thumbnail */
     .row {
       display: flex;
       align-items: center;
-      gap: 16px;
-      padding: 16px 0;
+      gap: 14px;
+      padding: 12px 0;
       border-bottom: 1px solid var(--line);
     }
     .list .row:first-child { border-top: 1px solid var(--line); }
+    .thumb { width: 48px; height: 48px; flex: none; display: block; object-fit: cover; }
+    .mosaic { width: 48px; height: 48px; flex: none; display: grid; grid-template-columns: 1fr 1fr; }
+    .mosaic img { width: 24px; height: 24px; display: block; object-fit: cover; }
     .row__title { display: block; font-size: 13px; }
     .row__sub { display: block; font-size: 11px; color: var(--ink-soft); margin-top: 3px; }
     .arrow { margin-left: auto; color: var(--ink-dim); transition: color 0.2s, transform 0.2s; }
-    .row:hover .arrow, .feature:hover .arrow { color: var(--accent); transform: translateX(3px); }
+    .row:hover .arrow, .invite:hover .arrow { color: var(--accent); transform: translateX(3px); }
 
     /* shows */
-    .show__date { flex: none; width: 4.6em; font-size: 11px; color: var(--ink-soft); text-transform: uppercase; letter-spacing: 0.06em; }
+    .show { padding: 14px 0; }
+    .show__date {
+      flex: none; width: 48px; text-align: center;
+      font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-soft);
+      line-height: 1.2;
+    }
+    .show__date b { display: block; font-weight: 400; font-size: 20px; color: var(--ink); letter-spacing: 0; }
     .show .arrow { font-size: 10px; letter-spacing: 0.12em; }
 
     .socials { display: flex; justify-content: center; gap: 4px; margin-top: 8px; }
@@ -101,6 +135,7 @@
   </style>
 </head>
 <body>
+<div class="ambient" aria-hidden="true"></div>
 <!-- icon sprite (same line icons as /live/) -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <symbol id="i-mail" viewBox="0 0 24 24"><rect x="3" y="5.5" width="18" height="13" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="m3.8 6.5 8.2 6.3 8.2-6.3" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></symbol>
@@ -122,25 +157,32 @@
 
     <!-- data-k = event name in GoatCounter (links/<k>/<source>) -->
     <section>
-      <a class="feature" data-k="song" href="https://open.spotify.com/track/27ThDm3Xyefe9JZxtwk3rc" target="_blank" rel="noopener">
-        <img src="../assets/cover/im-so-scared.jpg" alt="" />
-        <span><span class="feature__kicker">Listen</span><span class="feature__title">I'm So Scared (Of Climate Change)</span></span>
-        <span class="arrow">↗</span>
+      <a class="hero" data-k="song" href="https://open.spotify.com/track/27ThDm3Xyefe9JZxtwk3rc" target="_blank" rel="noopener">
+        <img class="hero__cover" src="../assets/cover/im-so-scared.jpg" alt="I'm So Scared (Of Climate Change) — cover" />
+        <span class="hero__kicker">Start here</span>
+        <span class="hero__title">I'm So Scared (Of Climate Change)</span>
+        <span class="hero__btn"><svg class="ico" aria-hidden="true"><use href="#i-spotify"/></svg>Listen on Spotify</span>
+      </a>
+    </section>
+
+    <section>
+      <a class="invite" data-k="newsletter" id="newsletterLink" href="../newsletter/">
+        <img src="../assets/ant/ant1.svg" alt="" />
+        <span><span class="row__title">The Softness Report</span><span class="row__sub">Free unreleased track + a spot on our guest list</span></span>
+        <span class="arrow">→</span>
       </a>
     </section>
 
     <section>
       <div class="list">
         <a class="row" data-k="playlist" href="https://open.spotify.com/playlist/7gVuLOzIHKwm5XOJa8VVQ6" target="_blank" rel="noopener">
+          <span class="mosaic" aria-hidden="true"><img src="../assets/cover/hot-gods.jpg" alt="" /><img src="../assets/cover/turn-purple.jpg" alt="" /><img src="../assets/cover/one-two-three.jpg" alt="" /><img src="../assets/cover/im-so-scared.jpg" alt="" /></span>
           <span><span class="row__title">New to Cindy?</span><span class="row__sub">Our discography, in an order we like</span></span>
           <span class="arrow">↗</span>
         </a>
-        <a class="row" data-k="newsletter" id="newsletterLink" href="../newsletter/">
-          <span><span class="row__title">The Softness Report</span><span class="row__sub">Free unreleased track + guest list</span></span>
-          <span class="arrow">→</span>
-        </a>
         <a class="row" data-k="merch" href="https://cindygravity.bandcamp.com/merch" target="_blank" rel="noopener">
-          <span><span class="row__title">Merch &amp; Vinyl</span><span class="row__sub">On Bandcamp</span></span>
+          <img class="thumb" src="../assets/merch/hotgods-front.jpg" alt="" />
+          <span><span class="row__title">Merch &amp; Vinyl</span><span class="row__sub">HOT GODS on vinyl, shirts — on Bandcamp</span></span>
           <span class="arrow">↗</span>
         </a>
       </div>
@@ -189,13 +231,13 @@
         if (!Array.isArray(data) || !data.length) return;
         document.getElementById("showList").innerHTML = data.slice(0, 3).map((ev) => {
           const d = new Date(ev.datetime);
-          const date = `${d.getDate()} ${d.toLocaleString("en-US", { month: "short" })}`;
+          const date = `<b>${d.getDate()}</b>${d.toLocaleString("en-US", { month: "short" })}`;
           const off = (ev.offers || []).find((o) => o.type === "Tickets") || (ev.offers || [])[0];
           const url = (off && off.url) || ev.url || "#";
           const v = ev.venue || {};
           return `<a class="row show" href="${esc(url)}" target="_blank" rel="noopener" data-goatcounter-click="links/show/${ref}" data-goatcounter-title="${esc(v.city || "")}">
-            <span class="show__date">${esc(date)}</span>
-            <span><span class="row__title">${esc(v.city || "TBA")}</span><span class="row__sub">${esc(v.name || "")}</span></span>
+            <span class="show__date">${date}</span>
+            <span><span class="row__title">${esc((v.city || "TBA").replace(/ Im /, " im "))}</span><span class="row__sub">${esc(v.name || "")}</span></span>
             <span class="arrow">${off && off.type === "Tickets" ? "TICKETS" : "INFO"}</span>
           </a>`;
         }).join("");
