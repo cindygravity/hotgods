@@ -54,8 +54,8 @@
               mask-image: linear-gradient(#000 30%, transparent);
     }
 
-    .head { text-align: center; margin-bottom: 28px; }
-    .wordmark { display: inline-block; width: 128px; }
+    .head { text-align: center; margin-bottom: 36px; }
+    .wordmark { display: inline-block; width: 148px; }
     .wordmark img { width: 100%; height: auto; display: block; }
     .tagline { font-size: 11px; color: var(--ink-soft); margin-top: 10px; }
 
@@ -69,19 +69,20 @@
     }
     section { margin-bottom: 36px; }
 
-    /* LEVEL 1 — the song: big cover + one filled button */
-    .hero { display: block; }
-    .hero__cover { display: block; width: 100%; aspect-ratio: 1; object-fit: cover; box-shadow: 0 24px 60px rgba(0, 0, 0, 0.55); }
-    .hero__kicker { display: block; margin-top: 18px; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); }
-    .hero__title { display: block; font-size: 19px; line-height: 1.3; margin-top: 6px; }
+    /* LEVEL 1 — the song: title first, unmistakably a Spotify link */
+    .hero { display: block; padding: 18px; background: rgba(28, 27, 24, 0.72); }
+    .hero__top { display: flex; align-items: center; gap: 14px; }
+    .hero__cover { width: 64px; height: 64px; flex: none; display: block; object-fit: cover; }
+    .hero__kicker { display: block; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); }
+    .hero__title { display: block; font-size: 18px; line-height: 1.3; margin-top: 4px; }
     .hero__btn {
       display: flex; justify-content: center; align-items: center; gap: 10px;
       margin-top: 16px; padding: 15px;
-      background: var(--accent); color: var(--bg);
-      font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase;
+      background: #1ed760; color: #0b0b0a;      /* Spotify green = read as "Spotify" before the words */
+      font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase;
       transition: filter 0.2s;
     }
-    .hero__btn .ico { width: 18px; height: 18px; }
+    .hero__btn .ico { width: 20px; height: 20px; }
     .hero:hover .hero__btn { filter: brightness(1.08); }
 
     /* LEVEL 2 — the newsletter: a tinted card with the oracle ant */
@@ -158,9 +159,10 @@
     <!-- data-k = event name in GoatCounter (links/<k>/<source>) -->
     <section>
       <a class="hero" data-k="song" href="https://open.spotify.com/track/27ThDm3Xyefe9JZxtwk3rc" target="_blank" rel="noopener">
-        <img class="hero__cover" src="../assets/cover/im-so-scared.jpg" alt="I'm So Scared (Of Climate Change) — cover" />
-        <span class="hero__kicker">Start here</span>
-        <span class="hero__title">I'm So Scared (Of Climate Change)</span>
+        <span class="hero__top">
+          <img class="hero__cover" src="../assets/cover/im-so-scared.jpg" alt="" />
+          <span><span class="hero__kicker">Start with this song</span><span class="hero__title">I'm So Scared (Of Climate Change)</span></span>
+        </span>
         <span class="hero__btn"><svg class="ico" aria-hidden="true"><use href="#i-spotify"/></svg>Listen on Spotify</span>
       </a>
     </section>
@@ -168,7 +170,7 @@
     <section>
       <a class="invite" data-k="newsletter" id="newsletterLink" href="../newsletter/">
         <img src="../assets/ant/ant1.svg" alt="" />
-        <span><span class="row__title">The Softness Report</span><span class="row__sub">Free unreleased track + a spot on our guest list</span></span>
+        <span><span class="row__title">Get an unreleased song, free</span><span class="row__sub">+ a spot on our guest list — via our newsletter</span></span>
         <span class="arrow">→</span>
       </a>
     </section>
