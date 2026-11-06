@@ -38,6 +38,10 @@
       --ink-dim: rgba(227, 224, 204, 0.36);
       --line: rgba(227, 224, 204, 0.12);
       --accent: #ffad33;
+      --rose: #d98fb4;
+      --card: #2a1f2a;
+      --card-line: rgba(217, 143, 180, 0.35);
+      --hero-bg: rgba(28, 27, 24, 0.72);
       --serif: "Instrument Serif", "Bodoni 72", Georgia, serif;
       --sans: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Segoe UI", Roboto, Arial, sans-serif;
       --mono: "SF Mono", ui-monospace, SFMono-Regular, Menlo, "JetBrains Mono", monospace;
@@ -46,7 +50,7 @@
     html, body { max-width: 100%; overflow-x: hidden; }
     body {
       min-height: 100vh;
-      background: var(--bg);
+      background: linear-gradient(#24211d, var(--bg) 70%) fixed;   /* chosen Nov 6, 2026: quiet warm gradient */
       color: var(--ink);
       font-family: var(--mono);
       font-size: 13px;
@@ -56,16 +60,6 @@
     }
     a { color: inherit; text-decoration: none; }
     .wrap { max-width: 420px; margin: 0 auto; padding: 56px 24px 40px; }
-
-    /* ambient: the cover, blurred into a colour wash behind the top of the page */
-    .ambient {
-      position: fixed; inset: -10% -30% auto; height: 80vh; z-index: -1;
-      background: url("../assets/cover/im-so-scared.jpg") center / cover;
-      filter: blur(70px) saturate(1.3);
-      opacity: 0.38;
-      -webkit-mask-image: linear-gradient(#000 30%, transparent);
-              mask-image: linear-gradient(#000 30%, transparent);
-    }
 
     .head { text-align: center; margin-bottom: 36px; }
     .wordmark { display: inline-block; width: 148px; }
@@ -81,9 +75,12 @@
       margin-bottom: 10px;
     }
     section { margin-bottom: 36px; }
+    /* the tour block gets a real heading, so it reads as its own area */
+    #shows { margin-top: 56px; }
+    .shows-head { font: 400 30px/1 var(--serif); letter-spacing: 0; margin-bottom: 16px; }
 
     /* LEVEL 1 — the song: title first, unmistakably a Spotify link */
-    .hero { display: block; padding: 18px; background: rgba(28, 27, 24, 0.72); }
+    .hero { display: block; padding: 18px; background: var(--hero-bg); }
     .hero__top { display: flex; align-items: center; gap: 14px; }
     .hero__cover { width: 64px; height: 64px; flex: none; display: block; object-fit: cover; }
     .hero__kicker { display: block; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); }
@@ -96,22 +93,22 @@
       border-radius: 999px;                     /* Spotify's own pill shape — reads as their button */
       transition: filter 0.2s;
     }
-    .hero__btn .ico { width: 20px; height: 20px; }
+    .hero__btn .ico { width: 28px; height: 28px; }
     .hero:hover .hero__btn { filter: brightness(1.08); }
 
     /* LEVEL 2 — the newsletter: a tinted card with the oracle ant */
     .invite {
-      display: flex; align-items: center; gap: 16px;
-      padding: 18px;
-      background: #2a1f2a;
-      border: 1px solid rgba(217, 143, 180, 0.35);
+      display: flex; align-items: center; gap: 12px;
+      padding: 18px 14px 18px 16px;
+      background: var(--card);
+      border: 1px solid var(--card-line);
       transition: border-color 0.2s;
     }
-    .invite img { width: 44px; height: 44px; flex: none; image-rendering: pixelated; }
-    .invite .row__title { font-size: 23px; }
-    .invite .row__sub { color: rgba(227, 224, 204, 0.75); }
-    .invite .arrow { color: #d98fb4; }
-    .invite:hover { border-color: #d98fb4; }
+    .invite img { width: 30px; height: 30px; flex: none; filter: var(--ant-filter, none); }
+    .invite .row__title { font-size: 22px; }
+    .invite .row__sub { color: var(--ink-soft); }
+    .invite .arrow { color: var(--rose); font: 400 34px/1 var(--sans); }
+    .invite:hover { border-color: var(--rose); }
 
     /* LEVEL 3 — list rows with a thumbnail */
     .row {
@@ -127,6 +124,10 @@
     .mosaic img { width: 24px; height: 24px; display: block; object-fit: cover; }
     .row__title { display: block; font-family: var(--serif); font-size: 20px; line-height: 1.1; letter-spacing: 0; }
     .row__sub { display: block; font-size: 11px; color: var(--ink-soft); margin-top: 5px; }
+    .sp { color: #1ed760; }
+    .bc { color: #2fb5d6; }       /* Bandcamp's blue, lifted a touch for the dark ground */
+    .bc-ico { margin-left: auto; flex: none; width: 24px; height: 24px; color: #2fb5d6; }
+    .sp-ico { margin-left: auto; flex: none; width: 24px; height: 24px; color: #1ed760; }
     .arrow { margin-left: auto; color: var(--ink-dim); transition: color 0.2s, transform 0.2s; }
     .row:hover .arrow, .invite:hover .arrow { color: var(--accent); transform: translateX(3px); }
 
@@ -147,10 +148,10 @@
 
     .foot { text-align: center; font-size: 10px; letter-spacing: 0.12em; color: var(--ink-dim); margin-top: 28px; text-transform: uppercase; }
     .foot a:hover { color: var(--ink); }
+
   </style>
 </head>
 <body>
-<div class="ambient" aria-hidden="true"></div>
 <!-- icon sprite (same line icons as /live/) -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <symbol id="i-mail" viewBox="0 0 24 24"><rect x="3" y="5.5" width="18" height="13" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="m3.8 6.5 8.2 6.3 8.2-6.3" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></symbol>
@@ -175,7 +176,7 @@
       <a class="hero" data-k="song" href="https://open.spotify.com/track/27ThDm3Xyefe9JZxtwk3rc" target="_blank" rel="noopener">
         <span class="hero__top">
           <img class="hero__cover" src="../assets/cover/im-so-scared.jpg" alt="" />
-          <span><span class="hero__kicker">Start with this song</span><span class="hero__title">I'm So Scared (Of Climate Change)</span></span>
+          <span><span class="hero__kicker">Cindy Gravity</span><span class="hero__title">I'm So Scared (Of Climate Change)</span></span>
         </span>
         <span class="hero__btn"><svg class="ico" aria-hidden="true"><use href="#i-spotify"/></svg>Listen on Spotify</span>
       </a>
@@ -193,20 +194,20 @@
       <div class="list">
         <a class="row" data-k="playlist" href="https://open.spotify.com/playlist/7gVuLOzIHKwm5XOJa8VVQ6" target="_blank" rel="noopener">
           <span class="mosaic" aria-hidden="true"><img src="../assets/cover/hot-gods.jpg" alt="" /><img src="../assets/cover/turn-purple.jpg" alt="" /><img src="../assets/cover/one-two-three.jpg" alt="" /><img src="../assets/cover/im-so-scared.jpg" alt="" /></span>
-          <span><span class="row__title">New to Cindy?</span><span class="row__sub">Our discography, in an order we like</span></span>
-          <span class="arrow">↗</span>
+          <span><span class="row__title">New to Cindy?</span><span class="row__sub"><span class="sp">Spotify playlist</span> · all our songs, in an order we like</span></span>
+          <svg class="sp-ico" aria-hidden="true"><use href="#i-spotify"/></svg>
         </a>
         <a class="row" data-k="merch" href="https://cindygravity.bandcamp.com/merch" target="_blank" rel="noopener">
           <img class="thumb" src="../assets/merch/hotgods-front.jpg" alt="" />
-          <span><span class="row__title">Merch &amp; Vinyl</span><span class="row__sub">HOT GODS on vinyl, shirts — on Bandcamp</span></span>
-          <span class="arrow">↗</span>
+          <span><span class="row__title">Merch &amp; Vinyl</span><span class="row__sub"><span class="bc">Bandcamp</span> · HOT GODS on vinyl, shirts</span></span>
+          <svg class="bc-ico" aria-hidden="true"><use href="#i-bandcamp"/></svg>
         </a>
       </div>
     </section>
 
     <!-- filled from Bandsintown; stays hidden when there are no upcoming shows -->
     <section id="shows" hidden>
-      <h2 class="label">Next shows</h2>
+      <h2 class="shows-head">Next shows</h2>
       <div class="list" id="showList"></div>
     </section>
 
