@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Cindy Gravity — Links</title>
+  <meta name="description" content="Cindy Gravity: music, shows, newsletter, merch." />
+  <meta name="robots" content="noindex, follow" />
+  <meta name="theme-color" content="#0d0a09" />
+  <link rel="icon" type="image/png" href="../assets/favicon.png?v=4" />
+  <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg?v=4" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Cindy Gravity" />
+  <meta property="og:description" content="Delivering the softness the world deserves." />
+  <meta property="og:image" content="https://www.cindygravity.com/assets/og-image.jpg" />
+  <meta property="og:url" content="https://www.cindygravity.com/links/" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <style>
+    :root {
+      --carbon: #0d0a09;
+      --cream: #e7dcc3;
+      --hot: #ff2e88;
+      --mono: "SF Mono", ui-monospace, SFMono-Regular, Menlo, "JetBrains Mono", monospace;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { max-width: 100%; overflow-x: hidden; }
+    body {
+      min-height: 100vh;
+      background: var(--carbon);
+      background-image: repeating-linear-gradient(
+        0deg, rgba(231, 220, 195, 0.035) 0 1px, transparent 1px 3px);
+      color: var(--cream);
+      font-family: var(--mono);
+      font-size: 14px;
+      line-height: 1.6;
+      letter-spacing: 0.03em;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: inherit; }
+    .wrap {
+      max-width: 460px;
+      margin: 0 auto;
+      padding: 44px 20px 48px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+    .wordmark { display: block; width: 172px; margin: 4px 0 14px; }
+    .wordmark img { width: 100%; height: auto; display: block; }
+    .tagline { font-size: 12px; opacity: 0.75; margin-bottom: 30px; }
+
+    .label {
+      align-self: stretch;
+      text-align: left;
+      font-size: 10px;
+      font-weight: 400;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      opacity: 0.6;
+      margin: 0 0 8px;
+    }
+    .stack { display: grid; gap: 12px; width: 100%; margin-bottom: 30px; }
+
+    /* buttons: cream box with a hard offset shadow, like the newsletter page */
+    .btn {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      text-align: left;
+      border: 1px solid var(--cream);
+      padding: 13px 14px;
+      font-size: 13px;
+      letter-spacing: 0.06em;
+      box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.5);
+      transition: box-shadow 0.12s steps(2), transform 0.12s steps(2);
+    }
+    .btn:hover, .btn:focus-visible { box-shadow: 3px 3px 0 var(--hot); outline: none; }
+    .btn:active { transform: translate(2px, 2px); box-shadow: 1px 1px 0 var(--hot); }
+    .btn small { display: block; font-size: 11px; opacity: 0.7; letter-spacing: 0.04em; margin-top: 2px; }
+    .btn .arrow { margin-left: auto; opacity: 0.8; }
+    .btn.is-primary { background: var(--cream); color: var(--carbon); }
+    .btn.is-primary small { opacity: 0.75; }
+    .btn img { width: 52px; height: 52px; flex: none; display: block; object-fit: cover; }
+    .btn.has-cover { padding: 8px 14px 8px 8px; }
+
+    /* shows from Bandsintown */
+    .shows { width: 100%; margin-bottom: 30px; }
+    .show {
+      display: flex;
+      gap: 14px;
+      align-items: baseline;
+      text-align: left;
+      text-decoration: none;
+      padding: 10px 2px;
+      border-bottom: 1px dashed rgba(231, 220, 195, 0.3);
+      font-size: 13px;
+    }
+    .show:first-of-type { border-top: 1px dashed rgba(231, 220, 195, 0.3); }
+    .show__date { flex: none; width: 4.2em; text-transform: uppercase; }
+    .show__place { text-transform: uppercase; }
+    .show__venue { display: block; font-size: 11px; opacity: 0.7; text-transform: none; }
+    .show .arrow { margin-left: auto; font-size: 11px; opacity: 0.8; white-space: nowrap; }
+    .show:hover .arrow { color: var(--hot); opacity: 1; }
+
+    .socials { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; margin-top: 4px; }
+    .socials a { display: grid; place-items: center; width: 42px; height: 42px; opacity: 0.8; }
+    .socials a:hover { opacity: 1; color: var(--hot); }
+    .ico { width: 22px; height: 22px; }
+
+    .foot { font-size: 11px; letter-spacing: 0.08em; opacity: 0.5; margin-top: 26px; text-transform: uppercase; }
+    .foot a { text-decoration: none; }
+    .foot a:hover { opacity: 1; color: var(--hot); }
+  </style>
+</head>
+<body>
+<!-- icon sprite (same line icons as /live/) -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-mail" viewBox="0 0 24 24"><rect x="3" y="5.5" width="18" height="13" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="m3.8 6.5 8.2 6.3 8.2-6.3" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></symbol>
+  <symbol id="i-spotify" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9.5" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M7 9.6c3.6-1.1 7.5-.8 10.4 1M7.8 12.8c2.9-.8 5.8-.6 8.2.8M8.6 15.8c2.2-.6 4.3-.4 6.1.6" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></symbol>
+  <symbol id="i-instagram" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="1.7"/><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="1.7"/><circle cx="17.2" cy="6.8" r="1.1" fill="currentColor"/></symbol>
+  <symbol id="i-tiktok" viewBox="0 0 24 24"><path d="M13.6 3.5v11.2a3.4 3.4 0 1 1-3.4-3.4M13.6 3.5c.4 2.7 2.4 4.6 5 4.8" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-youtube" viewBox="0 0 24 24"><rect x="2.5" y="5.5" width="19" height="13" rx="4" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M10.2 9.4v5.2l4.4-2.6z" fill="currentColor"/></symbol>
+  <symbol id="i-bandcamp" viewBox="0 0 24 24"><path d="M2.5 17.5 8.4 6.5h13.1l-5.9 11z" fill="currentColor"/></symbol>
+  <symbol id="i-applemusic" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M15.2 14.6V6.8l-6 1.4v8.1" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><circle cx="7.9" cy="16.4" r="1.6" fill="currentColor"/><circle cx="13.9" cy="14.8" r="1.6" fill="currentColor"/></symbol>
+</svg>
+
+  <div class="wrap">
+    <a class="wordmark" href="../" data-k="home" aria-label="Cindy Gravity — website">
+      <img src="../assets/wordmark.svg" alt="Cindy Gravity" />
+    </a>
+    <p class="tagline">Delivering the softness the world deserves.</p>
+
+    <!-- the links; data-k = event name in GoatCounter (links/<k>/<source>) -->
+    <div class="stack">
+      <a class="btn is-primary has-cover" data-k="song" href="https://open.spotify.com/track/27ThDm3Xyefe9JZxtwk3rc" target="_blank" rel="noopener">
+        <img src="../assets/cover/im-so-scared.jpg" alt="" />
+        <span>I'm So Scared (Of Climate Change)<small>Listen on Spotify</small></span>
+        <span class="arrow">▸</span>
+      </a>
+      <a class="btn" data-k="playlist" href="https://open.spotify.com/playlist/7gVuLOzIHKwm5XOJa8VVQ6" target="_blank" rel="noopener">
+        <span>New to Cindy?<small>Our discography, in an order we like</small></span>
+        <span class="arrow">▸</span>
+      </a>
+      <a class="btn" data-k="newsletter" id="newsletterLink" href="../newsletter/">
+        <span>Join the Softness Report<small>Free unreleased track + guest list</small></span>
+        <span class="arrow">▸</span>
+      </a>
+      <a class="btn" data-k="merch" href="https://cindygravity.bandcamp.com/merch" target="_blank" rel="noopener">
+        <span>Merch &amp; Vinyl<small>On Bandcamp</small></span>
+        <span class="arrow">▸</span>
+      </a>
+    </div>
+
+    <!-- filled from Bandsintown; stays hidden when there are no upcoming shows -->
+    <section class="shows" id="shows" hidden>
+      <h2 class="label">Next shows</h2>
+      <div id="showList"></div>
+    </section>
+
+    <nav class="socials" aria-label="Cindy Gravity elsewhere">
+      <a data-k="spotify" href="https://open.spotify.com/artist/58f43Z5rRDgEl6jJXjT4or" target="_blank" rel="noopener" aria-label="Spotify"><svg class="ico" aria-hidden="true"><use href="#i-spotify"/></svg></a>
+      <a data-k="applemusic" href="https://music.apple.com/de/artist/cindy-gravity/1475913950" target="_blank" rel="noopener" aria-label="Apple Music"><svg class="ico" aria-hidden="true"><use href="#i-applemusic"/></svg></a>
+      <a data-k="bandcamp" href="https://cindygravity.bandcamp.com/" target="_blank" rel="noopener" aria-label="Bandcamp"><svg class="ico" aria-hidden="true"><use href="#i-bandcamp"/></svg></a>
+      <a data-k="instagram" href="https://www.instagram.com/cindy__gravity/" target="_blank" rel="noopener" aria-label="Instagram"><svg class="ico" aria-hidden="true"><use href="#i-instagram"/></svg></a>
+      <a data-k="tiktok" href="https://www.tiktok.com/@cindygravity" target="_blank" rel="noopener" aria-label="TikTok"><svg class="ico" aria-hidden="true"><use href="#i-tiktok"/></svg></a>
+      <a data-k="youtube" href="https://www.youtube.com/@cindygravity" target="_blank" rel="noopener" aria-label="YouTube"><svg class="ico" aria-hidden="true"><use href="#i-youtube"/></svg></a>
+      <a data-k="mail" href="mailto:hello@cindygravity.com" aria-label="Email"><svg class="ico" aria-hidden="true"><use href="#i-mail"/></svg></a>    </nav>
+
+    <p class="foot"><a href="../impressum.html">Impressum</a> · <a href="../datenschutz.html">Datenschutz</a></p>
+  </div>
+
+  <script>
+    /* ---- source: the bio links carry ?ref= (tt-bio, ig-bio …).
+            Each click is counted as a GoatCounter event "links/<k>/<source>",
+            and the newsletter link passes the source on, so a signup can be
+            traced back to the platform. ---- */
+    const ref = (new URLSearchParams(location.search).get("ref") || "direct")
+      .toLowerCase().replace(/[^a-z0-9-]/g, "").slice(0, 24) || "direct";
+    document.querySelectorAll("[data-k]").forEach((a) => {
+      a.dataset.goatcounterClick = `links/${a.dataset.k}/${ref}`;
+      a.dataset.goatcounterTitle = a.getAttribute("aria-label") || a.textContent.trim().split("\n")[0];
+    });
+    if (ref !== "direct") document.getElementById("newsletterLink").search = "?ref=links-" + ref;
+
+    /* ---- next shows from Bandsintown (same artist + app_id as the main site) ---- */
+    const esc = (s) => String(s).replace(/[&<>"]/g,
+      (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+    (async () => {
+      try {
+        const r = await fetch("https://rest.bandsintown.com/artists/Cindy%20Gravity/events?app_id=da85f5898eb69e00d7ca5b15d0bdc459&date=upcoming");
+        if (!r.ok) return;
+        const data = await r.json();
+        if (!Array.isArray(data) || !data.length) return;
+        document.getElementById("showList").innerHTML = data.slice(0, 3).map((ev) => {
+          const d = new Date(ev.datetime);
+          const date = `${d.getDate()} ${d.toLocaleString("en-US", { month: "short" })}`;
+          const off = (ev.offers || []).find((o) => o.type === "Tickets") || (ev.offers || [])[0];
+          const url = (off && off.url) || ev.url || "#";
+          const v = ev.venue || {};
+          return `<a class="show" href="${esc(url)}" target="_blank" rel="noopener" data-goatcounter-click="links/show/${ref}" data-goatcounter-title="${esc(v.city || "")}">
+            <span class="show__date">${esc(date)}</span>
+            <span class="show__place">${esc(v.city || "TBA")}<span class="show__venue">${esc(v.name || "")}</span></span>
+            <span class="arrow">${off && off.type === "Tickets" ? "TIX ▸" : "INFO ▸"}</span>
+          </a>`;
+        }).join("");
+        document.getElementById("shows").hidden = false;
+      } catch {}
+    })();
+
+    /* GoatCounter (cookieless); loaded after the data-goatcounter-click attributes exist */
+    const gc = document.createElement("script");
+    gc.async = true;
+    gc.src = "https://gc.zgo.at/count.js";
+    gc.dataset.goatcounter = "https://cindygravitycounter.goatcounter.com/count";
+    document.body.appendChild(gc);
+  </script>
+</body>
+</html>
