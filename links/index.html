@@ -17,6 +17,17 @@
   <meta property="og:url" content="https://www.cindygravity.com/links/" />
   <meta name="twitter:card" content="summary_large_image" />
   <style>
+    @font-face {
+      font-family: "Instrument Serif";
+      src: url("../assets/fonts/InstrumentSerif-Regular.ttf") format("truetype");
+      font-display: swap;
+    }
+    @font-face {
+      font-family: "Instrument Serif";
+      src: url("../assets/fonts/InstrumentSerif-Italic.ttf") format("truetype");
+      font-style: italic;
+      font-display: swap;
+    }
     /* same tokens as the main site's nebula theme (Wizemann colours, Nov 2026) */
     :root {
       --bg: #131311;
@@ -27,6 +38,8 @@
       --ink-dim: rgba(227, 224, 204, 0.36);
       --line: rgba(227, 224, 204, 0.12);
       --accent: #ffad33;
+      --serif: "Instrument Serif", "Bodoni 72", Georgia, serif;
+      --sans: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Segoe UI", Roboto, Arial, sans-serif;
       --mono: "SF Mono", ui-monospace, SFMono-Regular, Menlo, "JetBrains Mono", monospace;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -57,7 +70,7 @@
     .head { text-align: center; margin-bottom: 36px; }
     .wordmark { display: inline-block; width: 148px; }
     .wordmark img { width: 100%; height: auto; display: block; }
-    .tagline { font-size: 11px; color: var(--ink-soft); margin-top: 10px; }
+    .tagline { font-family: var(--serif); font-style: italic; font-size: 17px; color: var(--ink-soft); margin-top: 12px; letter-spacing: 0; }
 
     .label {
       font-size: 10px;
@@ -74,12 +87,13 @@
     .hero__top { display: flex; align-items: center; gap: 14px; }
     .hero__cover { width: 64px; height: 64px; flex: none; display: block; object-fit: cover; }
     .hero__kicker { display: block; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); }
-    .hero__title { display: block; font-size: 18px; line-height: 1.3; margin-top: 4px; }
+    .hero__title { display: block; font-family: var(--serif); font-size: 28px; line-height: 1.05; letter-spacing: 0; margin-top: 6px; }
     .hero__btn {
       display: flex; justify-content: center; align-items: center; gap: 10px;
       margin-top: 16px; padding: 15px;
       background: #1ed760; color: #0b0b0a;      /* Spotify green = read as "Spotify" before the words */
-      font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase;
+      font-family: var(--sans); font-size: 16px; font-weight: 600; letter-spacing: 0;
+      border-radius: 999px;                     /* Spotify's own pill shape — reads as their button */
       transition: filter 0.2s;
     }
     .hero__btn .ico { width: 20px; height: 20px; }
@@ -94,7 +108,7 @@
       transition: border-color 0.2s;
     }
     .invite img { width: 44px; height: 44px; flex: none; image-rendering: pixelated; }
-    .invite .row__title { font-size: 14px; }
+    .invite .row__title { font-size: 23px; }
     .invite .row__sub { color: rgba(227, 224, 204, 0.75); }
     .invite .arrow { color: #d98fb4; }
     .invite:hover { border-color: #d98fb4; }
@@ -111,8 +125,8 @@
     .thumb { width: 48px; height: 48px; flex: none; display: block; object-fit: cover; }
     .mosaic { width: 48px; height: 48px; flex: none; display: grid; grid-template-columns: 1fr 1fr; }
     .mosaic img { width: 24px; height: 24px; display: block; object-fit: cover; }
-    .row__title { display: block; font-size: 13px; }
-    .row__sub { display: block; font-size: 11px; color: var(--ink-soft); margin-top: 3px; }
+    .row__title { display: block; font-family: var(--serif); font-size: 20px; line-height: 1.1; letter-spacing: 0; }
+    .row__sub { display: block; font-size: 11px; color: var(--ink-soft); margin-top: 5px; }
     .arrow { margin-left: auto; color: var(--ink-dim); transition: color 0.2s, transform 0.2s; }
     .row:hover .arrow, .invite:hover .arrow { color: var(--accent); transform: translateX(3px); }
 
@@ -123,7 +137,7 @@
       font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-soft);
       line-height: 1.2;
     }
-    .show__date b { display: block; font-weight: 400; font-size: 20px; color: var(--ink); letter-spacing: 0; }
+    .show__date b { display: block; font-family: var(--serif); font-weight: 400; font-size: 26px; line-height: 1; color: var(--ink); letter-spacing: 0; }
     .show .arrow { font-size: 10px; letter-spacing: 0.12em; }
 
     .socials { display: flex; justify-content: center; gap: 4px; margin-top: 8px; }
