@@ -20,21 +20,22 @@
   --title-size: 30px;
 }
 
-/* NEBULA — the default theme (dark): void-dark + dusty lavender.
-   Depth comes from a 3-step surface ramp (ground / surface / raised) and
-   3 text tones (ink / soft / dim), plus TWO nebula-gas accents: warm amber
-   = "live / now / playing" state, cool rosé = navigation + structure. */
+/* NEBULA — the default theme (dark). Since Nov 3, 2026 in the colours of
+   the Wizemann poster: near-black ground + warm off-white (a touch beige)
+   for text and lines. Depth comes from a 3-step surface ramp (ground /
+   surface / raised) and 3 text tones (ink / soft / dim), plus TWO accents:
+   warm amber = "live / now / playing" state, rosé = navigation + structure. */
 body[data-theme="nebula"] {
-  --bg: #121216;            /* ground: page + engineering grid */
-  --bg-soft: #1c1b24;       /* surface: cards / panels lift off the ground */
-  --bg-raise: #262531;      /* raised: insets, hovers, the MD cartridge */
-  --ink: #8684b3;           /* full: headings + active */
-  --ink-soft: rgba(134, 132, 179, 0.58);  /* body + secondary */
-  --ink-dim: rgba(134, 132, 179, 0.34);   /* quiet labels / codes / meta */
-  --grid-line: rgba(134, 132, 179, 0.08);
+  --bg: #131311;            /* ground: page + engineering grid */
+  --bg-soft: #1c1b18;       /* surface: cards / panels lift off the ground */
+  --bg-raise: #262420;      /* raised: insets, hovers, the MD cartridge */
+  --ink: #e3e0cc;           /* full: headings + active — poster white */
+  --ink-soft: rgba(227, 224, 204, 0.64);  /* body + secondary */
+  --ink-dim: rgba(227, 224, 204, 0.36);   /* quiet labels / codes / meta */
+  --grid-line: rgba(227, 224, 204, 0.07);
   --accent: #ffad33;        /* warm gas — live / now */
-  --accent-2: #d98fb4;      /* cool rosé — navigation / structure */
-  --wm: #cfcfd8;            /* light-grey highlight — the wordmark */
+  --accent-2: #d98fb4;      /* rosé — navigation / structure */
+  --wm: #e3e0cc;            /* the wordmark, same warm white */
 }
 
 /* PAPER — the light theme: cool blue-grey stone + cool near-black ink.

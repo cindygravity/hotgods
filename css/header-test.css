@@ -1,0 +1,586 @@
+/* ============================================================
+   HEADER TEST (Nov 3, 2026) — loaded only by header-test.html.
+   The wordmark becomes a masthead (no box, no section head) and
+   a strip of live photos follows, like on /live/.
+   ============================================================ */
+
+/* ---------- masthead ---------- */
+.masthead { padding: 22px 0 8px; scroll-margin-top: 64px; }
+.masthead__row {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding-bottom: 6px;
+}
+.masthead .wordmark { margin: 0; }
+/* the crane, tinted like the wordmark (CSS mask — needs http, fine online) */
+.masthead__bird {
+  display: none;
+  background: var(--wm);
+  -webkit-mask: url("../assets/bird.svg") center / contain no-repeat;
+          mask: url("../assets/bird.svg") center / contain no-repeat;
+}
+
+/* minimal top: no status bar (kept in the DOM, site.js needs its nodes),
+   and the crane moves up here from the newsletter form */
+.statusbar { display: none; }
+#birdPet { display: none; }
+.masthead { padding-top: 28px; }
+
+/* ---------- live-photo strip ---------- */
+.strip { position: relative; margin-top: 16px; }
+.strip__track {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  /* bleed past the page padding on the phone */
+  margin: 0 calc(-1 * var(--pad));
+  padding: 0 var(--pad);
+  scroll-padding: 0 var(--pad);
+}
+.strip__track::-webkit-scrollbar { display: none; }
+.strip__track img {
+  flex: none;
+  height: 62vw;
+  width: auto;
+  max-width: 86vw;
+  object-fit: cover;
+  scroll-snap-align: start;
+  display: block;
+}
+.strip__btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 40px; height: 40px;
+  font: inherit; font-size: 16px;
+  color: #1b1b20;
+  background: #d9d7d0;                       /* same cream key as the deck */
+  border: 1px solid #0a0a0f;
+  box-shadow: inset 1px 1px 0 rgba(255, 255, 255, 0.75),
+              inset -2px -2px 0 rgba(0, 0, 0, 0.22);
+  cursor: pointer;
+}
+.strip__btn:hover { background: #e6e4dd; }
+.strip__btn--prev { left: 6px; }
+.strip__btn--next { right: 6px; }
+
+/* ---------- desktop ---------- */
+@media (min-width: 980px) {
+  .page {
+    grid-template-areas:
+      "home  home  home  home  home  home  home  home  home  home  home  home"
+      "music music music music music music music tour  tour  tour  tour  tour"
+      "music music music music music music merch merch merch merch merch merch"
+      "about about about about about about about news  news  news  news  news"
+      "cont  cont  cont  cont  cont  cont  cont  news  news  news  news  news";
+  }
+  #home { grid-area: home; }
+
+  .masthead { padding: 14px 0 0; }
+  .masthead__row {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-end;
+    padding: 6px 0 4px;
+  }
+  /* compact header: wordmark ≈ bird height (JS sizes the canvas inline,
+     so the display size is overridden here) */
+  .masthead .wordmark { width: 180px !important; height: auto !important; }
+  .masthead__row { align-items: center; }
+  .masthead__bird {
+    display: block;
+    width: 67px;
+    height: 67px;
+  }
+
+  .strip__track { margin: 0; padding: 0; scroll-padding: 0; }
+  .strip__track img { height: 360px; max-width: none; }
+  .strip__btn { width: 52px; height: 52px; font-size: 20px; }
+  .strip__btn--prev { left: 14px; }
+  .strip__btn--next { right: 14px; }
+}
+
+/* ---------- original platform logos, in our ink ---------- */
+.stream__logo { width: 22px; height: 22px; flex-shrink: 0; fill: currentColor; }
+.stream { gap: 12px; }
+.merch-shop .stream__logo { width: 20px; height: 20px; fill: #1b1b20; }
+
+/* ---------- merch: a real shirt photo so the box gets noticed ---------- */
+.merch__photo {
+  display: block;
+  width: 100%;
+  aspect-ratio: 5 / 4;
+  object-fit: contain;            /* never crop the shirt */
+  background: #e3e0cc;            /* same cream as the photo's plate */
+  margin-bottom: 12px;
+}
+.vinyl .vinyl__title { font-size: 16px; }
+@media (min-width: 980px) {
+  #music .vinyl .merch__photo { flex: 1; min-height: 0; aspect-ratio: auto; }
+}
+
+/* ---------- music block: fewer lines ----------
+   One rule per section (the head) and ONE framed card (merch = the offer).
+   The player is an object, so it stands free on the ground; the streams
+   are a plain list of logos, no boxes. */
+#music .player { border: 0; background: none; padding: 0; }
+.streams-note {
+  font-size: 10px;
+  letter-spacing: var(--track);
+  color: var(--ink-dim);
+  text-align: left;
+  max-width: none;
+  margin: 22px 0 4px;
+}
+.streams { gap: 0 16px; margin: 0 0 22px; }
+.stream {
+  border: 0;
+  padding: 10px 0;
+  font-size: 12px;
+}
+.stream:hover, .stream:active { background: none; color: var(--accent); }
+
+@media (min-width: 980px) {
+  #music {
+    grid-template-columns: 1.25fr 1fr;
+    column-gap: 36px;
+    row-gap: 0;
+  }
+  #music .section__head { margin-bottom: 18px; }
+  #music .streams-note { margin-top: 0; }
+  #music .streams { grid-template-columns: 1fr 1fr; margin-bottom: 18px; }
+}
+
+/* ---------- merch card: the whole card is the link ----------
+   No cream key here — the photo carries the weight, the CTA is a quiet
+   text row, so it doesn't line up as a third equal button. */
+.merch-card {
+  display: flex;
+  flex-direction: column;
+  color: var(--ink);
+  text-decoration: none;
+}
+.merch-card .vinyl__title { display: block; margin: 2px 0 14px; }
+.merch-card__cta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: auto;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+}
+.merch-card__cta .stream__logo { width: 18px; height: 18px; fill: currentColor; }
+.merch-card__arrow { transition: transform 0.15s steps(2); }
+.merch-card:hover { border-color: var(--accent); }
+.merch-card:hover .merch-card__cta { color: var(--accent); }
+.merch-card:hover .merch-card__arrow { transform: translateX(4px); }
+
+/* ---------- tour: the notify CTA lives inside the dates panel ---------- */
+.tour-ping {
+  display: block;
+  padding: 12px 12px 13px;
+  font-size: 11.5px;
+  line-height: 1.5;
+  color: var(--accent-2);
+  text-decoration: none;
+}
+.tour-ping:hover { color: var(--accent); }
+.tour-ping:hover span { margin-left: 3px; }
+@media (min-width: 980px) {
+  #tour .panel--flush { flex: 0 0 auto; }   /* panel ends after the link */
+}
+
+/* ---------- newsletter form: no box, filled fields instead of outlines ---------- */
+#newsletter .signal-form { border: 0; background: none; padding: 0; gap: 14px; }
+.field__label { font-size: 10px; color: var(--ink-dim); }
+.field__hint { letter-spacing: 0.02em; text-transform: none; }
+.field__input {
+  border: 0;
+  border-bottom: var(--line) solid transparent;
+  background: var(--bg-raise);
+  padding: 12px 12px 11px;
+}
+.field__input:focus { border-bottom-color: var(--accent); box-shadow: none; }
+
+/* ---------- contact: plain text + original logos, no boxes ---------- */
+.contact-block { margin-bottom: 18px; }
+.contact-mail-link {
+  display: inline-block;
+  margin-top: 10px;
+  font-size: 14px;
+  letter-spacing: 0.04em;
+  color: var(--ink);
+  text-decoration: none;
+  border-bottom: var(--line) solid var(--ink-dim);
+  padding-bottom: 2px;
+}
+.contact-mail-link:hover { color: var(--accent); border-bottom-color: var(--accent); }
+.socials { gap: 0 16px; }
+.social {
+  border: 0;
+  background: none;
+  display: flex;
+  justify-items: initial;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 0;
+  min-height: 0;
+  font-size: 12px;
+  letter-spacing: 0.07em;
+}
+.social:hover, .social:active { background: none; color: var(--accent); }
+@media (min-width: 980px) {
+  #contact .socials { flex: 0 0 auto; }
+}
+
+/* ---------- about: no frames, content sits on the ground ---------- */
+#about .module { border: 0; background: none; padding: 0; }
+#about .scan__meta { border-top: 0; padding-top: 0; }
+
+@media (min-width: 980px) {
+  #about { column-gap: 32px; align-content: start; }
+  #about .scan, #about > .module:last-of-type { align-self: start; }
+  #contact { margin-top: 30px; }
+  #newsletter .signal-form { flex: 0 0 auto; align-content: start; }
+  .page { row-gap: 44px; }
+  #contact .socials { grid-template-columns: repeat(4, auto); justify-content: start; gap: 0 36px; }
+}
+
+/* ---------- no frames, softer lines (Nov 6) ----------
+   Only the section-head rules stay, and they drop to a quiet tone. */
+body { --rule: rgba(227, 224, 204, 0.2); }
+.footer__ticker { display: none; }
+.section__head { border-bottom-color: var(--rule); }
+.footer .rule { border-top-color: var(--rule); }
+.page, .statusbar { border-left: 0 !important; border-right: 0 !important; }
+.panel, .tour-panel, .merch-card { border: 0; background: none; }
+.panel--flush { overflow: visible; }
+.tour__row { padding-left: 0; padding-right: 0; border-bottom-color: var(--grid-line); }
+.tour-ping { padding-left: 0; }
+.merch-card { padding: 0; }
+.merch-card:hover { border: 0; }
+.dock { border-color: var(--rule) !important; }
+.dock__item { border-color: var(--rule) !important; }
+
+/* tour dates sit on a grey plate (same grey as the form fields) */
+.tour-panel { background: var(--bg-raise) !important; }
+.tour-panel .tour__row { padding-left: 14px; padding-right: 14px; border-bottom-color: rgba(227, 224, 204, 0.08); }
+.tour-panel .tour-ping { padding-left: 14px; padding-right: 14px; }
+
+/* ---------- Nov 6: more air, merch as its own section, grounded bird, nav numbers ---------- */
+@media (min-width: 980px) {
+  .page { column-gap: 40px; row-gap: 72px; }
+  /* music is narrower now: player on top, the four platforms underneath */
+  /* player left, platform list right — the list's bottom lines up with
+     the player's keys, so it hangs off the player instead of floating */
+  #music {
+    display: grid;
+    grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+    grid-template-rows: auto 1fr auto auto;
+    grid-template-areas:
+      "head   head"
+      "player ."
+      "player note"
+      "player streams";
+    column-gap: 28px;
+    row-gap: 0;
+  }
+  #music .streams { grid-template-columns: 1fr; margin: 0; }
+  #merch { grid-area: merch; }
+  #merch .merch-card { height: auto; }
+  #merch .merch-card .merch__photo { flex: none; aspect-ratio: 16 / 10; }
+}
+#merch .merch__photo { aspect-ratio: 5 / 4; }
+
+/* the crane stands on the top edge of the photo strip, far right */
+.strip .masthead__bird {
+  position: absolute;
+  right: 18px;
+  bottom: 100%;
+  margin-bottom: -2px;   /* feet just touch the photos */
+  z-index: 3;
+}
+
+/* nav: section numbers instead of random pixel glyphs — same system
+   as the section heads (01 // MUSIC) */
+.dock__num {
+  display: block;
+  font-size: 13px;
+  letter-spacing: 0.06em;
+  margin-bottom: 3px;
+  color: var(--ink-dim);
+}
+.dock__item.is-active .dock__num { color: inherit; }
+
+@media (min-width: 980px) {
+  #music .streams-note { margin-top: 0; }
+}
+
+/* mobile: no bottom nav bar — the page is short enough to just scroll */
+@media (max-width: 979px) {
+  .dock { display: none !important; }
+  body { padding-bottom: 0 !important; }
+}
+
+/* platforms on a grey plate (same plate as the tour dates) */
+.streams {
+  grid-template-columns: 1fr;
+  background: var(--bg-raise);
+}
+.stream {
+  padding: 13px 14px;
+  border-bottom: 1px solid rgba(227, 224, 204, 0.08);
+}
+.stream:last-child { border-bottom: 0; }
+.streams-note { margin-bottom: 8px; }
+
+
+
+
+
+/* ============================================================
+   LAYOUT v3 (Nov 6) — variable-height content never sits beside
+   something else. Music | Merch have fixed content and similar
+   height; Tour gets its own full-width band and shows every date
+   (2 per row on desktop), whether there are 2 or 12.
+   ============================================================ */
+@media (min-width: 980px) {
+  .page {
+    grid-template-areas:
+      "home  home  home  home  home  home  home  home  home  home  home  home"
+      "music music music music music music merch merch merch merch merch merch"
+      "tour  tour  tour  tour  tour  tour  tour  tour  tour  tour  tour  tour"
+      "about about about about about about about news  news  news  news  news"
+      "cont  cont  cont  cont  cont  cont  cont  news  news  news  news  news" !important;
+  }
+  /* music: player, then the platforms directly underneath, same width */
+  #music {
+    display: flex !important;
+    flex-direction: column;
+    gap: 0;
+  }
+  #music .streams-note { margin-top: 22px; }
+  #music .streams { grid-template-columns: 1fr 1fr; }
+  #music .stream:nth-last-child(2) { border-bottom: 0; }
+  #music .stream:nth-child(odd) { border-right: 1px solid rgba(227, 224, 204, 0.08); }
+
+  #merch .merch-card .merch__photo { aspect-ratio: 4 / 5; }
+
+  /* tour: every date is its own grey tile, two per row */
+  .tour-panel { background: none !important; }
+  .tour {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  .tour-panel .tour__row {
+    background: var(--bg-raise);
+    border-bottom: 0;
+    min-width: 0;
+  }
+  .tour-panel .tour-ping { padding-left: 0; padding-top: 14px; }
+}
+
+/* ---------- merch still life: shirt sways, the HOT GODS record spins ----------
+   One cream plate, two objects. The shirt is a flat cut-out turned in 3D
+   space (perspective + rotateY), not a real 3D model. */
+.merch-stage {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4%;
+  aspect-ratio: 4 / 3;
+  padding: 0 4% 0 7%;
+  margin-bottom: 14px;
+  background: #e3e0cc;
+  overflow: hidden;
+  perspective: 900px;
+}
+.shirt3d {
+  width: 47%;
+  height: auto;
+  transform-origin: 50% 50%;
+  animation: shirt-sway 7s ease-in-out infinite alternate;
+  filter: drop-shadow(0 10px 12px rgba(0, 0, 0, 0.18));
+}
+@keyframes shirt-sway {
+  from { transform: rotateY(-22deg) rotateZ(-1deg); }
+  to   { transform: rotateY(22deg) rotateZ(1deg); }
+}
+
+.lp { position: relative; width: 40%; aspect-ratio: 1; margin-right: 16%; flex: none; }
+.lp__sleeve {
+  position: relative;
+  z-index: 1;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  box-shadow: 0 8px 14px rgba(0, 0, 0, 0.22);
+}
+.lp__disc {
+  position: absolute;
+  inset: 2%;
+  left: 44%;                         /* peeks out to the right of the sleeve */
+  border-radius: 50%;
+  background:
+    radial-gradient(circle, transparent 0 18%, rgba(255,255,255,0.05) 18.5% 19%, transparent 19.5%),
+    repeating-radial-gradient(circle, #141413 0 1.2px, #1f1e1c 1.2px 2.4px);
+  display: grid;
+  place-items: center;
+  animation: lp-spin 9s linear infinite;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25);
+}
+.lp__label { width: 36%; aspect-ratio: 1; border-radius: 50%; object-fit: cover; }
+@keyframes lp-spin { to { transform: rotate(360deg); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .shirt3d, .lp__disc { animation: none; }
+}
+@media (min-width: 980px) {
+  #merch .merch-stage { aspect-ratio: auto; flex: 1; min-height: 420px; }
+  #merch .merch-card { height: 100%; }
+}
+
+/* merch v2: items stacked, on the grey plate, quicker sway */
+.merch-stage {
+  flex-direction: column;
+  gap: 28px;
+  aspect-ratio: auto !important;
+  padding: 36px 0 40px;
+  background: var(--bg-raise);
+}
+.shirt3d { width: min(58%, 300px); animation-duration: 3.5s; filter: drop-shadow(0 10px 14px rgba(0, 0, 0, 0.45)); }
+.lp { width: min(44%, 230px); margin-right: 0; transform: translateX(-14%); }  /* sleeve + disc centred as a pair */
+.lp__sleeve { box-shadow: 0 8px 16px rgba(0, 0, 0, 0.45); }
+@media (min-width: 980px) {
+  #merch .merch-stage { min-height: 0; }
+}
+
+/* the shirt is now a pre-rendered 3D turn (Blender), transparent video —
+   the motion is baked in, so no CSS sway / shadow on top */
+.shirt3d--video {
+  width: min(80%, 380px);
+  aspect-ratio: 600 / 640;
+  animation: none;
+  filter: none;
+  display: block;
+}
+
+.footer__credit { margin-top: 10px; font-size: 9.5px; color: var(--ink-dim); letter-spacing: 0.04em; }
+
+/* merch v3: both objects are Blender renders (transparent video), cropped
+   tight to the object, so the plate needs little padding */
+.merch-stage { padding: 22px 0 18px; gap: 6px; }
+.shirt3d--video { width: min(72%, 360px); aspect-ratio: 388 / 446; }
+.lp3d { display: block; width: min(86%, 430px); aspect-ratio: 432 / 378; }
+@media (min-width: 980px) {
+  #music .player { height: auto !important; }      /* streams sit right under the keys */
+  .shirt3d--video { width: min(56%, 270px); }
+  .lp3d { width: min(68%, 340px); }
+  #merch .merch-stage { justify-content: center; }
+}
+
+/* merch v4: record at a believable scale next to the shirt (LP ≈ half a
+   shirt's width), more air between them */
+.merch-stage { gap: 30px; }
+.lp3d { width: min(46%, 215px) !important; }
+@media (min-width: 980px) {
+  .shirt3d--video { width: min(60%, 290px); }
+}
+/* the turning objects are decoration: never show Safari's play button,
+   and clicks pass through to the shop link */
+.merch-stage video { pointer-events: none; }
+.merch-stage video::-webkit-media-controls,
+.merch-stage video::-webkit-media-controls-start-playback-button,
+.merch-stage video::-webkit-media-controls-overlay-play-button { display: none !important; -webkit-appearance: none; }
+
+/* Nov 6 test: record a bit bigger, merch plate without background */
+.lp3d { width: min(60%, 280px) !important; }
+.merch-stage { background: none !important; }
+
+/* heading on top, a real shop button underneath the objects */
+.merch-card .merch-title { margin: 0 0 6px; text-align: center; font-size: 16px; letter-spacing: 0.12em; }
+.merch-shop-btn {
+  align-self: center;
+  justify-content: center;
+  margin-top: 6px;
+  padding: 13px 22px;
+  background: var(--ink);
+  color: var(--bg);
+  font-size: 12px;
+  letter-spacing: 0.12em;
+}
+.merch-shop-btn .stream__logo { fill: currentColor; }
+.merch-card:hover .merch-shop-btn { background: var(--accent); color: #141412; }
+
+.lp3d { aspect-ratio: 434 / 378 !important; }
+
+/* phone: no engineering grid behind the content (Fritz, Nov 7) — desktop keeps it in the margins */
+@media (max-width: 979px) {
+  body { background-image: none !important; }
+}
+
+/* ============================================================
+   Nov 7 (Fritz picked from the variant switcher: streams D, merch 3, 22px)
+   Rule candidate: round = something to tap (platform tiles, merch card,
+   shop button), square = the instrument (player, keys).
+   ============================================================ */
+body { --r: 22px; }
+
+/* streams: one row of four tiles, big logo in the platform's colour,
+   small name underneath */
+.streams,
+#music .streams {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  background: none;
+}
+.stream,
+#music .stream:nth-child(n) {
+  flex-direction: column;
+  justify-content: center;
+  gap: 9px;
+  padding: 16px 4px 12px;
+  border: 0;
+  border-radius: var(--r);
+  background: var(--bg-raise);
+  color: var(--ink-dim);
+  font-size: 9.5px;
+  letter-spacing: 0.08em;
+  text-align: center;
+}
+.stream .stream__logo { width: 30px; height: 30px; transition: fill 0.15s; }
+.stream:hover, .stream:active { background: #312e29; color: var(--ink); }
+.stream:nth-child(1) .stream__logo { fill: #1ed760; }   /* Spotify green */
+.stream:nth-child(2) .stream__logo { fill: var(--ink); } /* Tidal: black/white brand, stays cream */
+.stream:nth-child(3) .stream__logo { fill: #fff; }      /* Apple Music since Oct 2026: white tile, black note, no red */
+.stream:nth-child(4) .stream__logo { fill: #ff0033; }   /* YouTube red */
+
+/* merch: on a rounded plate (lifts the dark shirt off the dark ground),
+   the title as a small tag top-left so it doesn't compete with the section head */
+.merch-card,
+#merch .merch-card {
+  background: var(--bg-raise);
+  border-radius: var(--r);
+  padding: 22px 18px;
+  overflow: hidden;
+}
+.merch-card:hover { background: #2b2925; }
+.merch-card .merch-title {
+  align-self: flex-start;
+  margin: 0;
+  padding: 6px 11px;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  color: var(--ink);
+  border: 1px solid var(--rule);
+  border-radius: 999px;
+}
+.merch-shop-btn { border-radius: calc(var(--r) * 0.6); }

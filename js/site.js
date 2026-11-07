@@ -331,8 +331,7 @@ wm.addEventListener("click", () => {
 /* ============================================================
    CD PLAYER — the disc is the centrepiece
    Plays the real single from assets/music/. The cover art is drawn
-   PIXELATED onto the round disc (canvas: raster the cover small, upscale
-   with imageSmoothingEnabled=false, colours kept). On play the disc
+   sharp onto the round disc (full resolution, smoothed). On play the disc
    spins UP with a ramp (rAF eases angular velocity) and coasts down on
    pause, so it reads like a real CD spinning up.
    ============================================================ */
@@ -362,19 +361,16 @@ let plState = "stopped";       // "playing" | "paused" | "stopped"
 const fmt = (s) =>
   isFinite(s) ? `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, "0")}` : "0:00";
 
-/* --- pixelated cover baked onto the disc (swapped per track) --- */
-const CD_PX = 480;         // canvas backing size
-const CD_LOWW = 150;       // raster the cover this small, then upscale = pixels (higher = finer)
+/* --- sharp cover baked onto the disc (swapped per track) --- */
+const CD_PX = 800;         // canvas backing size = the covers' native 800px
 const coverImg = new Image();
 function drawCover() {
   cdArt.width = CD_PX; cdArt.height = CD_PX;
   if (!coverImg.complete || !coverImg.naturalWidth) return;
-  const off = document.createElement("canvas");
-  off.width = CD_LOWW; off.height = CD_LOWW;
-  off.getContext("2d").drawImage(coverImg, 0, 0, CD_LOWW, CD_LOWW);
-  cdCtx.imageSmoothingEnabled = false;
+  cdCtx.imageSmoothingEnabled = true;
+  cdCtx.imageSmoothingQuality = "high";
   cdCtx.clearRect(0, 0, CD_PX, CD_PX);
-  cdCtx.drawImage(off, 0, 0, CD_LOWW, CD_LOWW, 0, 0, CD_PX, CD_PX);
+  cdCtx.drawImage(coverImg, 0, 0, CD_PX, CD_PX);
 }
 coverImg.onload = drawCover;
 
@@ -509,7 +505,7 @@ function drawWave() {
   const STEP = 4, BARW = 2;                   // fine strokes: ~2px apart, 1px wide (device px)
   const cs = getComputedStyle(body);
   const played = cs.getPropertyValue("--accent").trim() || "#ffad33";
-  const rest = "#4d4d55";
+  const rest = "#4f4c45";
   const bars = WAVE_TABLES[plCur] || WAVE_TABLES[0];
   waveCtx.clearRect(0, 0, W, H);
   for (let x = 0; x <= W; x += STEP) {
@@ -982,7 +978,7 @@ function drawAnt(frame) {
   antCtx.imageSmoothingEnabled = true;               // crisp vector, not pixelated
   antCtx.drawImage(img, 0, 0, oraclePet.width, oraclePet.height);
   antCtx.globalCompositeOperation = "source-in";     // tint to light-grey/dark --wm (matches the bird), keep alpha
-  antCtx.fillStyle = getComputedStyle(body).getPropertyValue("--wm").trim() || "#cfcfd8";
+  antCtx.fillStyle = getComputedStyle(body).getPropertyValue("--wm").trim() || "#e3e0cc";
   antCtx.fillRect(0, 0, oraclePet.width, oraclePet.height);
   antCtx.globalCompositeOperation = "source-over";
 }
